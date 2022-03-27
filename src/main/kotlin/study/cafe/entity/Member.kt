@@ -9,7 +9,7 @@ import javax.persistence.GenerationType.IDENTITY
 @Entity
 class Member(
     @Column(nullable = false)
-    val nickName: String,
+    val nickname: String,
 
     @Column(nullable = false)
     var birthDay: LocalDate,

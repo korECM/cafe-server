@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import study.cafe.api.dto.ApiResponse
 import study.cafe.api.dto.ApiResponse.Companion.success
-import study.cafe.api.dto.member.CheckNickNameDuplicationResponse
+import study.cafe.api.dto.member.CheckNicknameDuplicationResponse
 import study.cafe.service.MemberNicknameService
 
 @RequestMapping("/members")
@@ -18,9 +18,9 @@ class MemberController(
 ) {
 
     @PostMapping("/nickname/duplicate")
-    fun nickNameDuplicationCheck(@RequestParam nickName: String): ResponseEntity<ApiResponse<CheckNickNameDuplicationResponse>> {
-        val isDuplicated = memberNicknameService.checkNickNameDuplication(nickName)
-        val response = CheckNickNameDuplicationResponse(isDuplicated)
+    fun nicknameDuplicationCheck(@RequestParam nickname: String): ResponseEntity<ApiResponse<CheckNicknameDuplicationResponse>> {
+        val isDuplicated = memberNicknameService.checkNicknameDuplication(nickname)
+        val response = CheckNicknameDuplicationResponse(isDuplicated)
         return ok(success(response))
     }
 }

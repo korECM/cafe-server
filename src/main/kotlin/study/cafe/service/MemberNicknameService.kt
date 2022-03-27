@@ -7,7 +7,7 @@ import study.cafe.repository.MemberRepository
 class MemberNicknameService(
     private val memberRepository: MemberRepository
 ) {
-    fun checkNickNameDuplication(nickname: String): Boolean {
-        return memberRepository.existsByNickNameIs(nickname)
+    fun checkNicknameDuplication(nickname: String): Boolean {
+        return memberRepository.existsByNicknameIs(nickname)
     }
 }

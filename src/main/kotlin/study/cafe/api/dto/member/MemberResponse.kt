@@ -1,5 +1,5 @@
 package study.cafe.api.dto.member
 
-data class CheckNickNameDuplicationResponse(
+data class CheckNicknameDuplicationResponse(
     val isDuplicated: Boolean
 )
