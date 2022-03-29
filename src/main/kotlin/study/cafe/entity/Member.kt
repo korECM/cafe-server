@@ -8,6 +8,9 @@ import javax.persistence.GenerationType.IDENTITY
 
 @Entity
 class Member(
+    @Column(nullable = true)
+    val name: String,
+
     @Column(nullable = false)
     val nickname: String,
 
