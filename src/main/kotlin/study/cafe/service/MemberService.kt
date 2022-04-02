@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import study.cafe.repository.MemberRepository
 
 @Service
-class MemberNicknameService(
+class MemberService(
     private val memberRepository: MemberRepository
 ) {
     fun checkNicknameDuplication(nickname: String): Boolean {

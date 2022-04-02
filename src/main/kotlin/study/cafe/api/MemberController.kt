@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController
 import study.cafe.api.dto.ApiResponse
 import study.cafe.api.dto.ApiResponse.Companion.success
 import study.cafe.api.dto.member.CheckNicknameDuplicationResponse
-import study.cafe.service.MemberNicknameService
+import study.cafe.service.MemberService
 
 @RequestMapping("/members")
 @RestController
 class MemberController(
-    private val memberNicknameService: MemberNicknameService
+    private val memberService: MemberService
 ) {
 
     @Operation(summary = "닉네임 중복 확인", description = "닉네임이 이미 존재하는지 확인하는")
@@ -27,7 +27,7 @@ class MemberController(
             example = "홍길동"
         ) @RequestParam nickname: String
     ): ResponseEntity<ApiResponse<CheckNicknameDuplicationResponse>> {
-        val isDuplicated = memberNicknameService.checkNicknameDuplication(nickname)
+        val isDuplicated = memberService.checkNicknameDuplication(nickname)
         val response = CheckNicknameDuplicationResponse(isDuplicated)
         return ok(success(response))
     }
