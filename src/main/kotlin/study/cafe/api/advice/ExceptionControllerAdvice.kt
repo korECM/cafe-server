@@ -33,6 +33,7 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         return bindingResult.fieldErrors.joinToString(", ") { "${it.field}: ${it.defaultMessage.orEmpty()}" }
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(LoginFailedException::class)
     fun handleUnauthorizedException(exception: LoginFailedException): ResponseEntity<ApiResponse<Unit>> {
         logger.error("message", exception)
