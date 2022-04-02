@@ -7,23 +7,20 @@ import study.cafe.entity.auth.LocalAuth
 import study.cafe.entity.fromResidentRegistrationNumber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
-import javax.validation.constraints.Pattern
-import javax.validation.constraints.Size
+import javax.validation.constraints.*
 
 data class LocalSignUpRequest(
     @Schema(title = "ID", example = "testId")
-    @field:NotBlank
+    @field:NotBlank(message = "아이디는 공백이 될 수 없습니다")
     val id: String,
 
     @Schema(title = "Password", example = "1234")
-    @field:NotBlank
+    @field:NotBlank(message = "패스워드는 공백이 될 수 없습니다")
     val password: String,
 
     @Schema(title = "핸드폰 번호", example = "010-1234-1234")
-    @field:NotBlank
-    @field:Pattern(regexp = "[0-9]{3}[-]+[0-9]{3,4}[-]+[0-9]{4}")
+    @field:NotBlank(message = "핸드폰 번호는 공백이 될 수 없습니다")
+    @field:Pattern(regexp = "[0-9]{3}[-]+[0-9]{3,4}[-]+[0-9]{4}", message = "올바른 핸드폰 번호가 아닙니다")
     val phoneNumber: String,
 
     @Schema(title = "이름", example = "홍길동", required = false)
@@ -32,17 +29,18 @@ data class LocalSignUpRequest(
     val name: String,
 
     @Schema(title = "닉네임", example = "길동이")
-    @field:NotBlank
+    @field:NotBlank(message = "닉네임은 공백이 될 수 없습니다")
     @field:Size(min = 3, max = 10)
     val nickname: String,
 
     @Schema(title = "주민번호 앞자리", example = "000102")
-    @field:NotBlank
+    @field:NotBlank(message = "주민번호 앞자리는 공백이 될 수 없습니다")
     @field:Size(min = 6, max = 6)
     val frontResidentRegistrationNumber: String,
 
     @Schema(title = "주민번호 뒷자리 첫 번째 숫자", example = "1")
-    @field:Size(min = 1, max = 1)
+    @field:Min(0, message = "올바른 주민번호 뒷자리의 첫 번째 숫자가 아닙니다")
+    @field:Max(9, message = "올바른 주민번호 뒷자리의 첫 번째 숫자가 아닙니다")
     val seventhDigitOfResidentRegistrationNumber: Number,
 
 ) {
