@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 import study.cafe.api.dto.ApiResponse
+import study.cafe.security.LoginFailedException
 import io.swagger.v3.oas.annotations.responses.ApiResponse as SwaggerApiResponse
 
 @RestControllerAdvice
@@ -30,6 +31,13 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
 
     private fun MethodArgumentNotValidException.messages(): String {
         return bindingResult.fieldErrors.joinToString(", ") { "${it.field}: ${it.defaultMessage.orEmpty()}" }
+    }
+
+    @ExceptionHandler(LoginFailedException::class)
+    fun handleUnauthorizedException(exception: LoginFailedException): ResponseEntity<ApiResponse<Unit>> {
+        logger.error("message", exception)
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(ApiResponse.error(exception.message))
     }
 
     @SwaggerApiResponse(responseCode = "400", description = "사용자의 요청이 유효하지 않은 경우")
