@@ -24,3 +24,8 @@ springdoc:
     path: /swagger-ui.html
     disable-swagger-default-url: true
     display-query-params-without-oauth2: true
+
+jwt:
+  header: Authorization
+  secret: TOBE_OVERRIDE
+  token-validity-in-secnods: 86400
