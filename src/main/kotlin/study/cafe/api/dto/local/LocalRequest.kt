@@ -64,3 +64,7 @@ data class LocalSignUpRequest(
         )
     }
 }
+
+data class LocalSignUpResponse(
+    val token: String
+)
