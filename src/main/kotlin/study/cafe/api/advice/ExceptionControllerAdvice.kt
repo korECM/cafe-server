@@ -33,6 +33,7 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         return bindingResult.fieldErrors.joinToString(", ") { "${it.field}: ${it.defaultMessage.orEmpty()}" }
     }
 
+    @SwaggerApiResponse(responseCode = "401", description = "사용자의 인증 정보가 유효하지 않은 경우")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(LoginFailedException::class)
     fun handleUnauthorizedException(exception: LoginFailedException): ResponseEntity<ApiResponse<Unit>> {
