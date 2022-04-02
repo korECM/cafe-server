@@ -33,6 +33,10 @@ dependencies {
 
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
 
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.6")
+    implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.6")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.6")
+
     implementation("com.querydsl:querydsl-jpa:$qeurydslVersion")
     kapt("com.querydsl:querydsl-apt:$qeurydslVersion:jpa")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
