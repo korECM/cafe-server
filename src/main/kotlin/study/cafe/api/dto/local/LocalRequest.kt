@@ -1,6 +1,7 @@
 package study.cafe.api.dto.local
 
 import io.swagger.v3.oas.annotations.media.Schema
+import study.cafe.service.dto.LocalSignInDto
 import study.cafe.service.dto.LocalSignUpDto
 import javax.validation.constraints.*
 
@@ -51,5 +52,20 @@ data class LocalSignUpRequest(
 }
 
 data class LocalSignUpResponse(
+    val token: String
+)
+
+data class LocalSignInRequest(
+    @Schema(title = "아이디", example = "testId")
+    @field:NotBlank(message = "아이디는 공백이 될 수 없습니다")
+    val id: String,
+    @Schema(title = "패스워드", example = "1234")
+    @field:NotBlank(message = "패스워드는 공백이 될 수 없습니다")
+    val password: String
+) {
+    fun toDto(): LocalSignInDto = LocalSignInDto(id = id, password = password)
+}
+
+data class LocalSignInResponse(
     val token: String
 )

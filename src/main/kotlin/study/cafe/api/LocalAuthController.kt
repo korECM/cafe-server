@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import study.cafe.api.dto.ApiResponse
 import study.cafe.api.dto.ApiResponse.Companion.success
+import study.cafe.api.dto.local.LocalSignInRequest
+import study.cafe.api.dto.local.LocalSignInResponse
 import study.cafe.api.dto.local.LocalSignUpRequest
 import study.cafe.api.dto.local.LocalSignUpResponse
 import study.cafe.service.AuthService
@@ -27,5 +29,13 @@ class LocalAuthController(
         val registeredMemberId = localAuthService.signUp(request.toDto())
         val token = authService.generateToken(registeredMemberId)
         return ok().body(success(LocalSignUpResponse(token)))
+    }
+
+    @Operation(summary = "ID/PW 로그인", description = "ID와 Password로 하는 로그인")
+    @PostMapping("/signIn")
+    fun signIn(@Parameter @Valid @RequestBody request: LocalSignInRequest): ResponseEntity<ApiResponse<LocalSignInResponse>> {
+        val memberId = localAuthService.signIn(request.toDto())
+        val token = authService.generateToken(memberId)
+        return ok().body(success(LocalSignInResponse(token)))
     }
 }

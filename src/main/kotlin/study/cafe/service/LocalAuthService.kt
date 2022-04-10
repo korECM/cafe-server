@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import study.cafe.repository.LocalAuthRepository
 import study.cafe.repository.MemberRepository
+import study.cafe.repository.findByAuthId
+import study.cafe.service.dto.LocalSignInDto
 import study.cafe.service.dto.LocalSignUpDto
 
 @Transactional(readOnly = true)
@@ -25,5 +27,13 @@ class LocalAuthService(
         memberRepository.save(member)
         localAuthRepository.save(localAuth)
         return member.id
+    }
+
+    @Transactional
+    fun signIn(dto: LocalSignInDto): Long {
+        val auth = localAuthRepository.findByAuthId(dto.id)
+        requireNotNull(auth) { "id가 존재하지 않거나 비밀번호가 일치하지 않습니다" }
+
+        return auth.member.id
     }
 }
