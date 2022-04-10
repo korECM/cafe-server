@@ -23,8 +23,8 @@ class LocalAuthController(
 
     @Operation(summary = "ID/PW 회원가입", description = "ID와 Password로 하는 회원가입")
     @PostMapping("/signUp")
-    fun signUp(@Parameter @Valid @RequestBody dto: LocalSignUpRequest): ResponseEntity<ApiResponse<LocalSignUpResponse>> {
-        val registeredMemberId = localAuthService.signUp(dto)
+    fun signUp(@Parameter @Valid @RequestBody request: LocalSignUpRequest): ResponseEntity<ApiResponse<LocalSignUpResponse>> {
+        val registeredMemberId = localAuthService.signUp(request.toDto())
         val token = authService.generateToken(registeredMemberId)
         return ok().body(success(LocalSignUpResponse(token)))
     }

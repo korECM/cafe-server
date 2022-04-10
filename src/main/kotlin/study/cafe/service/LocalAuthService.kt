@@ -2,9 +2,9 @@ package study.cafe.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import study.cafe.api.dto.local.LocalSignUpRequest
 import study.cafe.repository.LocalAuthRepository
 import study.cafe.repository.MemberRepository
+import study.cafe.service.dto.LocalSignUpDto
 
 @Transactional(readOnly = true)
 @Service
@@ -14,7 +14,7 @@ class LocalAuthService(
 ) {
 
     @Transactional
-    fun signUp(dto: LocalSignUpRequest): Long {
+    fun signUp(dto: LocalSignUpDto): Long {
         check(!memberRepository.existsByNicknameIs(dto.nickname)) {
             "이미 사용중인 닉네임입니다"
         }
