@@ -28,10 +28,10 @@ data class LocalSignUpDto(
         )
     }
 
-    fun toLocalAuth(member: Member): LocalAuth {
+    fun toLocalAuth(member: Member, encode: (String) -> String): LocalAuth {
         return LocalAuth(
             localId = id,
-            localPassword = password,
+            localPassword = encode(password),
             phoneNumber = phoneNumber,
             member = member
         )
