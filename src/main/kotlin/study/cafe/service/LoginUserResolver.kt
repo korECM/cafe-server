@@ -6,7 +6,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
-import study.cafe.entity.Member
+import study.cafe.entity.member.Member
 import study.cafe.security.LoginFailedException
 import study.cafe.security.LoginUser
 import study.cafe.security.jwt.JwtTokenProvider

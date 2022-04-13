@@ -1,4 +1,4 @@
-package study.cafe.entity
+package study.cafe.entity.member
 
 import study.cafe.entity.common.BaseClass
 import java.time.LocalDate

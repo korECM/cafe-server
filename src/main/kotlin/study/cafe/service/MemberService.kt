@@ -2,7 +2,7 @@ package study.cafe.service
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import study.cafe.entity.Member
+import study.cafe.entity.member.Member
 import study.cafe.repository.MemberRepository
 
 @Service

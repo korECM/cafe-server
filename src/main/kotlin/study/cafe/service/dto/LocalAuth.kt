@@ -1,9 +1,9 @@
 package study.cafe.service.dto
 
-import study.cafe.entity.Gender
-import study.cafe.entity.Member
 import study.cafe.entity.auth.LocalAuth
-import study.cafe.entity.fromResidentRegistrationNumber
+import study.cafe.entity.member.Gender
+import study.cafe.entity.member.Member
+import study.cafe.entity.member.fromResidentRegistrationNumber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 

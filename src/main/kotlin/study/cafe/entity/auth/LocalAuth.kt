@@ -1,7 +1,7 @@
 package study.cafe.entity.auth
 
-import study.cafe.entity.Member
 import study.cafe.entity.common.BaseClass
+import study.cafe.entity.member.Member
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 import javax.persistence.GenerationType.IDENTITY

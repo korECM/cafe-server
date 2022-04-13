@@ -1,4 +1,4 @@
-package study.cafe.entity
+package study.cafe.entity.member
 
 enum class Gender {
     MALE, FEMALE;
