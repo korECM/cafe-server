@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter
 data class LocalSignUpDto(
     val id: String,
     val password: String,
-    val phoneNumber: String,
     val name: String,
     val nickname: String,
     val frontResidentRegistrationNumber: String,
@@ -32,7 +31,6 @@ data class LocalSignUpDto(
         return LocalAuth(
             localId = id,
             localPassword = encode(password),
-            phoneNumber = phoneNumber,
             member = member
         )
     }

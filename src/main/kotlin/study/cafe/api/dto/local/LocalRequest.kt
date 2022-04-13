@@ -14,11 +14,6 @@ data class LocalSignUpRequest(
     @field:NotBlank(message = "패스워드는 공백이 될 수 없습니다")
     val password: String,
 
-    @Schema(title = "핸드폰 번호", example = "010-1234-1234")
-    @field:NotBlank(message = "핸드폰 번호는 공백이 될 수 없습니다")
-    @field:Pattern(regexp = "[0-9]{3}[-]+[0-9]{3,4}[-]+[0-9]{4}", message = "올바른 핸드폰 번호가 아닙니다")
-    val phoneNumber: String,
-
     @Schema(title = "이름", example = "홍길동", required = false)
     @field:NotNull
     @field:Size(min = 2, max = 10)
@@ -43,7 +38,6 @@ data class LocalSignUpRequest(
     fun toDto(): LocalSignUpDto = LocalSignUpDto(
         id = id,
         password = password,
-        phoneNumber = phoneNumber,
         name = name,
         nickname = nickname,
         frontResidentRegistrationNumber = frontResidentRegistrationNumber,

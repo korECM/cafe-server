@@ -14,9 +14,6 @@ class LocalAuth(
     @Column(nullable = false)
     var localPassword: String,
 
-    @Column(nullable = false)
-    var phoneNumber: String,
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     val member: Member
