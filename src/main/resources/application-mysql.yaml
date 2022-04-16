@@ -6,8 +6,6 @@ spring:
     password: ${DATABASE_PASSWORD}
   jpa:
     open-in-view: false
-    hibernate:
-      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
