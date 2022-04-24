@@ -29,13 +29,13 @@ class Review(
 
     @OneToMany(mappedBy = "review")
     @Column(nullable = false)
-    val visitPurposeInfo: List<VisitPurposeInformation> = listOf()
+    val visitPurposeInfo: List<VisitPurposeInformation> = mutableListOf()
 
     @OneToMany(mappedBy = "review")
     @Column(nullable = false)
-    val foodInfos: List<ReviewFoodInfo> = listOf()
+    val foodInfos: List<ReviewFoodInfo> = mutableListOf()
 
     @OneToMany(mappedBy = "review")
     @Column(nullable = false)
-    val cafeKeywords: List<ReviewCafeKeyword> = listOf()
+    val cafeKeywords: List<ReviewCafeKeyword> = mutableListOf()
 }
