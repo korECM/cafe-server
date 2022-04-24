@@ -8,12 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import study.cafe.api.dto.ApiResponse
+import study.cafe.api.dto.*
 import study.cafe.api.dto.ApiResponse.Companion.success
-import study.cafe.api.dto.local.LocalSignInRequest
-import study.cafe.api.dto.local.LocalSignInResponse
-import study.cafe.api.dto.local.LocalSignUpRequest
-import study.cafe.api.dto.local.LocalSignUpResponse
 import study.cafe.service.AuthService
 import study.cafe.service.LocalAuthService
 import javax.validation.Valid

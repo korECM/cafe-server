@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import study.cafe.api.dto.ApiResponse
 import study.cafe.api.dto.ApiResponse.Companion.success
-import study.cafe.api.dto.member.CheckNicknameDuplicationResponse
+import study.cafe.api.dto.CheckNicknameDuplicationResponse
 import study.cafe.service.MemberService
 
 @RequestMapping("/members")

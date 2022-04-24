@@ -1,4 +1,4 @@
-package study.cafe.api.dto.local
+package study.cafe.api.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 import study.cafe.service.dto.LocalSignInDto
