@@ -12,7 +12,7 @@ class JwtTokenProvider(
     @Value("\${jwt.secret}")
     private val secretToken: String,
     @Value("\${jwt.token-validity-in-secnods}")
-    private val tokenValidityInMs: Long
+    private val tokenValidityInSecond: Long
 ) {
     private val log = logger()
 
@@ -23,7 +23,7 @@ class JwtTokenProvider(
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(at)
-            .setExpiration(at + tokenValidityInMs)
+            .setExpiration(at + tokenValidityInSecond * 1000)
             .signWith(SignatureAlgorithm.HS512, key)
             .compact()
     }
