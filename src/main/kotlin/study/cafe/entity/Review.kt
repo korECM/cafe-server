@@ -15,8 +15,9 @@ class Review(
     @JoinColumn(name = "member_id", nullable = false)
     val member: Member,
 
+    @Embedded
     @Column(nullable = false)
-    val finalScore: Double,
+    val finalScore: FloatScore,
 
     @Column(nullable = false)
     val description: String
