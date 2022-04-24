@@ -3,6 +3,7 @@ package study.cafe.entity
 import study.cafe.entity.common.BaseClass
 import study.cafe.entity.member.Member
 import javax.persistence.*
+import javax.persistence.CascadeType.ALL
 import javax.persistence.FetchType.LAZY
 
 @Entity
@@ -27,30 +28,27 @@ class Review(
     @Column(name = "review_id", nullable = false)
     val id: Long = 0
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    val visitPurposeInfo: List<VisitPurposeInformation> = mutableListOf()
+    val visitPurposeInfo: MutableList<VisitPurposeInformation> = mutableListOf()
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    val foodInfos: List<ReviewFoodInfo> = mutableListOf()
+    val foodInfos: MutableList<ReviewFoodInfo> = mutableListOf()
 
-    @OneToMany(mappedBy = "review")
+    @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    val cafeKeywords: List<ReviewCafeKeyword> = mutableListOf()
+    val cafeKeywords: MutableList<ReviewCafeKeyword> = mutableListOf()
 
     fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
-        val info = VisitPurposeInformation(purpose, score, this)
-        visitPurposeInfo + info
+        visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
     }
 
     fun addFoodInfo(food: Food, score: IntScore) {
-        val info = ReviewFoodInfo(food, score, this)
-        foodInfos + info
+        foodInfos += ReviewFoodInfo(food, score, this)
     }
 
     fun addCafeKeyword(cafeKeyword: CafeKeyword) {
-        val reviewCafeKeyword = ReviewCafeKeyword(cafeKeyword, this)
-        cafeKeywords + reviewCafeKeyword
+        cafeKeywords += ReviewCafeKeyword(cafeKeyword, this)
     }
 }
