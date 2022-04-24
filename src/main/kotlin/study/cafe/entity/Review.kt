@@ -39,12 +39,12 @@ class Review(
     @Column(nullable = false)
     val cafeKeywords: List<ReviewCafeKeyword> = mutableListOf()
 
-    fun addVisitPurposeInfo(purpose: Purpose, score: SatisfactionScore) {
+    fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
         val info = VisitPurposeInformation(purpose, score, this)
         visitPurposeInfo + info
     }
 
-    fun addFoodInfo(food: Food, score: SatisfactionScore) {
+    fun addFoodInfo(food: Food, score: IntScore) {
         val info = ReviewFoodInfo(food, score, this)
         foodInfos + info
     }

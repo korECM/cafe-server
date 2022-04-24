@@ -12,7 +12,7 @@ class VisitPurposeInformation(
 
     @Embedded
     @Column(nullable = false)
-    val score: SatisfactionScore,
+    val score: IntScore,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "review_id", nullable = false)

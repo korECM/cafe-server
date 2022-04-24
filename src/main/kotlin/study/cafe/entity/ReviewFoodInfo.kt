@@ -12,7 +12,7 @@ class ReviewFoodInfo(
     val food: Food,
     @Embedded
     @Column(nullable = false)
-    val score: SatisfactionScore,
+    val score: IntScore,
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "review_id", nullable = false)

@@ -3,7 +3,7 @@ package study.cafe.entity
 import javax.persistence.Embeddable
 
 @Embeddable
-data class SatisfactionScore(
+data class IntScore(
     val score: Int
 ) {
     init {
