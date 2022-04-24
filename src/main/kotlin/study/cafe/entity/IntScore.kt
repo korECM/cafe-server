@@ -12,3 +12,5 @@ data class IntScore(
         }
     }
 }
+
+fun Int.toScore() = IntScore(this)

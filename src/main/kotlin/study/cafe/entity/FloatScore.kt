@@ -12,3 +12,6 @@ data class FloatScore(
         }
     }
 }
+
+fun Float.toScore() = FloatScore(this.toDouble())
+fun Double.toScore() = FloatScore(this)
