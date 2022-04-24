@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import study.cafe.api.dto.ApiResponse
 import study.cafe.api.dto.ApiResponse.Companion.success
@@ -17,6 +18,7 @@ import study.cafe.service.AuthService
 import study.cafe.service.LocalAuthService
 import javax.validation.Valid
 
+@RequestMapping("/auth/local")
 @RestController
 class LocalAuthController(
     private val localAuthService: LocalAuthService,
