@@ -14,3 +14,8 @@ jwt:
   header: Authorization
   secret: TOBE_OVERRIDE
   token-validity-in-secnods: 86400
+
+spring:
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
