@@ -38,4 +38,19 @@ class Review(
     @OneToMany(mappedBy = "review")
     @Column(nullable = false)
     val cafeKeywords: List<ReviewCafeKeyword> = mutableListOf()
+
+    fun addVisitPurposeInfo(purpose: Purpose, score: SatisfactionScore) {
+        val info = VisitPurposeInformation(purpose, score, this)
+        visitPurposeInfo + info
+    }
+
+    fun addFoodInfo(food: Food, score: SatisfactionScore) {
+        val info = ReviewFoodInfo(food, score, this)
+        foodInfos + info
+    }
+
+    fun addCafeKeyword(cafeKeyword: CafeKeyword) {
+        val reviewCafeKeyword = ReviewCafeKeyword(cafeKeyword, this)
+        cafeKeywords + reviewCafeKeyword
+    }
 }
