@@ -11,7 +11,6 @@ import study.cafe.security.LoginFailedException
 import study.cafe.security.LoginUser
 import study.cafe.security.jwt.JwtTokenProvider
 
-// TODO Resolver 등록하기
 @Component
 class LoginUserResolver(
     private val jwtTokenProvider: JwtTokenProvider,
