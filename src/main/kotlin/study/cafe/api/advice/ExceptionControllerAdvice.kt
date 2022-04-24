@@ -3,6 +3,7 @@ package study.cafe.api.advice
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -33,6 +34,19 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         return bindingResult.fieldErrors.joinToString(", ") { "${it.field}: ${it.defaultMessage.orEmpty()}" }
     }
 
+    @SwaggerApiResponse(responseCode = "400", description = "사용자의 요청 형식이 잘못된 경우")
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    override fun handleHttpMessageNotReadable(
+        ex: HttpMessageNotReadableException,
+        headers: HttpHeaders,
+        status: HttpStatus,
+        request: WebRequest
+    ): ResponseEntity<Any> {
+        logger.error("message", ex)
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(ApiResponse.error(ex.message))
+    }
+
     @SwaggerApiResponse(responseCode = "401", description = "사용자의 인증 정보가 유효하지 않은 경우")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(LoginFailedException::class)
@@ -58,5 +72,19 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         logger.error("message", exception)
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(ApiResponse.error(exception.message))
+    }
+
+    @SwaggerApiResponse(responseCode = "500", description = "서버 내부 오류")
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    override fun handleExceptionInternal(
+        ex: java.lang.Exception,
+        body: Any?,
+        headers: HttpHeaders,
+        status: HttpStatus,
+        request: WebRequest
+    ): ResponseEntity<Any> {
+        logger.error("message", ex)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(ApiResponse.error(ex.message))
     }
 }
