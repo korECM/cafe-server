@@ -1,9 +1,16 @@
 package study.cafe.entity.member
 
+import com.fasterxml.jackson.annotation.JsonCreator
+import java.util.*
+
 enum class Gender {
     MALE, FEMALE;
 
-    companion object
+    companion object {
+        @JvmStatic
+        @JsonCreator
+        fun from(name: String) = Gender.valueOf(name.uppercase(Locale.getDefault()))
+    }
 }
 
 fun Gender.Companion.fromResidentRegistrationNumber(firstDigit: Number) = when (firstDigit) {
