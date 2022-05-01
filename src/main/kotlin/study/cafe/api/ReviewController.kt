@@ -1,7 +1,6 @@
 package study.cafe.api
 
-import io.swagger.v3.oas.annotations.media.Schema
-import io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY
+import io.swagger.v3.oas.annotations.Parameter
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.status
@@ -27,7 +26,7 @@ class ReviewController(
 
     @PostMapping("")
     fun register(
-        @Schema(accessMode = READ_ONLY) @LoginUser member: Member,
+        @Parameter(hidden = true) @LoginUser member: Member,
         @Valid @RequestBody request: ReviewRegisterRequest
     ): ResponseEntity<ApiResponse<Nothing>> {
         println("dto = $request")
