@@ -1,6 +1,5 @@
 package study.cafe.api
 
-import io.swagger.v3.oas.annotations.Parameter
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.ResponseEntity
 import org.springframework.http.ResponseEntity.status
@@ -26,7 +25,7 @@ class ReviewController(
 
     @PostMapping("")
     fun register(
-        @Parameter(hidden = true) @LoginUser member: Member,
+        @LoginUser member: Member,
         @Valid @RequestBody request: ReviewRegisterRequest
     ): ResponseEntity<ApiResponse<Nothing>> {
         println("dto = $request")
