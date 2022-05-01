@@ -13,6 +13,7 @@ group = "study"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 val qeurydslVersion = "5.0.0"
+val kotestVersion = "5.2.3"
 
 repositories {
     mavenCentral()
@@ -53,6 +54,11 @@ dependencies {
     runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.kotest:kotest-property:$kotestVersion")
+    testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
 }
 
 tasks.withType<KotlinCompile> {
