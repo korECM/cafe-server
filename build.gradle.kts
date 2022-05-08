@@ -13,7 +13,7 @@ group = "study"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 val qeurydslVersion = "5.0.0"
-val kotestVersion = "5.2.3"
+val kotestVersion = "5.3.0"
 
 repositories {
     mavenCentral()
