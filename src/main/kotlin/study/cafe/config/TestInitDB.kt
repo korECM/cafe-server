@@ -40,7 +40,7 @@ class TestInitDB(
             createLocalAuth(member2, "1234", "1234")
             val member3 = createMember("소소임", "커피")
             createLocalAuth(member3, "asdf", "asdf")
-            val cafe = createCafe()
+            createCafe()
             createKeywords()
         }
 
