@@ -5,7 +5,8 @@ import javax.persistence.*
 
 @Entity
 class CafeKeyword(
-    val keyword: String
+    val keyword: String,
+    val emoji: String
 ) : BaseClass() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

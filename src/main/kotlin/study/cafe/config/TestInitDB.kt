@@ -72,19 +72,19 @@ class TestInitDB(
 
         private fun createKeywords() {
             val keywords = listOf(
-                CafeKeyword("\uD83D\uDECB 아늑한"),
-                CafeKeyword("\uD83D\uDCD6 조용한"),
-                CafeKeyword("\uD83C\uDF42 감성적인"),
-                CafeKeyword("\uD83C\uDF81 이색적인"),
-                CafeKeyword("\uD83D\uDC8E 고급스러운"),
-                CafeKeyword("✨ 깔끔한"),
-                CafeKeyword("\uD83D\uDE04 친절한"),
-                CafeKeyword("\uD83D\uDD09 시끄러운"),
-                CafeKeyword("☕ 평범한"),
-                CafeKeyword("✈ 천장이 높은"),
-                CafeKeyword("\uD83D\uDD26 어두운"),
-                CafeKeyword("\uD83C\uDF1F 밝은"),
-                CafeKeyword("\uD83C\uDFDE 뷰가 좋은"),
+                CafeKeyword(emoji = "\uD83D\uDECB", keyword = "아늑한"),
+                CafeKeyword(emoji = "\uD83D\uDCD6", keyword = "조용한"),
+                CafeKeyword(emoji = "\uD83C\uDF42", keyword = "감성적인"),
+                CafeKeyword(emoji = "\uD83C\uDF81", keyword = "이색적인"),
+                CafeKeyword(emoji = "\uD83D\uDC8E", keyword = "고급스러운"),
+                CafeKeyword(emoji = "✨", keyword = "깔끔한"),
+                CafeKeyword(emoji = "\uD83D\uDE04", keyword = "친절한"),
+                CafeKeyword(emoji = "\uD83D\uDD09", keyword = "시끄러운"),
+                CafeKeyword(emoji = "☕", keyword = "평범한"),
+                CafeKeyword(emoji = "✈", keyword = "천장이 높은"),
+                CafeKeyword(emoji = "\uD83D\uDD26", keyword = "어두운"),
+                CafeKeyword(emoji = "\uD83C\uDF1F", keyword = "밝은"),
+                CafeKeyword(emoji = "\uD83C\uDFDE", keyword = "뷰가 좋은"),
             )
             keywords.forEach(em::persist)
         }
