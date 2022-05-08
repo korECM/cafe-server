@@ -28,12 +28,12 @@ spring:
 cloud:
   aws:
     credentials:
-      access-key: ${ACCESS_KEY}
-      secret-key: ${SECRET_KEY}
+      access-key: ${ACCESS_KEY:SHOULD_BE_REPLACED}
+      secret-key: ${SECRET_KEY:SHOULD_BE_REPLACED}
     s3:
-      review-image-bucket: ${REVIEW_IMAGE_BUCKET}
+      review-image-bucket: ${REVIEW_IMAGE_BUCKET:SHOULD_BE_REPLACED}
     cloud-front:
-      image-domain: ${IMAGE_CLOUD_FRONT_DOMAIN}
+      image-domain: ${IMAGE_CLOUD_FRONT_DOMAIN:SHOULD_BE_REPLACED}
     region:
       static: ap-northeast-2
     stack:
