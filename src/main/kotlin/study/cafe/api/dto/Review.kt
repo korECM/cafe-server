@@ -7,6 +7,7 @@ import study.cafe.entity.Purpose
 import study.cafe.entity.member.Member
 import study.cafe.entity.toScore
 import study.cafe.service.dto.ReviewRegisterDto
+import study.cafe.service.dto.UploadedReviewImage
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -57,5 +58,19 @@ data class ReviewRegisterRequest(
             description = description,
             finalScore = finalScore.toScore()
         )
+    }
+}
+
+data class UploadedImageResponse(
+    val id: Long,
+    val url: String
+) {
+    companion object {
+        fun from(image: UploadedReviewImage): UploadedImageResponse {
+            return UploadedImageResponse(
+                id = image.id,
+                url = image.cloudFrontURL
+            )
+        }
     }
 }
