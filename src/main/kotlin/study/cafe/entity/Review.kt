@@ -40,6 +40,10 @@ class Review(
     @Column(nullable = false)
     val cafeKeywords: MutableList<ReviewCafeKeyword> = mutableListOf()
 
+    @OneToMany(mappedBy = "review", cascade = [ALL])
+    @Column(nullable = false)
+    val images: MutableList<ReviewImage> = mutableListOf()
+
     fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
         visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
     }
