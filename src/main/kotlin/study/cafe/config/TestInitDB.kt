@@ -15,7 +15,7 @@ import java.util.*
 import javax.annotation.PostConstruct
 import javax.persistence.EntityManager
 
-@Profile("dev")
+@Profile("test")
 @Component
 class TestInitDB(
     private val initService: InitService,
