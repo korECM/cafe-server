@@ -40,8 +40,8 @@ class ReviewController(
     fun uploadImages(
         @LoginUserId userId: Long,
         @RequestPart("images") images: List<MultipartFile>,
-    ): List<UploadedImageResponse> {
+    ): ResponseEntity<ApiResponse<List<UploadedImageResponse>>> {
         val uploadReviewImages = reviewService.uploadReviewImages(userId, images)
-        return uploadReviewImages.map { from(it) }
+        return status(CREATED).body(success(uploadReviewImages.map { from(it) }))
     }
 }
