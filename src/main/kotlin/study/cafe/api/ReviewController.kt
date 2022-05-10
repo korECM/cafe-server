@@ -10,29 +10,22 @@ import study.cafe.api.dto.ApiResponse.Companion.success
 import study.cafe.api.dto.ReviewRegisterRequest
 import study.cafe.api.dto.UploadedImageResponse
 import study.cafe.api.dto.UploadedImageResponse.Companion.from
-import study.cafe.entity.member.Member
-import study.cafe.security.LoginUser
 import study.cafe.security.LoginUserId
-import study.cafe.service.CafeService
 import study.cafe.service.ReviewService
 import javax.validation.Valid
 
 @RequestMapping("/review")
 @RestController
 class ReviewController(
-    private val reviewService: ReviewService,
-    private val cafeService: CafeService
+    private val reviewService: ReviewService
 ) {
 
     @PostMapping("")
     fun register(
-        @LoginUser member: Member,
+        @LoginUserId userId: Long,
         @Valid @RequestBody request: ReviewRegisterRequest
     ): ResponseEntity<ApiResponse<Nothing>> {
-        println("dto = $request")
-
-        val cafe = cafeService.findById(request.cafeId)
-        reviewService.createReview(request.toDto(cafe, member))
+        reviewService.createReview(request.cafeId, userId, request.toDto())
         return status(CREATED).body(success(null))
     }
 

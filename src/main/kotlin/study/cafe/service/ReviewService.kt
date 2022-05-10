@@ -15,6 +15,7 @@ import study.cafe.service.dto.UploadedReviewImage
 @Service
 class ReviewService(
     private val memberRepository: MemberRepository,
+    private val cafeRepository: CafeRepository,
     private val cafeKeywordRepository: CafeKeywordRepository,
     private val reviewRepository: ReviewRepository,
     private val reviewImageRepository: ReviewImageRepository,
@@ -24,16 +25,24 @@ class ReviewService(
 ) {
 
     @Transactional
-    fun createReview(dto: ReviewRegisterDto) {
-        val review = Review(cafe = dto.cafe, member = dto.member, finalScore = dto.finalScore, description = dto.description)
+    fun createReview(cafeId: Long, uploadMemberId: Long, dto: ReviewRegisterDto) {
+        val uploadMember = memberRepository.findOneById(uploadMemberId)
+        val reviewImages = reviewImageRepository.findByIdIn(dto.reviewImageIds)
+        require(reviewImages.size == dto.reviewImageIds.size) { "리뷰의 이미지 중 존재하지 않는 것이 있습니다" }
+        reviewImages.forEach { it.checkIsUploadedBy(uploadMember) }
+
+        val cafe = cafeRepository.findOneById(cafeId)
+        val review = Review(cafe = cafe, member = uploadMember, finalScore = dto.finalScore, description = dto.description)
 
         review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)
+
         // TODO 중복 체크
-        dto.foodInfos.forEach { info -> review.addFoodInfo(info.food, info.score) }
+        dto.foodInfos.forEach { review.addFoodInfo(it.food, it.score) }
 
         cafeKeywordRepository.findByIdIn(dto.keywords).forEach(review::addCafeKeyword)
 
         reviewRepository.save(review)
+        reviewImages.forEach { it.assignReview(review) }
     }
 
     @Transactional
@@ -49,7 +58,6 @@ class ReviewService(
                     uploadedBy = uploadUser
                 )
             }
-        // TODO 리뷰 등록할 때 이미지 받기
         // TODO MaxUploadSizeExceededException 예외처리
         return uploadReviewImages.map {
             val savedReviewImage = reviewImageRepository.save(it)

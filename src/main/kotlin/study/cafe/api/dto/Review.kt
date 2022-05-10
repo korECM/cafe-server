@@ -1,10 +1,8 @@
 package study.cafe.api.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
-import study.cafe.entity.Cafe
 import study.cafe.entity.Food
 import study.cafe.entity.Purpose
-import study.cafe.entity.member.Member
 import study.cafe.entity.toScore
 import study.cafe.service.dto.ReviewRegisterDto
 import study.cafe.service.dto.UploadedReviewImage
@@ -30,6 +28,9 @@ data class ReviewRegisterRequest(
     @Schema(title = "keywords", description = "카페와 관련된 키워드 ID 리스트", example = "[1, 2]")
     val keywords: List<Long>,
 
+    @Schema(title = "reviewImageIds", description = "리뷰 이미지 업로드 API를 통해 받아 왔던 이미지 Id 리스트", example = "[1, 2]")
+    val reviewImageIds: List<Long>,
+
     @Schema(title = "description", description = "리뷰", example = "분위기가 좋아요")
     val description: String,
 
@@ -47,13 +48,12 @@ data class ReviewRegisterRequest(
         val score: Int
     )
 
-    fun toDto(cafe: Cafe, member: Member): ReviewRegisterDto {
+    fun toDto(): ReviewRegisterDto {
         return ReviewRegisterDto(
-            cafe = cafe,
-            member = member,
             visitPurpose = visitPurpose,
             visitPurposeScore = visitPurposeScore.toScore(),
             foodInfos = foodInfos.map { info -> ReviewRegisterDto.FoodInfo(info.food, info.score.toScore()) },
+            reviewImageIds = reviewImageIds,
             keywords = keywords,
             description = description,
             finalScore = finalScore.toScore()

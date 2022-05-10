@@ -31,6 +31,10 @@ class ReviewImage(
         this.review = review
     }
 
+    fun checkIsUploadedBy(user: Member) {
+        require(uploadedBy == user) { "이 리뷰 이미지[$id]는 사용자[${user.id}]에 의해 업로드된 이미지가 아닙니다" }
+    }
+
     companion object {
         fun createWithoutReview(bucket: String, fileKey: String, s3URL: String, cloudFrontURL: String, uploadedBy: Member): ReviewImage {
             return ReviewImage(
