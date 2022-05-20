@@ -21,7 +21,9 @@ class Review(
     val finalScore: FloatScore,
 
     @Column(nullable = false)
-    val description: String
+    val description: String,
+
+    likeCount: Long = 0
 ) : BaseClass() {
     companion object {
         fun from(cafe: Cafe, member: Member, finalScore: FloatScore, description: String): Review {
@@ -60,6 +62,10 @@ class Review(
     val images: List<ReviewImage>
         get() = _images
 
+    @Column(name = "like_count", nullable = false)
+    var likeCount: Long = likeCount
+        private set
+
     fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
         _visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
     }
@@ -70,5 +76,9 @@ class Review(
 
     fun addCafeKeyword(cafeKeyword: CafeKeyword) {
         _cafeKeywords += ReviewCafeKeyword(cafeKeyword, this)
+    }
+
+    fun addLiker(member: Member) {
+        this.likeCount += 1
     }
 }
