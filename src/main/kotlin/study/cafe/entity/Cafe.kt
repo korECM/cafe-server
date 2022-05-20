@@ -17,16 +17,22 @@ class Cafe(
     val address: String,
     @Column(name = "location", nullable = false)
     val location: Point,
-    @Column(name = "totalScore", nullable = false)
-    var totalScore: Double = 0.0,
-    @Column(name = "reviewCount", nullable = false)
-    var reviewCount: Long = 0,
+    totalScore: Double = 0.0,
+    reviewCount: Long = 0,
     likeCount: Long = 0
 ) : BaseClass() {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "cafe_id", nullable = false)
     val id: Long = 0
+
+    @Column(name = "total_score", nullable = false)
+    var totalScore: Double = 0.0
+        private set
+
+    @Column(name = "review_count", nullable = false)
+    var reviewCount: Long = 0
+        private set
 
     @Column(name = "like_count", nullable = false)
     var likeCount: Long = likeCount
