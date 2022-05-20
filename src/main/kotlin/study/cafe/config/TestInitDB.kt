@@ -1,5 +1,6 @@
 package study.cafe.config
 
+import org.locationtech.jts.geom.Point
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -9,6 +10,7 @@ import study.cafe.entity.auth.LocalAuth
 import study.cafe.entity.member.Gender.MALE
 import study.cafe.entity.member.Member
 import study.cafe.security.jwt.JwtTokenProvider
+import study.cafe.util.createPoint
 import study.cafe.util.logger
 import java.time.LocalDate
 import java.util.*
@@ -40,7 +42,8 @@ class TestInitDB(
             createLocalAuth(member2, "1234", "1234")
             val member3 = createMember("소소임", "커피")
             createLocalAuth(member3, "asdf", "asdf")
-            createCafe()
+            createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058), 4.3)
+            createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381), 2.7)
             createKeywords()
         }
 
@@ -64,8 +67,10 @@ class TestInitDB(
             em.persist(localAuth)
         }
 
-        private fun createCafe(): Cafe {
-            val cafe = Cafe()
+        private fun createCafe(name: String, address: String, location: Point, averageScore: Double = 0.0): Cafe {
+            val cafe = Cafe(
+                name = name, address = address, location = location, averageScore = averageScore
+            )
             em.persist(cafe)
             return cafe
         }
