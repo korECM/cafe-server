@@ -52,6 +52,8 @@ dependencies {
     kapt("com.querydsl:querydsl-apt:$qeurydslVersion:jpa")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
+    implementation("org.hibernate:hibernate-spatial:5.6.9.Final")
+
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("mysql:mysql-connector-java")
