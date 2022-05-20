@@ -28,4 +28,9 @@ class Cafe(
 
     val averageScore: Double
         get() = if (reviewCount == 0L) 0.0 else totalScore / reviewCount
+
+    fun addReview(review: Review) {
+        this.reviewCount += 1
+        this.totalScore += review.finalScore.score
+    }
 }

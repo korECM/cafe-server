@@ -23,6 +23,14 @@ class Review(
     @Column(nullable = false)
     val description: String
 ) : BaseClass() {
+    companion object {
+        fun from(cafe: Cafe, member: Member, finalScore: FloatScore, description: String): Review {
+            val review = Review(cafe, member, finalScore, description)
+            cafe.addReview(review)
+            return review
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", nullable = false)
