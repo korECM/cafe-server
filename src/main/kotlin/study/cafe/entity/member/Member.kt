@@ -30,16 +30,22 @@ class Member(
     val id: Long = 0
 
     @OneToMany(mappedBy = "member", cascade = [ALL], orphanRemoval = true)
-    val likedCafes: MutableList<CafeLike> = mutableListOf()
+    private val _likedCafes: MutableList<CafeLike> = mutableListOf()
+    val likedCafes: List<CafeLike>
+        get() = _likedCafes
 
     @OneToMany(mappedBy = "to", cascade = [ALL], orphanRemoval = true)
-    val followers: MutableList<MemberFollow> = mutableListOf()
+    private val _followers: MutableList<MemberFollow> = mutableListOf()
+    val followers: List<MemberFollow>
+        get() = _followers
 
     @OneToMany(mappedBy = "from", cascade = [ALL], orphanRemoval = true)
-    val followees: MutableList<MemberFollow> = mutableListOf()
+    private val _followees: MutableList<MemberFollow> = mutableListOf()
+    val followees: List<MemberFollow>
+        get() = _followees
 
     fun likeCafe(cafe: Cafe) {
-        this.likedCafes += CafeLike(member = this, cafe = cafe)
+        this._likedCafes += CafeLike(member = this, cafe = cafe)
         cafe.addLiker(this)
     }
 
@@ -49,15 +55,15 @@ class Member(
             throw IllegalStateException("${member.id} 유저는 ${this.id} 유저가 이미 팔로우한 유저입니다")
         }
         val memberFollow = MemberFollow(from = this, to = member)
-        followees += memberFollow
-        member.followers += memberFollow
+        _followees += memberFollow
+        member._followers += memberFollow
     }
 
     fun unfolow(member: Member) {
         val followMember = followees.find { memberFollow -> memberFollow.from == this }
         checkNotNull(followMember) { "${member.id} 유저는 ${this.id} 유저가 팔로우한 유저가 아닙니다" }
-        followees -= followMember
-        member.followers -= followMember
+        _followees -= followMember
+        member._followers -= followMember
     }
 
     override fun equals(other: Any?): Boolean {
