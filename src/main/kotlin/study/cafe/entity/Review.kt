@@ -38,29 +38,37 @@ class Review(
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    val visitPurposeInfo: MutableList<VisitPurposeInformation> = mutableListOf()
+    private val _visitPurposeInfo: MutableList<VisitPurposeInformation> = mutableListOf()
+    val visitPurposeInfo: List<VisitPurposeInformation>
+        get() = _visitPurposeInfo
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    val foodInfos: MutableList<ReviewFoodInfo> = mutableListOf()
+    private val _foodInfos: MutableList<ReviewFoodInfo> = mutableListOf()
+    val foodInfos: List<ReviewFoodInfo>
+        get() = _foodInfos
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    val cafeKeywords: MutableList<ReviewCafeKeyword> = mutableListOf()
+    private val _cafeKeywords: MutableList<ReviewCafeKeyword> = mutableListOf()
+    val cafeKeywords: List<ReviewCafeKeyword>
+        get() = _cafeKeywords
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    val images: MutableList<ReviewImage> = mutableListOf()
+    private val _images: MutableList<ReviewImage> = mutableListOf()
+    val images: List<ReviewImage>
+        get() = _images
 
     fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
-        visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
+        _visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
     }
 
     fun addFoodInfo(food: Food, score: IntScore) {
-        foodInfos += ReviewFoodInfo(food, score, this)
+        _foodInfos += ReviewFoodInfo(food, score, this)
     }
 
     fun addCafeKeyword(cafeKeyword: CafeKeyword) {
-        cafeKeywords += ReviewCafeKeyword(cafeKeyword, this)
+        _cafeKeywords += ReviewCafeKeyword(cafeKeyword, this)
     }
 }
