@@ -27,7 +27,7 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
-        logger.error("message", ex)
+        logger.error("handleMethodArgumentNotValid", ex)
         return status(BAD_REQUEST).body(error(ex.messages()))
     }
 
@@ -39,7 +39,7 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(LoginFailedException::class)
     fun handleUnauthorizedException(exception: LoginFailedException): ApiResponse<Unit> {
-        logger.error("message", exception)
+        logger.error("handleUnauthorizedException", exception)
         return error(exception.message)
     }
 
@@ -47,7 +47,7 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException::class, IllegalStateException::class)
     fun handleBadRequestException(exception: RuntimeException): ApiResponse<Unit> {
-        logger.error("message", exception)
+        logger.error("handleBadRequestException", exception)
         return error(exception.message)
     }
 
@@ -55,7 +55,7 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception::class)
     fun handleGlobalException(exception: Exception): ApiResponse<Unit> {
-        logger.error("message", exception)
+        logger.error("handleGlobalException", exception)
         return error(exception.message)
     }
 
@@ -66,7 +66,7 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         status: HttpStatus,
         request: WebRequest
     ): ResponseEntity<Any> {
-        logger.error("message", ex)
+        logger.error("handleExceptionInternal", ex)
         return status(status).body(error(ex.message))
     }
 }
