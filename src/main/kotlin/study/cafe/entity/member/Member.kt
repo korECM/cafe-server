@@ -1,5 +1,7 @@
 package study.cafe.entity.member
 
+import study.cafe.entity.Cafe
+import study.cafe.entity.CafeLike
 import study.cafe.entity.common.BaseClass
 import java.time.LocalDate
 import javax.persistence.*
@@ -27,11 +29,19 @@ class Member(
     @Column(name = "user_id", nullable = false)
     val id: Long = 0
 
+    @OneToMany(mappedBy = "member", cascade = [ALL], orphanRemoval = true)
+    val likedCafes: MutableList<CafeLike> = mutableListOf()
+
     @OneToMany(mappedBy = "to", cascade = [ALL], orphanRemoval = true)
     val followers: MutableList<MemberFollow> = mutableListOf()
 
     @OneToMany(mappedBy = "from", cascade = [ALL], orphanRemoval = true)
     val followees: MutableList<MemberFollow> = mutableListOf()
+
+    fun likeCafe(cafe: Cafe) {
+        this.likedCafes += CafeLike(member = this, cafe = cafe)
+        cafe.addLiker(this)
+    }
 
     fun follow(member: Member) {
         println("followees = $followees")
