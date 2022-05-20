@@ -67,9 +67,9 @@ class TestInitDB(
             em.persist(localAuth)
         }
 
-        private fun createCafe(name: String, address: String, location: Point, averageScore: Double = 0.0): Cafe {
+        private fun createCafe(name: String, address: String, location: Point, totalScore: Double = 0.0, reviewCount: Long = 1): Cafe {
             val cafe = Cafe(
-                name = name, address = address, location = location, averageScore = averageScore
+                name = name, address = address, location = location, totalScore = totalScore, reviewCount = reviewCount
             )
             em.persist(cafe)
             return cafe
