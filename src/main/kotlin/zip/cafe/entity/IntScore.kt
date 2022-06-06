@@ -1,9 +1,11 @@
 package zip.cafe.entity
 
+import javax.persistence.Column
 import javax.persistence.Embeddable
 
 @Embeddable
 data class IntScore(
+    @Column(nullable = false)
     val score: Int
 ) {
     init {
