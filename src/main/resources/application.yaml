@@ -24,6 +24,8 @@ spring:
   jackson:
     mapper:
       accept-case-insensitive-enums: true
+  jpa:
+    open-in-view: false
 
 cloud:
   aws:
