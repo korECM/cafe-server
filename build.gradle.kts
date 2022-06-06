@@ -74,6 +74,7 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
     testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
     testImplementation("io.kotest:kotest-property:$kotestVersion")
+    testImplementation("io.kotest:kotest-framework-datatest:$kotestVersion")
     testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
     implementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
     implementation("io.github.serpro69:kotlin-faker:1.11.0")
