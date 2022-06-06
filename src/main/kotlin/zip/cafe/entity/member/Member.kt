@@ -65,4 +65,8 @@ class Member(
         _followees -= followMember
         member._followers -= followMember
     }
+
+    override fun toString(): String {
+        return "Member(name='$name', nickname='$nickname', birthDay=$birthDay, gender=$gender, id=$id)"
+    }
 }
