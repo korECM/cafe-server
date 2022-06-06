@@ -40,7 +40,7 @@ class JwtTokenProvider(
         try {
             parseClaims(token)
             return true
-        } catch (e: SecurityException) {
+        } catch (e: SignatureException) {
             logger().info("잘못된 JWT 서명")
         } catch (e: MalformedJwtException) {
             logger().info("잘못된 JWT 서명")
