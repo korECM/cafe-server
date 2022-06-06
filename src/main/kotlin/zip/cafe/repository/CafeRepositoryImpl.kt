@@ -2,12 +2,12 @@ package zip.cafe.repository
 
 import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.impl.JPAQueryFactory
-import zip.cafe.entity.QCafe.cafe
-import zip.cafe.entity.QCafeKeyword.cafeKeyword
-import zip.cafe.entity.QReview.review
-import zip.cafe.entity.QReviewCafeKeyword.reviewCafeKeyword
 import zip.cafe.entity.QReviewImage.reviewImage
+import zip.cafe.entity.cafe.QCafe.cafe
 import zip.cafe.entity.member.QMember.member
+import zip.cafe.entity.review.QCafeKeyword.cafeKeyword
+import zip.cafe.entity.review.QReview.review
+import zip.cafe.entity.review.QReviewCafeKeyword.reviewCafeKeyword
 import zip.cafe.service.dto.QReviewFeed
 import zip.cafe.service.dto.ReviewFeed
 
