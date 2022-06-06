@@ -11,8 +11,8 @@ import java.util.*
 class JwtTokenProvider(
     @Value("\${jwt.secret}")
     private val secretToken: String,
-    @Value("\${jwt.token-validity-in-secnods}")
-    private val tokenValidityInSecond: Long
+    @Value("\${jwt.token-validity-in-milliseconds}")
+    private val tokenValidityInMilliSecond: Long
 ) {
     private val key: String = Base64.getEncoder().encodeToString(secretToken.toByteArray(Charsets.UTF_8))
 
@@ -21,7 +21,7 @@ class JwtTokenProvider(
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(at)
-            .setExpiration(at + tokenValidityInSecond * 1000)
+            .setExpiration(at + tokenValidityInMilliSecond)
             .signWith(SignatureAlgorithm.HS512, key)
             .compact()
     }

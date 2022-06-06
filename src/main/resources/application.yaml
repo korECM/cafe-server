@@ -14,7 +14,7 @@ springdoc:
 jwt:
   header: Authorization
   secret: TOBE_OVERRIDE
-  token-validity-in-secnods: 86400
+  token-validity-in-milliseconds: 86400
 
 spring:
   servlet:
