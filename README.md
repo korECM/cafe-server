@@ -1,5 +1,7 @@
 # Getting Started
 
+[![codecov](https://codecov.io/gh/korECM/cafe-server/branch/main/graph/badge.svg?token=79UW7T4L1W)](https://codecov.io/gh/korECM/cafe-server)
+
 ## Build
 
 ```shell
