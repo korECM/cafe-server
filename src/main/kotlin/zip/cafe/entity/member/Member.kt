@@ -57,7 +57,7 @@ class Member(
     }
 
     fun unfolow(member: Member) {
-        val followMember = _followees.find { memberFollow -> memberFollow.from == this }
+        val followMember = _followees.find { memberFollow -> memberFollow.to == member }
         if (followMember == null) {
             logger().warn("${member.id} 유저는 ${this.id} 유저가 팔로우한 유저가 아닙니다")
             return

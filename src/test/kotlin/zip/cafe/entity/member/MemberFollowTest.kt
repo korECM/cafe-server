@@ -64,5 +64,29 @@ class MemberFollowTest : FreeSpec({
             a.followees shouldNotContain b
             b.followers shouldNotContain a
         }
+
+        "팔로우한 적이 없는 멤버를 언팔로우하면 기존 팔로우, 또는 팔로워 목록이 변하지 않는다" {
+            // given
+            val a = createMember(name = "김")
+            val b = createMember(name = "이")
+            val c = createMember(name = "박")
+            a.follow(b)
+
+            val orgAFollowers = a.followers
+            val orgAFollowees = a.followees
+            val orgBFollowers = b.followers
+            val orgBFollowees = b.followees
+            val orgCFollowers = c.followers
+            val orgCFollowees = c.followees
+            // when
+            a.unfolow(c)
+            // then
+            a.followers shouldContainExactly orgAFollowers
+            a.followees shouldContainExactly orgAFollowees
+            b.followers shouldContainExactly orgBFollowers
+            b.followees shouldContainExactly orgBFollowees
+            c.followers shouldContainExactly orgCFollowers
+            c.followees shouldContainExactly orgCFollowees
+        }
     }
 })
