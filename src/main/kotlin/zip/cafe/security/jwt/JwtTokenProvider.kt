@@ -14,8 +14,6 @@ class JwtTokenProvider(
     @Value("\${jwt.token-validity-in-secnods}")
     private val tokenValidityInSecond: Long
 ) {
-    private val log = logger()
-
     private val key: String = Base64.getEncoder().encodeToString(secretToken.toByteArray(Charsets.UTF_8))
 
     fun createToken(userPk: Long, at: Date): String {
@@ -43,15 +41,15 @@ class JwtTokenProvider(
             parseClaims(token)
             return true
         } catch (e: SecurityException) {
-            log.info("잘못된 JWT 서명")
+            logger().info("잘못된 JWT 서명")
         } catch (e: MalformedJwtException) {
-            log.info("잘못된 JWT 서명")
+            logger().info("잘못된 JWT 서명")
         } catch (e: ExpiredJwtException) {
-            log.info("만료된 JWT 토큰")
+            logger().info("만료된 JWT 토큰")
         } catch (e: UnsupportedJwtException) {
-            log.info("지원되지 않는 JWT 토큰")
+            logger().info("지원되지 않는 JWT 토큰")
         } catch (e: IllegalArgumentException) {
-            log.info("잘못된 JWT 토큰")
+            logger().info("잘못된 JWT 토큰")
         }
         return false
     }
