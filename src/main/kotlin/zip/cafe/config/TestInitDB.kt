@@ -4,11 +4,11 @@ import org.locationtech.jts.geom.Point
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import zip.cafe.entity.cafe.Cafe
-import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.entity.auth.LocalAuth
+import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Gender.MALE
 import zip.cafe.entity.member.Member
+import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.security.jwt.JwtTokenProvider
 import zip.cafe.util.createPoint
 import zip.cafe.util.logger
