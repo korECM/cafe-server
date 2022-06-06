@@ -33,8 +33,8 @@ tasks.jar {
 
 val snippetsDir by extra { file("build/generated-snippets") }
 
-sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
-    kotlin.srcDir("$buildDir/generated/source/kapt/main")
+kotlin.sourceSets.main {
+    setBuildDir("$buildDir")
 }
 
 dependencies {
