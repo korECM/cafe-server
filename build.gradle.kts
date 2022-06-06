@@ -8,13 +8,20 @@ plugins {
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
     kotlin("kapt") version "1.3.61"
+    id("jacoco")
 }
 
 group = "zip"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+// java.sourceCompatibility = JavaVersion.VERSION_17
 val qeurydslVersion = "5.0.0"
 val kotestVersion = "5.3.0"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
 
 repositories {
     mavenCentral()
@@ -79,12 +86,75 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+//    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir') // optional
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+val testCoverage by tasks.registering {
+    group = "verification"
+    description = "Runs the unit tests with coverage"
+
+    dependsOn(
+        ":test",
+        ":jacocoTestReport",
+        ":jacocoTestCoverageVerification"
+    )
+
+    tasks["jacocoTestReport"].mustRunAfter(tasks["test"])
+    tasks["jacocoTestCoverageVerification"].mustRunAfter(tasks["jacocoTestReport"])
+}
+
 tasks.test {
     outputs.dir(snippetsDir)
+    finalizedBy(testCoverage)
+    doLast {
+        println("View code coverage at:")
+        println("file://$buildDir/reports/coverage/index.html")
+    }
+}
+
+tasks.jacocoTestReport {
+    val QDomains = ('A'..'Z')
+        .toMutableList()
+        .map { "**/Q$it*" }
+
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.required.set(true)
+        html.outputLocation.set(file("$buildDir/reports/coverage"))
+    }
+
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude(QDomains)
+                }
+            }
+        )
+    )
+}
+
+tasks.jacocoTestCoverageVerification {
+    val QDomains = ('A'..'Z')
+        .toMutableList()
+        .map { "*Q$it*" }
+
+    violationRules {
+        rule {
+            // 커버리지 체크를 제외할 클래스들
+            excludes = listOf(
+                "*.Kotlin*"
+            ) + QDomains
+        }
+    }
 }
 
 tasks.asciidoctor {
