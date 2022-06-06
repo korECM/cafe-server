@@ -50,7 +50,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("org.mindrot:jbcrypt:0.4")
 
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.8")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
     implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.8")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.6.9")
 
