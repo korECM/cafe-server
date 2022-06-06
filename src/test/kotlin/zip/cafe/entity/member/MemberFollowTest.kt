@@ -36,9 +36,6 @@ class MemberFollowTest : FreeSpec({
             val c = createMember()
             // when
             a.follow(b)
-            println(a.name)
-            println(b.name)
-            println(c.name)
             a.follow(c)
             b.follow(a)
             // then
