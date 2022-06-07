@@ -21,35 +21,35 @@ class MemberFollowServiceTest : FreeSpec({
         "from이 to를 팔로우한 적이 없다면" - {
             "from이 to를 팔로우한다" {
                 // given
-                val fromMemberId = 3L
-                val toMemberId = 5L
-                val fromMember = createMember(id = fromMemberId)
-                val toMember = createMember(id = toMemberId)
+                val fromMember = createMember(id = 3L)
+                val toMember = createMember(id = 5L)
                 // mock
-                every { memberRepository.findOneById(fromMemberId) } returns fromMember
-                every { memberRepository.findOneById(toMemberId) } returns toMember
+                every { memberRepository.findOneById(fromMember.id) } returns fromMember
+                every { memberRepository.findOneById(toMember.id) } returns toMember
                 // when
-                memberFollowService.follow(fromMemberId, toMemberId)
+                memberFollowService.follow(fromMember.id, toMember.id)
                 // then
                 fromMember.followees shouldContainExactly listOf(toMember)
+                fromMember.followers shouldHaveSize 0
+                toMember.followees shouldHaveSize 0
                 toMember.followers shouldContainExactly listOf(fromMember)
             }
         }
         "이미 from이 to를 팔로우한 상태라면" - {
             "그대로 from이 to를 다시 팔로우한다" {
                 // given
-                val fromMemberId = 3L
-                val toMemberId = 5L
-                val fromMember = createMember(id = fromMemberId)
-                val toMember = createMember(id = toMemberId)
+                val fromMember = createMember(id = 3L)
+                val toMember = createMember(id = 5L)
                 // mock
-                every { memberRepository.findOneById(fromMemberId) } returns fromMember
-                every { memberRepository.findOneById(toMemberId) } returns toMember
+                every { memberRepository.findOneById(fromMember.id) } returns fromMember
+                every { memberRepository.findOneById(toMember.id) } returns toMember
                 // when
-                memberFollowService.follow(fromMemberId, toMemberId)
-                memberFollowService.follow(fromMemberId, toMemberId)
+                memberFollowService.follow(fromMember.id, toMember.id)
+                memberFollowService.follow(fromMember.id, toMember.id)
                 // then
                 fromMember.followees shouldContainExactly listOf(toMember)
+                fromMember.followers shouldHaveSize 0
+                toMember.followees shouldHaveSize 0
                 toMember.followers shouldContainExactly listOf(fromMember)
             }
         }
