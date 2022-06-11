@@ -2,7 +2,7 @@ package zip.cafe.service
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import io.mockk.clearAllMocks
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -29,5 +29,5 @@ class AuthServiceTest : FreeSpec({
         verify { jwtTokenProvider.createToken(memberId, now) }
     }
 
-    afterTest { clearAllMocks() }
+    afterTest { clearMocks(jwtTokenProvider) }
 })

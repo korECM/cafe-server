@@ -3,7 +3,7 @@ package zip.cafe.service
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.kotest.matchers.collections.shouldHaveSize
-import io.mockk.clearAllMocks
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import zip.cafe.repository.MemberRepository
@@ -97,7 +97,5 @@ class MemberFollowServiceTest : FreeSpec({
         }
     }
 
-    afterTest {
-        clearAllMocks()
-    }
+    afterTest { clearMocks(memberRepository) }
 })
