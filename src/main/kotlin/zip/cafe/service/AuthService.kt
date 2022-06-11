@@ -8,7 +8,7 @@ import java.util.*
 class AuthService(
     private val jwtTokenProvider: JwtTokenProvider
 ) {
-    fun generateToken(memberId: Long): String {
-        return jwtTokenProvider.createToken(memberId, Date())
+    fun generateToken(memberId: Long, at: Date): String {
+        return jwtTokenProvider.createToken(memberId, at)
     }
 }
