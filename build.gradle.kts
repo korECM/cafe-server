@@ -68,7 +68,11 @@ dependencies {
 
     implementation("org.hibernate:hibernate-spatial:5.6.9.Final")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.mockito")
+        exclude(group = "org.assertj")
+        exclude(group = "org.hamcrest")
+    }
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
