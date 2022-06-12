@@ -1,5 +1,6 @@
 package zip.cafe.entity.review
 
+import org.hibernate.Hibernate
 import zip.cafe.entity.Food
 import zip.cafe.entity.IntScore
 import zip.cafe.entity.common.BaseClass
@@ -7,6 +8,7 @@ import javax.persistence.*
 import javax.persistence.EnumType.STRING
 import javax.persistence.FetchType.LAZY
 
+@Table(name = "REVIEW_FOOD_INFO")
 @Entity
 class ReviewFoodInfo(
     @Enumerated(STRING)
