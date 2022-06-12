@@ -33,7 +33,7 @@ class Review(
     companion object {
         fun from(cafe: Cafe, member: Member, finalScore: FloatScore, description: String): Review {
             val review = Review(cafe, member, finalScore, description)
-            cafe.addReview(review)
+//            cafe.addReview(review)
             return review
         }
     }
@@ -67,10 +67,6 @@ class Review(
     val images: List<ReviewImage>
         get() = _images
 
-    @Column(name = "like_count", nullable = false)
-    var likeCount: Long = likeCount
-        private set
-
     fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
         _visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
     }
@@ -81,9 +77,5 @@ class Review(
 
     fun addCafeKeyword(cafeKeyword: CafeKeyword) {
         _cafeKeywords += ReviewCafeKeyword(cafeKeyword, this)
-    }
-
-    fun addLiker(member: Member) {
-        this.likeCount += 1
     }
 }

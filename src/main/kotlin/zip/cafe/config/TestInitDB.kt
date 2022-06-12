@@ -42,8 +42,8 @@ class TestInitDB(
             createLocalAuth(member2, "1234", "1234")
             val member3 = createMember("소소임", "커피")
             createLocalAuth(member3, "asdf", "asdf")
-            createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058), 4.3)
-            createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381), 2.7)
+            createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058))
+            createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381))
             createKeywords()
         }
 
@@ -67,10 +67,8 @@ class TestInitDB(
             em.persist(localAuth)
         }
 
-        private fun createCafe(name: String, address: String, location: Point, totalScore: Double = 0.0, reviewCount: Long = 1): Cafe {
-            val cafe = Cafe(
-                name = name, address = address, location = location, totalScore = totalScore, reviewCount = reviewCount
-            )
+        private fun createCafe(name: String, address: String, location: Point): Cafe {
+            val cafe = Cafe(name = name, address = address, location = location)
             em.persist(cafe)
             return cafe
         }
