@@ -1,7 +1,5 @@
 package zip.cafe.entity.member
 
-import zip.cafe.entity.cafe.Cafe
-import zip.cafe.entity.cafe.CafeLike
 import zip.cafe.entity.common.BaseClass
 import zip.cafe.util.logger
 import java.time.LocalDate
@@ -30,11 +28,6 @@ class Member(
     @Column(name = "user_id", nullable = false)
     val id: Long = 0
 
-    @OneToMany(mappedBy = "member", cascade = [ALL], orphanRemoval = true)
-    private val _likedCafes: MutableList<CafeLike> = mutableListOf()
-    val likedCafes: List<CafeLike>
-        get() = _likedCafes
-
     @OneToMany(mappedBy = "to", cascade = [ALL], orphanRemoval = true)
     private val _followers: MutableSet<MemberFollow> = mutableSetOf()
     val followers: List<Member>
@@ -44,11 +37,6 @@ class Member(
     private val _followees: MutableSet<MemberFollow> = mutableSetOf()
     val followees: List<Member>
         get() = _followees.map { it.to }
-
-    fun likeCafe(cafe: Cafe) {
-        this._likedCafes += CafeLike(member = this, cafe = cafe)
-        cafe.addLiker(this)
-    }
 
     fun follow(member: Member) {
         val memberFollow = MemberFollow(from = this, to = member)
