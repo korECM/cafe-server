@@ -36,7 +36,6 @@ class ReviewService(
 
         review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)
 
-        // TODO 중복 체크
         dto.foodInfos.forEach { review.addFoodInfo(it.food, it.score) }
 
         cafeKeywordRepository.findByIdIn(dto.keywords).forEach(review::addCafeKeyword)
