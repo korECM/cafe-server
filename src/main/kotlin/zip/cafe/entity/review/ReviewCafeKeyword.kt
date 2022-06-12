@@ -1,8 +1,10 @@
 package zip.cafe.entity.review
 
+import org.hibernate.Hibernate
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
+@Table(name = "REVIEW_CAFE_KEYWORD")
 @Entity
 class ReviewCafeKeyword(
     @ManyToOne(fetch = LAZY)
