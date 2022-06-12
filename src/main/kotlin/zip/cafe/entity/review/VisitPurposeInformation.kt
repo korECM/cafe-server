@@ -1,10 +1,12 @@
 package zip.cafe.entity.review
 
+import org.hibernate.Hibernate
 import zip.cafe.entity.IntScore
 import zip.cafe.entity.common.BaseClass
 import javax.persistence.*
 import javax.persistence.EnumType.STRING
 
+@Table(name = "VISIT_PURPOSE_INFORMATION")
 @Entity
 class VisitPurposeInformation(
     @Enumerated(STRING)
