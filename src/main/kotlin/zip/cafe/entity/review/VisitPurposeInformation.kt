@@ -25,4 +25,13 @@ class VisitPurposeInformation(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_visit_purpose_id", nullable = false)
     val id: Long = 0
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
+        other as VisitPurposeInformation
+
+        return visitPurpose == other.visitPurpose && review == other.review
+    }
+
+    override fun hashCode() = 31 * visitPurpose.hashCode() + review.hashCode()
 }
