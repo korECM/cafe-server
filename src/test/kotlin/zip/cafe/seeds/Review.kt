@@ -2,7 +2,6 @@ package zip.cafe.seeds
 
 import zip.cafe.entity.FloatScore
 import zip.cafe.entity.cafe.Cafe
-import zip.cafe.entity.cafe.QCafe.cafe
 import zip.cafe.entity.member.Member
 import zip.cafe.entity.review.Review
 import zip.cafe.utils.faker
@@ -22,6 +21,6 @@ fun createReview(
         cafe = cafe,
         member = member,
         finalScore = finalScore,
-        description = ""
+        description = description
     )
 )
