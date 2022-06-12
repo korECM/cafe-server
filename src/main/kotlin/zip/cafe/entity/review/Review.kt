@@ -43,8 +43,8 @@ class Review(
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    private val _visitPurposeInfo: MutableList<VisitPurposeInformation> = mutableListOf()
-    val visitPurposeInfo: List<VisitPurposeInformation>
+    private val _visitPurposeInfo: MutableSet<VisitPurposeInformation> = mutableSetOf()
+    val visitPurposeInfo: Set<VisitPurposeInformation>
         get() = _visitPurposeInfo
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
