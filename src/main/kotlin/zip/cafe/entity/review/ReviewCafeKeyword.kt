@@ -18,4 +18,13 @@ class ReviewCafeKeyword(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_keyword_review_id", nullable = false)
     val id: Long = 0
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
+        other as ReviewCafeKeyword
+
+        return cafeKeyword == other.cafeKeyword && review == other.review
+    }
+
+    override fun hashCode() = 31 * cafeKeyword.hashCode() + review.hashCode()
 }
