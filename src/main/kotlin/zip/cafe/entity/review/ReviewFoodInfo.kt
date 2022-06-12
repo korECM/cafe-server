@@ -26,4 +26,13 @@ class ReviewFoodInfo(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_food_info_id", nullable = false)
     val id: Long = 0
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
+        other as ReviewFoodInfo
+
+        return review == other.review && food == other.food
+    }
+
+    override fun hashCode() = 31 * food.hashCode() + review.hashCode()
 }
