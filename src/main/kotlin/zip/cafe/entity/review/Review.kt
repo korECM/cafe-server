@@ -27,8 +27,6 @@ class Review(
 
     @Column(nullable = false)
     val description: String,
-
-    likeCount: Long = 0
 ) : BaseClass() {
     companion object {
         fun from(cafe: Cafe, member: Member, finalScore: FloatScore, description: String): Review {

@@ -22,7 +22,6 @@ fun createReview(
         cafe = cafe,
         member = member,
         finalScore = finalScore,
-        description = "",
-        likeCount = 0
+        description = ""
     )
 )
