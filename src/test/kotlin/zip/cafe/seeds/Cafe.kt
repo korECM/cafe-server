@@ -11,7 +11,7 @@ import zip.cafe.utils.setEntityId
 fun createCafe(
     id: Long = faker.random.nextLong(),
     name: String = faker.name.name(),
-    address: String = faker.address.fullAddress(),
+    address: String = faker.address.cityWithState(),
     location: Point = createPoint(seoulLongitude + faker.random.nextDouble() / 2, seoulLatitude + faker.random.nextDouble() / 2)
 ) = setEntityId(
     id,
