@@ -1,6 +1,6 @@
 package zip.cafe.repository
 
-import com.querydsl.core.types.dsl.Expressions
+import com.querydsl.core.types.dsl.Expressions.constant
 import com.querydsl.jpa.impl.JPAQueryFactory
 import zip.cafe.entity.QReviewImage.reviewImage
 import zip.cafe.entity.cafe.QCafe.cafe
@@ -25,8 +25,8 @@ class CafeRepositoryImpl(
                 member.id,
                 member.name,
                 review.finalScore.score,
-                review.likeCount,
-                Expressions.constant(0),
+                constant(0),
+                constant(0),
                 review.createdAt,
                 reviewImage.id,
                 reviewImage.cloudFrontURL,
