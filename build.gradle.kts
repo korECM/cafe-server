@@ -82,6 +82,8 @@ dependencies {
     testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
     testImplementation("io.mockk:mockk:1.12.4")
     testImplementation("com.ninja-squad:springmockk:3.1.1")
+    testImplementation("nl.jqno.equalsverifier:equalsverifier:3.10")
+
     implementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
     implementation("io.github.serpro69:kotlin-faker:1.11.0")
 }
