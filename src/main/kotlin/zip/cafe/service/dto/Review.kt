@@ -18,23 +18,3 @@ data class ReviewRegisterDto(
         val score: IntScore
     )
 }
-
-data class UploadedReviewImage(
-    val id: Long,
-    val bucket: String,
-    val key: String,
-    val s3URL: String,
-    val cloudFrontURL: String
-) {
-    companion object {
-        fun from(reviewImage: ReviewImage): UploadedReviewImage {
-            return UploadedReviewImage(
-                id = reviewImage.id,
-                bucket = reviewImage.bucket,
-                key = reviewImage.fileKey,
-                s3URL = reviewImage.s3URL,
-                cloudFrontURL = reviewImage.cloudFrontURL
-            )
-        }
-    }
-}

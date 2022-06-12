@@ -2,10 +2,10 @@ package zip.cafe.api.dto
 
 import io.swagger.v3.oas.annotations.media.Schema
 import zip.cafe.entity.Food
+import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.toScore
 import zip.cafe.service.dto.ReviewRegisterDto
-import zip.cafe.service.dto.UploadedReviewImage
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -66,7 +66,7 @@ data class UploadedImageResponse(
     val url: String
 ) {
     companion object {
-        fun from(image: UploadedReviewImage): UploadedImageResponse {
+        fun from(image: ReviewImage): UploadedImageResponse {
             return UploadedImageResponse(
                 id = image.id,
                 url = image.cloudFrontURL
