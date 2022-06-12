@@ -55,8 +55,8 @@ class Review(
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
     @Column(nullable = false)
-    private val _cafeKeywords: MutableList<ReviewCafeKeyword> = mutableListOf()
-    val cafeKeywords: List<ReviewCafeKeyword>
+    private val _cafeKeywords: MutableSet<ReviewCafeKeyword> = mutableSetOf()
+    val cafeKeywords: Set<ReviewCafeKeyword>
         get() = _cafeKeywords
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
