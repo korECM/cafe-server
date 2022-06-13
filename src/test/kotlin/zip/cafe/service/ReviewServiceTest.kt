@@ -2,6 +2,7 @@
 
 package zip.cafe.service
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.collections.shouldContainExactly
 import io.mockk.*
@@ -9,10 +10,15 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.mock.web.MockMultipartFile
 import zip.cafe.connector.S3Connector
 import zip.cafe.connector.dto.S3FileDto
+import zip.cafe.entity.FloatScore
+import zip.cafe.entity.Food
+import zip.cafe.entity.IntScore
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.member.Member
+import zip.cafe.entity.review.Purpose
 import zip.cafe.repository.*
-import zip.cafe.seeds.createMember
+import zip.cafe.seeds.*
+import zip.cafe.service.dto.ReviewRegisterDto
 import zip.cafe.utils.answersWithEntityId
 import zip.cafe.utils.faker
 import java.nio.charset.StandardCharsets.UTF_8
@@ -35,6 +41,39 @@ class ReviewServiceTest : FreeSpec({
         s3Connector = s3Connector,
         reviewImageBucket = reviewImageBucket,
     )
+
+    "createReview" - {
+        "사용자가 올렸던 리뷰 이미지가 아닌 경우 IllegalArgumentException 예외를 던진다" {
+            // given
+            val cafeId = 123L
+
+            val uploaderMemberId = 1L
+            val uploader = createMember(id = uploaderMemberId)
+            val anotherUploader = createMember()
+
+            val reviewImageIds = listOf(5L, 6L)
+            val reviewImages = listOf(
+                createReviewImage(id = reviewImageIds[0]),
+                createReviewImage(id = reviewImageIds[1], uploadedBy = anotherUploader),
+            )
+
+            val dto = createReviewRegisterDto(
+                reviewImages = reviewImageIds
+            )
+            // mock
+            every { memberRepository.findByIdOrNull(uploaderMemberId) } returns uploader
+            every { reviewImageRepository.findByIdIn(reviewImageIds) } returns reviewImages
+            // when
+            shouldThrow<IllegalArgumentException> {
+                reviewService.createReview(
+                    cafeId = cafeId,
+                    uploadMemberId = uploaderMemberId,
+                    dto = dto
+                )
+            }
+            // then
+        }
+    }
 
     "uploadReviewImages" - {
         "이미지를 S3에 올리고 그 정보를 반환한다" {
@@ -106,9 +145,36 @@ private fun compareReviewImageAndS3File(
     s3File: S3FileDto,
     uploader: Member
 ) = reviewImage.review == null &&
-    reviewImage.id != 0L &&
-    reviewImage.bucket == reviewImageBucket &&
-    reviewImage.cloudFrontURL == s3File.cloudFrontURL &&
-    reviewImage.fileKey == s3File.fileKey &&
-    reviewImage.s3URL == s3File.s3URL &&
-    reviewImage.uploadedBy == uploader
+        reviewImage.id != 0L &&
+        reviewImage.bucket == reviewImageBucket &&
+        reviewImage.cloudFrontURL == s3File.cloudFrontURL &&
+        reviewImage.fileKey == s3File.fileKey &&
+        reviewImage.s3URL == s3File.s3URL &&
+        reviewImage.uploadedBy == uploader
+
+
+val randomFoodList = Food.values()
+    get() {
+        field.shuffle()
+        return field
+    }
+
+fun createReviewRegisterDto(
+    visitPurpose: Purpose = faker.random.nextEnum(Purpose::class.java),
+    visitPurposeScore: IntScore = createIntScore(),
+    foodInfoLength: Int = faker.random.nextInt(0, Food.values().size - 1),
+    foodInfos: List<ReviewRegisterDto.FoodInfo> = randomFoodList.slice(0..foodInfoLength).map { ReviewRegisterDto.FoodInfo(it, createIntScore()) },
+    keywordLength: Int = faker.random.nextInt(1, 5),
+    keywords: List<Long> = List(keywordLength) { faker.random.nextLong(10) },
+    reviewImageLength: Int = faker.random.nextInt(1, 5),
+    reviewImages: List<Long> = List(reviewImageLength) { faker.random.nextLong(10) },
+    finalScore: FloatScore = createFloatScore()
+) = ReviewRegisterDto(
+    visitPurpose = visitPurpose,
+    visitPurposeScore = visitPurposeScore,
+    foodInfos = listOf(),
+    keywords = keywords,
+    reviewImageIds = reviewImages,
+    description = "",
+    finalScore = finalScore
+)
