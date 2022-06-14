@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.7.0"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.asciidoctor.convert") version "2.4.0"
+    id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
     kotlin("plugin.jpa") version "1.6.21"
@@ -13,7 +13,6 @@ plugins {
 
 group = "zip"
 version = "0.0.1-SNAPSHOT"
-// java.sourceCompatibility = JavaVersion.VERSION_17
 val qeurydslVersion = "5.0.0"
 val kotestVersion = "5.3.0"
 
@@ -27,8 +26,18 @@ repositories {
     mavenCentral()
 }
 
+val asciidoctorExt: Configuration by configurations.creating
+
 tasks.jar {
     enabled = false
+}
+
+tasks.bootJar {
+    dependsOn(tasks.asciidoctor)
+
+    from(tasks.asciidoctor.get().outputDir) {
+        into("BOOT-INF/classes/static/docs")
+    }
 }
 
 val snippetsDir by extra { file("build/generated-snippets") }
@@ -73,6 +82,8 @@ dependencies {
         exclude(group = "org.assertj")
         exclude(group = "org.hamcrest")
     }
+
+    asciidoctorExt("org.springframework.restdocs:spring-restdocs-asciidoctor")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
@@ -120,6 +131,7 @@ val testCoverage by tasks.registering {
 
 tasks.test {
     outputs.dir(snippetsDir)
+    systemProperty("org.springframework.restdocs.outputDir", snippetsDir)
     finalizedBy(testCoverage)
     doLast {
         println("View code coverage at:")
@@ -168,5 +180,19 @@ tasks.jacocoTestCoverageVerification {
 
 tasks.asciidoctor {
     inputs.dir(snippetsDir)
+    configurations("asciidoctorExt")
     dependsOn(tasks.test)
+
+    doFirst {
+        delete("src/main/resources/static/docs")
+    }
+}
+
+tasks.register<Copy>("copyDocument") {
+    dependsOn(tasks.asciidoctor)
+
+    destinationDir = file(".")
+    from(tasks.asciidoctor.get().outputDir) {
+        into("src/main/resources/static/docs")
+    }
 }

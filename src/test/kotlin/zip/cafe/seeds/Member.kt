@@ -6,6 +6,7 @@ import zip.cafe.utils.faker
 import zip.cafe.utils.setEntityId
 import java.time.LocalDate
 
+val MOCK_MVC_USER_ID = faker.random.nextLong()
 fun createMember(
     id: Long = faker.random.nextLong(),
     name: String = faker.name.name(),
