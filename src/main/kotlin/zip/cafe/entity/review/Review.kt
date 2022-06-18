@@ -61,6 +61,11 @@ class Review(
     val images: List<ReviewImage>
         get() = _images
 
+    @OneToMany(mappedBy = "", cascade = [ALL], orphanRemoval = true)
+    private val _likes: MutableList<ReviewLike> = mutableListOf()
+    val likers: List<Member>
+        get() = _likes.map { it.member }
+
     fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
         _visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
     }
@@ -71,5 +76,9 @@ class Review(
 
     fun addCafeKeyword(cafeKeyword: CafeKeyword) {
         _cafeKeywords += ReviewCafeKeyword(cafeKeyword, this)
+    }
+
+    fun addLiker(member: Member) {
+        _likes += ReviewLike(review = this, member = member)
     }
 }
