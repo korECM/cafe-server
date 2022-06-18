@@ -42,25 +42,21 @@ class Review(
     val id: Long = 0
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
-    @Column(nullable = false)
     private val _visitPurposeInfo: MutableSet<VisitPurposeInformation> = mutableSetOf()
     val visitPurposeInfo: Set<VisitPurposeInformation>
         get() = _visitPurposeInfo
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
-    @Column(nullable = false)
     private val _foodInfos: MutableSet<ReviewFoodInfo> = mutableSetOf()
     val foodInfos: Set<ReviewFoodInfo>
         get() = _foodInfos
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
-    @Column(nullable = false)
     private val _cafeKeywords: MutableSet<ReviewCafeKeyword> = mutableSetOf()
     val cafeKeywords: Set<ReviewCafeKeyword>
         get() = _cafeKeywords
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
-    @Column(nullable = false)
     private val _images: MutableList<ReviewImage> = mutableListOf()
     val images: List<ReviewImage>
         get() = _images
