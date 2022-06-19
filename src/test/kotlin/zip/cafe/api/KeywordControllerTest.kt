@@ -19,7 +19,7 @@ class KeywordControllerTest : WebMvcTestSpec() {
     private lateinit var keywordService: KeywordService
 
     init {
-        "test" {
+        "GET 키워드 목록" {
             every { keywordService.getKeywords() } returns listOf(
                 CafeKeyword(keyword = "키워드 이름1", emoji = "🚰"),
                 CafeKeyword(keyword = "키워드 이름2", emoji = "🎁")
