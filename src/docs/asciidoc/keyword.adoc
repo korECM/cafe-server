@@ -3,4 +3,4 @@
 
 [[Get-Keyword-List]]
 === 키워드 목록 조회
-operation::get-keyword-list[snippets='http-request,path-parameters,http-response,response-fields']
+operation::get-keyword-list[snippets='http-request,http-response,response-fields']
