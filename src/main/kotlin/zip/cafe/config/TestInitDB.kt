@@ -39,7 +39,7 @@ class TestInitDB(
         fun dbInit() {
             val member1 = createMember("길동길동", "기르동이")
             createLocalAuth(member1, "testId", "testPw")
-            logger().info("Test User Token {}", jwtTokenProvider.createToken(member1.id, Date()))
+            logger().info("\n\nTest User Token \n\n{}\n\n", jwtTokenProvider.createToken(member1.id, Date()))
             val member2 = createMember("기리기리", "리게")
             createLocalAuth(member2, "1234", "1234")
             val member3 = createMember("소소임", "커피")
