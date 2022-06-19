@@ -51,9 +51,14 @@ class TestInitDB(
             val cafe1 = createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058))
             val cafe2 = createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381))
             createKeywords()
-            createReview(member1, cafe1, 3.5, "설명 1")
-            createReview(member1, cafe2, 4.5, "설명인 것")
-            createReview(member2, cafe1, 1.5, "또 다른 설명")
+            val review1 = createReview(member1, cafe1, 3.5, "설명 1")
+            val review2 = createReview(member1, cafe2, 4.5, "설명인 것")
+            val review3 = createReview(member2, cafe1, 1.5, "또 다른 설명")
+            val review4 = createReview(member3, cafe2, 2.5, "카페 리뷰")
+
+            review2.addLiker(member2)
+            review2.addLiker(member3)
+            review3.addLiker(member1)
         }
 
         private fun createMember(name: String, nickName: String): Member {
