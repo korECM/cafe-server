@@ -5,13 +5,16 @@ import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation.*
+import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.get
+import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.service.KeywordService
 import zip.cafe.utils.documentRequest
 import zip.cafe.utils.documentResponse
+import kotlin.reflect.KClass
 
 @WebMvcTest(KeywordController::class)
 class KeywordControllerTest : WebMvcTestSpec() {
@@ -36,12 +39,12 @@ class KeywordControllerTest : WebMvcTestSpec() {
                             "get-keyword-list",
                             documentRequest,
                             documentResponse,
-                            responseFields(
-                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
-                                fieldWithPath("body").type(JsonFieldType.ARRAY).description("데이터"),
-                                fieldWithPath("body[].id").type(JsonFieldType.NUMBER).description("키워드 id"),
-                                fieldWithPath("body[].keyword").type(JsonFieldType.STRING).description("키워드 이름"),
-                                fieldWithPath("body[].emoji").type(JsonFieldType.STRING).description("키워드 이모지"),
+                            responseBody(
+                                "message" type STRING means "응답 메시지",
+                                "body" type ARRAY means "데이터",
+                                "body[].id" type NUMBER means "키워드 id",
+                                "body[].keyword" type STRING means "키워드 이름" example "아늑한",
+                                "body[].emoji" type STRING means "키워드 이모지" example "🤷‍♂️",
                             )
                         )
                     )
