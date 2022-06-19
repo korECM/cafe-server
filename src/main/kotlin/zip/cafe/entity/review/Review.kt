@@ -81,4 +81,8 @@ class Review(
     fun addLiker(member: Member) {
         _likes += ReviewLike(review = this, member = member)
     }
+
+    fun removeLiker(member: Member) {
+        _likes.removeIf { it.member == member }
+    }
 }

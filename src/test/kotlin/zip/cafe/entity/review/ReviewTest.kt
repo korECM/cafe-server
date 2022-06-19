@@ -33,4 +33,31 @@ class ReviewTest : FreeSpec({
             review.likers shouldContainExactly listOf(member)
         }
     }
+
+    "리뷰 좋아요 취소" - {
+        "좋아했던 리뷰의 좋아요를 취소한다" {
+            // given
+            val member1 = createMember()
+            val member2 = createMember()
+            val review = createReview()
+            review.addLiker(member1)
+            review.addLiker(member2)
+            // when
+            review.removeLiker(member1)
+            // then
+            review.likers shouldContainExactly listOf(member2)
+        }
+
+        "좋아요하지 않았던 리뷰의 좋아요를 취소한다" {
+            // given
+            val member1 = createMember()
+            val member2 = createMember()
+            val review = createReview()
+            review.addLiker(member2)
+            // when
+            review.removeLiker(member1)
+            // then
+            review.likers shouldContainExactly listOf(member2)
+        }
+    }
 })
