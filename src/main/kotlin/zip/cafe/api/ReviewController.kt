@@ -14,7 +14,7 @@ import zip.cafe.security.LoginUserId
 import zip.cafe.service.ReviewService
 import javax.validation.Valid
 
-@RequestMapping("/review")
+@RequestMapping("/reviews")
 @RestController
 class ReviewController(
     private val reviewService: ReviewService
