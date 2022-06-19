@@ -27,6 +27,7 @@ import org.springframework.web.context.request.NativeWebRequest
 import org.springframework.web.filter.CharacterEncodingFilter
 import zip.cafe.security.LoginFailedException
 import zip.cafe.security.LoginUser
+import zip.cafe.security.LoginUserId
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createMember
 import zip.cafe.service.resolver.LoginUserIdResolver
@@ -86,7 +87,7 @@ open class WebMvcTestSpec(body: FreeSpec.() -> Unit = {}) : FreeSpec(body) {
         loginUserIdResolver.also {
             slot<MethodParameter>().also { slot ->
                 every { it.supportsParameter(capture(slot)) } answers {
-                    slot.captured.hasParameterAnnotation(LoginUser::class.java)
+                    slot.captured.hasParameterAnnotation(LoginUserId::class.java)
                 }
             }
             slot<NativeWebRequest>().also { slot ->
