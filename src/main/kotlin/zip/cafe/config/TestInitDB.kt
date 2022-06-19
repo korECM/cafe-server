@@ -9,6 +9,8 @@ import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Gender.MALE
 import zip.cafe.entity.member.Member
 import zip.cafe.entity.review.CafeKeyword
+import zip.cafe.entity.review.Review
+import zip.cafe.entity.toScore
 import zip.cafe.security.jwt.JwtTokenProvider
 import zip.cafe.util.createPoint
 import zip.cafe.util.logger
@@ -42,9 +44,12 @@ class TestInitDB(
             createLocalAuth(member2, "1234", "1234")
             val member3 = createMember("소소임", "커피")
             createLocalAuth(member3, "asdf", "asdf")
-            createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058))
-            createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381))
+            val cafe1 = createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058))
+            val cafe2 = createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381))
             createKeywords()
+            createReview(member1, cafe1, 3.5, "설명 1")
+            createReview(member1, cafe2, 4.5, "설명인 것")
+            createReview(member2, cafe1, 1.5, "또 다른 설명")
         }
 
         private fun createMember(name: String, nickName: String): Member {
@@ -90,6 +95,17 @@ class TestInitDB(
                 CafeKeyword(emoji = "\uD83C\uDFDE", keyword = "뷰가 좋은"),
             )
             keywords.forEach(em::persist)
+        }
+
+        private fun createReview(member: Member, cafe: Cafe, score: Double, description: String): Review {
+            val review = Review(
+                cafe = cafe,
+                member = member,
+                finalScore = score.toScore(),
+                description = description
+            )
+            em.persist(review)
+            return review
         }
     }
 }
