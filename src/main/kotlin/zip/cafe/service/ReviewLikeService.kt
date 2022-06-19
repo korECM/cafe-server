@@ -20,4 +20,12 @@ class ReviewLikeService(
 
         review.addLiker(member)
     }
+
+    @Transactional
+    fun cancelLikeReview(memberId: Long, reviewId: Long) {
+        val member = memberRepository.findOneById(memberId)
+        val review = reviewRepository.findOneById(reviewId)
+
+        review.removeLiker(member)
+    }
 }
