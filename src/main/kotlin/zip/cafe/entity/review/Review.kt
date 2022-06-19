@@ -61,7 +61,7 @@ class Review(
     val images: List<ReviewImage>
         get() = _images
 
-    @OneToMany(mappedBy = "", cascade = [ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "review", cascade = [ALL], orphanRemoval = true)
     private val _likes: MutableSet<ReviewLike> = mutableSetOf()
     val likers: List<Member>
         get() = _likes.map { it.member }
