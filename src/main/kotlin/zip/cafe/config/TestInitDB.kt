@@ -44,6 +44,10 @@ class TestInitDB(
             createLocalAuth(member2, "1234", "1234")
             val member3 = createMember("소소임", "커피")
             createLocalAuth(member3, "asdf", "asdf")
+
+            member1.follow(member2)
+            member1.follow(member3)
+
             val cafe1 = createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058))
             val cafe2 = createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381))
             createKeywords()
