@@ -7,7 +7,10 @@ import io.mockk.every
 import io.mockk.just
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
-import org.springframework.test.web.servlet.get
+import org.springframework.restdocs.payload.JsonFieldType
+import org.springframework.restdocs.payload.PayloadDocumentation
+import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
+import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.post
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.seeds.MOCK_MVC_USER_ID
@@ -42,9 +45,13 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 .andDo {
                     handle(
                         MockMvcRestDocumentation.document(
-                            "like review",
+                            "like-review",
                             documentRequest,
                             documentResponse,
+                            responseFields(
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                fieldWithPath("body").type(JsonFieldType.NULL).description("데이터"),
+                            )
                         )
                     )
                 }
@@ -66,9 +73,13 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 .andDo {
                     handle(
                         MockMvcRestDocumentation.document(
-                            "unlike review",
+                            "unlike-review",
                             documentRequest,
                             documentResponse,
+                            responseFields(
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메시지"),
+                                fieldWithPath("body").type(JsonFieldType.NULL).description("데이터"),
+                            )
                         )
                     )
                 }

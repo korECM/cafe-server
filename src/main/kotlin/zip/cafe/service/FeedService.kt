@@ -30,6 +30,6 @@ class FeedService(
                     createdAt = review.createdAt
                 )
             )
-        }
+        }.sortedByDescending { it.id }
     }
 }
