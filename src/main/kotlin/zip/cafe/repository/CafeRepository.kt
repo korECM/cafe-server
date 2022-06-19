@@ -6,4 +6,4 @@ import zip.cafe.entity.cafe.Cafe
 
 fun CafeRepository.findOneById(id: Long) = this.findByIdOrNull(id) ?: throw NoSuchElementException()
 
-interface CafeRepository : JpaRepository<Cafe, Long>, CafeRepositoryCustom
+interface CafeRepository : JpaRepository<Cafe, Long>
