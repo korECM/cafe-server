@@ -1,6 +1,8 @@
 package zip.cafe.service.dto
 
-import zip.cafe.entity.*
+import zip.cafe.entity.FloatScore
+import zip.cafe.entity.Food
+import zip.cafe.entity.IntScore
 import zip.cafe.entity.review.Purpose
 
 data class ReviewRegisterDto(

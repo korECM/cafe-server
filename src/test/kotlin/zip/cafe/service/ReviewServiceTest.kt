@@ -17,7 +17,10 @@ import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.member.Member
 import zip.cafe.entity.review.Purpose
 import zip.cafe.repository.*
-import zip.cafe.seeds.*
+import zip.cafe.seeds.createFloatScore
+import zip.cafe.seeds.createIntScore
+import zip.cafe.seeds.createMember
+import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.dto.ReviewRegisterDto
 import zip.cafe.utils.answersWithEntityId
 import zip.cafe.utils.faker

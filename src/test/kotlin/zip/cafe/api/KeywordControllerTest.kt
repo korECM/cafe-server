@@ -4,9 +4,6 @@ import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
-import org.springframework.restdocs.payload.JsonFieldType
-import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
-import org.springframework.restdocs.payload.PayloadDocumentation.responseFields
 import org.springframework.test.web.servlet.get
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
@@ -14,7 +11,6 @@ import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.service.KeywordService
 import zip.cafe.utils.documentRequest
 import zip.cafe.utils.documentResponse
-import kotlin.reflect.KClass
 
 @WebMvcTest(KeywordController::class)
 class KeywordControllerTest : WebMvcTestSpec() {
