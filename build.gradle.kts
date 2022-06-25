@@ -38,6 +38,7 @@ tasks.bootJar {
     from(tasks.asciidoctor.get().outputDir) {
         into("BOOT-INF/classes/static/docs")
     }
+    finalizedBy("copyDocument")
 }
 
 val snippetsDir by extra { file("build/generated-snippets") }
@@ -182,6 +183,8 @@ tasks.asciidoctor {
     inputs.dir(snippetsDir)
     configurations("asciidoctorExt")
     dependsOn(tasks.test)
+
+    baseDirFollowsSourceDir()
 
     doFirst {
         delete("src/main/resources/static/docs")
