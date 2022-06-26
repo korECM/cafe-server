@@ -34,10 +34,6 @@ tasks.jar {
 
 tasks.bootJar {
     dependsOn(tasks.asciidoctor)
-
-    from(tasks.asciidoctor.get().outputDir) {
-        into("BOOT-INF/classes/static/docs")
-    }
     finalizedBy("copyDocument")
 }
 
@@ -109,7 +105,6 @@ tasks.withType<KotlinCompile> {
 
 jacoco {
     toolVersion = "0.8.7"
-//    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir') // optional
 }
 
 tasks.withType<Test> {
