@@ -10,5 +10,4 @@
 :operation-response-fields-body-title: Response Body
 include::common-response.adoc[]
 include::keyword.adoc[]
-include::likeReview.adoc[]
-include::writeReview.adoc[]
+include::review.adoc[]

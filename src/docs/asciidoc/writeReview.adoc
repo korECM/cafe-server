@@ -1,7 +1,0 @@
-[[Write-Review-API]]
-== Write Review API
-
-[[uploadReviewImages]]
-=== 리뷰에 들어갈 이미지 업로드
-operation::upload-review-images[snippets='http-request,request-parts,http-response,response-fields-body']
-

@@ -5,18 +5,27 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.request.RequestDocumentation.partWithName
 import org.springframework.restdocs.request.RequestDocumentation.requestParts
 import org.springframework.test.web.servlet.multipart
 import org.springframework.test.web.servlet.post
+import zip.cafe.api.dto.ReviewRegisterRequest
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.connector.dto.S3FileDto
+import zip.cafe.entity.FloatScore
+import zip.cafe.entity.Food
+import zip.cafe.entity.IntScore
+import zip.cafe.entity.review.Purpose
+import zip.cafe.entity.toScore
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.ReviewLikeService
 import zip.cafe.service.ReviewService
+import zip.cafe.service.dto.ReviewRegisterDto
+import zip.cafe.service.dto.ReviewRegisterDto.FoodInfo
 
 @WebMvcTest(ReviewController::class)
 class ReviewControllerTest : WebMvcTestSpec() {
@@ -28,6 +37,75 @@ class ReviewControllerTest : WebMvcTestSpec() {
     private lateinit var reviewLikeService: ReviewLikeService
 
     init {
+
+        "리뷰 업로드" {
+            val cafeId = 1L
+
+            val visitPurpose = Purpose.STUDY
+            val visitPurposeScore = 5
+
+            val food1 = Food.BAKERY
+            val food2 = Food.BEVERAGE
+            val foodScore1 = 4
+            val foodScore2 = 3
+
+            val keywords = listOf(1L, 2L)
+            val reviewImageIds = listOf(3L, 5L, 6L)
+
+            val description = "좋은 카페"
+
+            val finalScore = 3.0
+
+            val request = ReviewRegisterRequest(
+                cafeId = cafeId,
+                visitPurpose = visitPurpose,
+                visitPurposeScore = visitPurposeScore,
+                foodInfos = listOf(ReviewRegisterRequest.FoodInfo(food1, foodScore1), ReviewRegisterRequest.FoodInfo(food2, foodScore2)),
+                keywords = keywords,
+                reviewImageIds = reviewImageIds,
+                description = description,
+                finalScore = finalScore
+            )
+
+            val dto = ReviewRegisterDto(
+                visitPurpose = visitPurpose,
+                visitPurposeScore = IntScore(score = visitPurposeScore),
+                foodInfos = listOf(FoodInfo(food1, foodScore1.toScore()), FoodInfo(food2, foodScore2.toScore())),
+                keywords = keywords,
+                reviewImageIds = reviewImageIds,
+                description = description,
+                finalScore = FloatScore(score = finalScore)
+            )
+
+            every { reviewService.createReview(cafeId, MOCK_MVC_USER_ID, dto) } just Runs
+
+            val response = mockMvc.post("/reviews") {
+                this.contentType = MediaType.APPLICATION_JSON
+                this.content = objectMapper.writeValueAsString(request)
+            }
+
+            response.andExpect {
+                status { isCreated() }
+            }.andDo {
+                handle(
+                    document(
+                        "write-review",
+                        requestFields(
+                            "cafeId" type NUMBER means "카페 Id" example "1L",
+                            "visitPurpose" type ENUM(Purpose::class) means "방문 목적",
+                            "visitPurposeScore" type NUMBER means "방문 목적 점수" example "3",
+                            "foodInfos" type ARRAY means "카페에서 먹은 음식 정보",
+                            "foodInfos[].food" type ENUM(Food::class) means "먹은 음식",
+                            "foodInfos[].score" type NUMBER means "먹은 음식에 대한 점수" example "3.0",
+                            "keywords" type ARRAY means "키워드 API에서 내려준 키워드 Id 리스트" example "[1, 2]",
+                            "reviewImageIds" type ARRAY means "업로드한 리뷰 이미지 Id 리스트" example "[3, 5, 6]",
+                            "description" type STRING means "리뷰 내용" example "커피도 맛있고 친절한 카페",
+                            "finalScore" type NUMBER means "최종 리뷰 점수" example "4",
+                        )
+                    )
+                )
+            }
+        }
 
         "이미지 업로드" {
             val memberId = MOCK_MVC_USER_ID
