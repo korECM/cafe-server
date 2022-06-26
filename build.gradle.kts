@@ -32,9 +32,12 @@ tasks.jar {
     enabled = false
 }
 
+tasks.build {
+    finalizedBy("copyDocument")
+}
+
 tasks.bootJar {
     dependsOn(tasks.asciidoctor)
-    finalizedBy("copyDocument")
 }
 
 val snippetsDir by extra { file("build/generated-snippets") }
