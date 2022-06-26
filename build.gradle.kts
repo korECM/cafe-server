@@ -206,6 +206,7 @@ jib {
     }
     to {
         image = "183624387110.dkr.ecr.ap-northeast-2.amazonaws.com/cafe"
+        credHelper.helper = "ecr-login"
     }
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"

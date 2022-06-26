@@ -5,7 +5,7 @@
 ## Build
 ```shell
 VERSION=$(git describe --tags)
-./gradlew :jib -Djib.to.tags=latest,${VERSION}
+AWS_PROFILE=cafe ./gradlew :jib -Djib.to.tags=latest,${VERSION}
 ```
 
 
