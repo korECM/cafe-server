@@ -3,6 +3,11 @@
 [![codecov](https://codecov.io/gh/korECM/cafe-server/branch/main/graph/badge.svg?token=79UW7T4L1W)](https://codecov.io/gh/korECM/cafe-server)
 
 ## Build
+```shell
+VERSION=$(git describe --tags)
+./gradlew :jib -Djib.to.tags=latest,${VERSION}
+```
+
 
 ```shell
 VERSION=$(git describe --tags) # ex v1.0.0

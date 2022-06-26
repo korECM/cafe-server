@@ -9,6 +9,7 @@ plugins {
     kotlin("plugin.jpa") version "1.7.0"
     kotlin("kapt") version "1.7.0"
     id("jacoco")
+    id("com.google.cloud.tools.jib") version "3.2.1"
 }
 
 group = "zip"
@@ -196,5 +197,17 @@ tasks.register<Copy>("copyDocument") {
     destinationDir = file(".")
     from(tasks.asciidoctor.get().outputDir) {
         into("src/main/resources/static/docs")
+    }
+}
+
+jib {
+    from {
+        image = "gcr.io/distroless/java17-debian11"
+    }
+    to {
+        image = "183624387110.dkr.ecr.ap-northeast-2.amazonaws.com/cafe"
+    }
+    container {
+        creationTime = "USE_CURRENT_TIMESTAMP"
     }
 }
