@@ -64,7 +64,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-/src/main/resources/.env.beta
-/src/main/resources/.env.local
+/src/main/resources/.env*
 
 src/main/resources/static/docs/**.html
