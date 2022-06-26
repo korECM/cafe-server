@@ -3,14 +3,11 @@ package zip.cafe.api
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document
 import org.springframework.test.web.servlet.get
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.service.KeywordService
-import zip.cafe.utils.documentRequest
-import zip.cafe.utils.documentResponse
 
 @WebMvcTest(KeywordController::class)
 class KeywordControllerTest : WebMvcTestSpec() {
@@ -33,14 +30,11 @@ class KeywordControllerTest : WebMvcTestSpec() {
                     handle(
                         document(
                             "get-keyword-list",
-                            documentRequest,
-                            documentResponse,
                             responseBody(
-                                "message" type STRING means "응답 메시지",
-                                "body" type ARRAY means "데이터",
-                                "body[].id" type NUMBER means "키워드 id",
-                                "body[].keyword" type STRING means "키워드 이름" example "아늑한",
-                                "body[].emoji" type STRING means "키워드 이모지" example "🤷‍♂️",
+                                "body" beneathPathWithSubsectionId "body",
+                                "id" type NUMBER means "키워드 id",
+                                "keyword" type STRING means "키워드 이름" example "아늑한",
+                                "emoji" type STRING means "키워드 이모지" example "🤷‍♂️",
                             )
                         )
                     )

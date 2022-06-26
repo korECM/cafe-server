@@ -6,7 +6,6 @@ import io.mockk.every
 import io.mockk.just
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.mock.web.MockMultipartFile
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
 import org.springframework.restdocs.request.RequestDocumentation.partWithName
 import org.springframework.restdocs.request.RequestDocumentation.requestParts
 import org.springframework.test.web.servlet.multipart
@@ -18,8 +17,6 @@ import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.ReviewLikeService
 import zip.cafe.service.ReviewService
-import zip.cafe.utils.documentRequest
-import zip.cafe.utils.documentResponse
 
 @WebMvcTest(ReviewController::class)
 class ReviewControllerTest : WebMvcTestSpec() {
@@ -63,18 +60,15 @@ class ReviewControllerTest : WebMvcTestSpec() {
             }
                 .andDo {
                     handle(
-                        MockMvcRestDocumentation.document(
+                        document(
                             "upload-review-images",
-                            documentRequest,
-                            documentResponse,
                             requestParts(
                                 partWithName("images").description("업로드 할 리뷰 이미지 파일 목록")
                             ),
                             responseBody(
-                                "message" type STRING means "응답 메시지",
-                                "body" type ARRAY means "데이터",
-                                "body[].id" type NUMBER means "이미지 id" example "3",
-                                "body[].url" type STRING means "이미지 주소" example "https://techblog.woowahan.com/wp-content/uploads/img/2020-05-13/rest-docs-09.png",
+                                "body" beneathPathWithSubsectionId "body",
+                                "id" type NUMBER means "이미지 id" example "3",
+                                "url" type STRING means "이미지 주소" example "https://techblog.woowahan.com/wp-content/uploads/img/2020-05-13/rest-docs-09.png",
                             )
                         )
                     )
@@ -94,14 +88,8 @@ class ReviewControllerTest : WebMvcTestSpec() {
             }
                 .andDo {
                     handle(
-                        MockMvcRestDocumentation.document(
-                            "like-review",
-                            documentRequest,
-                            documentResponse,
-                            responseBody(
-                                "message" type STRING means "응답 메시지",
-                                "body" type NULL means "데이터",
-                            )
+                        document(
+                            "like-review"
                         )
                     )
                 }
@@ -120,14 +108,8 @@ class ReviewControllerTest : WebMvcTestSpec() {
             }
                 .andDo {
                     handle(
-                        MockMvcRestDocumentation.document(
-                            "unlike-review",
-                            documentRequest,
-                            documentResponse,
-                            responseBody(
-                                "message" type STRING means "응답 메시지",
-                                "body" type NULL means "데이터",
-                            )
+                        document(
+                            "unlike-review"
                         )
                     )
                 }

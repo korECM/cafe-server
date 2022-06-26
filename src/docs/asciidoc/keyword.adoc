@@ -3,6 +3,5 @@
 
 [[Get-Keyword-List]]
 === 키워드 목록 조회
-:operation-response-fields-body-title: Response Body
 operation::get-keyword-list[snippets='http-request,http-response,response-fields-body']
 

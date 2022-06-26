@@ -3,8 +3,8 @@
 
 [[likeReview]]
 === 리뷰 좋아요
-operation::like-review[snippets='http-request,http-response,response-fields']
+operation::like-review[snippets='http-request,http-response,response-fields-body']
 
 [[unlikeReview]]
 === 리뷰 좋아요 취소
-operation::unlike-review[snippets='http-request,http-response,response-fields']
+operation::unlike-review[snippets='http-request,http-response,response-fields-body']
