@@ -15,7 +15,7 @@ plugins {
 group = "zip"
 version = "0.0.1-SNAPSHOT"
 val qeurydslVersion = "5.0.0"
-val kotestVersion = "5.3.1"
+val kotestVersion = "5.3.2"
 
 java {
     toolchain {
