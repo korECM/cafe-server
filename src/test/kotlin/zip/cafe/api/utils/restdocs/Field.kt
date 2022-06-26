@@ -24,5 +24,8 @@ class Field(
 }
 
 infix fun String.type(fieldType: DocsFieldType): Field {
+    if (fieldType is ENUM<*>) {
+        return Field(fieldWithPath(this).type(fieldType.type)).example(fieldType.enums.joinToString(" or "))
+    }
     return Field(fieldWithPath(this).type(fieldType.type))
 }
