@@ -4,6 +4,7 @@ import org.locationtech.jts.geom.Point
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.auth.LocalAuth
 import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Gender.MALE
@@ -48,13 +49,27 @@ class TestInitDB(
             member1.follow(member2)
             member1.follow(member3)
 
+            val keywords = createKeywords()
+
             val cafe1 = createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058))
             val cafe2 = createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381))
-            createKeywords()
+
+            val reviewImage1Of1 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/1c/0d/58/75/interior.jpg")
+            val reviewImage2Of1 = createReviewImage(member1, "https://images.homify.com/c_fill,f_auto,q_0,w_740/v1497622888/p/photo/image/2067284/JAY_0354.jpg")
             val review1 = createReview(member1, cafe1, 3.5, "설명 1")
+            reviewImage1Of1.assignReview(review1)
+            reviewImage2Of1.assignReview(review1)
+            val reviewImage1Of2 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
             val review2 = createReview(member1, cafe2, 4.5, "설명인 것")
+            reviewImage1Of2.assignReview(review2)
             val review3 = createReview(member2, cafe1, 1.5, "또 다른 설명")
             val review4 = createReview(member3, cafe2, 2.5, "카페 리뷰")
+
+            review1.addCafeKeyword(keywords[0])
+            review1.addCafeKeyword(keywords[1])
+            review2.addCafeKeyword(keywords[3])
+            review2.addCafeKeyword(keywords[4])
+            review4.addCafeKeyword(keywords[5])
 
             review2.addLiker(member2)
             review2.addLiker(member3)
@@ -87,7 +102,7 @@ class TestInitDB(
             return cafe
         }
 
-        private fun createKeywords() {
+        private fun createKeywords(): List<CafeKeyword> {
             val keywords = listOf(
                 CafeKeyword(emoji = "\uD83D\uDECB", keyword = "아늑한"),
                 CafeKeyword(emoji = "\uD83D\uDCD6", keyword = "조용한"),
@@ -104,6 +119,19 @@ class TestInitDB(
                 CafeKeyword(emoji = "\uD83C\uDFDE", keyword = "뷰가 좋은"),
             )
             keywords.forEach(em::persist)
+            return keywords
+        }
+
+        private fun createReviewImage(uploadedBy: Member, url: String): ReviewImage {
+            val reviewImage = ReviewImage.createWithoutReview(
+                "test-bucket",
+                "someName",
+                url,
+                url,
+                uploadedBy
+            )
+            em.persist(reviewImage)
+            return reviewImage
         }
 
         private fun createReview(member: Member, cafe: Cafe, score: Double, description: String): Review {
