@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.7.0"
+    id("org.springframework.boot") version "2.7.1"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.6.21"
@@ -15,7 +15,7 @@ plugins {
 group = "zip"
 version = "0.0.1-SNAPSHOT"
 val qeurydslVersion = "5.0.0"
-val kotestVersion = "5.3.1"
+val kotestVersion = "5.3.2"
 
 java {
     toolchain {
