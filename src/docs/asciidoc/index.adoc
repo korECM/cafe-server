@@ -10,4 +10,5 @@
 :operation-response-fields-body-title: Response Body
 include::common-response.adoc[]
 include::keyword.adoc[]
+include::cafe.adoc[]
 include::review.adoc[]

@@ -20,3 +20,8 @@ data class ReviewRegisterDto(
         val score: IntScore
     )
 }
+
+data class ReviewSummary(
+    val numberOfReviews: Long,
+    val averageOfFinalScores: Double
+)

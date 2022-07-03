@@ -8,12 +8,14 @@ import io.mockk.every
 import io.mockk.mockk
 import org.springframework.data.repository.findByIdOrNull
 import zip.cafe.repository.CafeRepository
+import zip.cafe.repository.ReviewRepository
 import zip.cafe.seeds.createCafe
 
 class CafeServiceTest : FreeSpec({
 
     val cafeRepository = mockk<CafeRepository>(relaxed = true)
-    val cafeService = CafeService(cafeRepository = cafeRepository)
+    val reviewRepository = mockk<ReviewRepository>(relaxed = true)
+    val cafeService = CafeService(cafeRepository = cafeRepository, reviewRepository = reviewRepository)
 
     "findById" - {
         "id로 카페를 가져온다" {

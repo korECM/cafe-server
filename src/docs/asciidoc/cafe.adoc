@@ -1,0 +1,7 @@
+[[Cafe-API]]
+== Cafe API
+
+[[Get-Cafe]]
+=== 카페 조회
+operation::get-cafe[snippets='http-request,path-parameters,http-response,response-fields-body']
+
