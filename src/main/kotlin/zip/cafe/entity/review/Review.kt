@@ -13,11 +13,11 @@ import javax.persistence.FetchType.LAZY
 
 @Entity
 class Review(
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "cafe_id", nullable = false)
     val cafe: Cafe,
 
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
     val member: Member,
 

@@ -16,10 +16,10 @@ class ReviewImage(
     val s3URL: String,
     @Column(name = "cloudFrontURL", nullable = false)
     val cloudFrontURL: String,
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
     val uploadedBy: Member,
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne(fetch = LAZY, optional = true)
     @JoinColumn(name = "review_id")
     var review: Review?
 ) : BaseClass() {
