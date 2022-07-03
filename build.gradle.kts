@@ -17,6 +17,12 @@ version = "0.0.1-SNAPSHOT"
 val qeurydslVersion = "5.0.0"
 val kotestVersion = "5.3.2"
 
+allOpen {
+    annotation("javax.persistence.Entity")
+    annotation("javax.persistence.MappedSuperclass")
+    annotation("javax.persistence.Embeddable")
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))

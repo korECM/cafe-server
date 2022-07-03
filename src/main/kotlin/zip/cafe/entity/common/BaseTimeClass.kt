@@ -14,9 +14,9 @@ abstract class BaseTimeClass {
     @Column(updatable = false)
     @CreatedDate
     var createdAt: LocalDateTime = LocalDateTime.MIN
-        private set
+        protected set
 
     @LastModifiedDate
     var updatedAt: LocalDateTime = LocalDateTime.MIN
-        private set
+        protected set
 }

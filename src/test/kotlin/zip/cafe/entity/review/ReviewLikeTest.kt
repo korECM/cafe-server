@@ -10,6 +10,7 @@ class ReviewLikeTest : FreeSpec({
 
     "equalsAndHashCode" {
         EqualsVerifier.forClass(ReviewLike::class.java)
+            .usingGetClass()
             .withOnlyTheseFields("member", "review")
             .withPrefabValues(Member::class.java, createMember(), createMember())
             .withPrefabValues(Review::class.java, createReview(), createReview())

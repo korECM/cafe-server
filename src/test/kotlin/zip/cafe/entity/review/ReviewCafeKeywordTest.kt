@@ -8,6 +8,7 @@ class ReviewCafeKeywordTest : FreeSpec({
 
     "equals and hashcode" {
         EqualsVerifier.forClass(ReviewCafeKeyword::class.java)
+            .usingGetClass()
             .withOnlyTheseFields("cafeKeyword", "review")
             .withPrefabValues(Review::class.java, createReview(), createReview())
             .verify()

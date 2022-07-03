@@ -8,6 +8,7 @@ class VisitPurposeInformationTest : FreeSpec({
 
     "equalsAndHashCode" {
         EqualsVerifier.forClass(VisitPurposeInformation::class.java)
+            .usingGetClass()
             .withOnlyTheseFields("visitPurpose", "review")
             .withPrefabValues(Review::class.java, createReview(), createReview())
             .verify()

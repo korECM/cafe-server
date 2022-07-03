@@ -10,6 +10,7 @@ class ReviewFoodInfoTest : FreeSpec({
 
     "equalsAndHashCode" {
         EqualsVerifier.forClass(ReviewFoodInfo::class.java)
+            .usingGetClass()
             .withOnlyTheseFields("food", "review")
             .withPrefabValues(Member::class.java, createMember(), createMember())
             .withPrefabValues(Review::class.java, createReview(), createReview())
