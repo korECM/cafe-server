@@ -63,6 +63,8 @@ class TestInitDB(
             val review2 = createReview(member1, cafe2, 4.5, "설명인 것")
             reviewImage1Of2.assignReview(review2)
             val review3 = createReview(member2, cafe1, 1.5, "또 다른 설명")
+            val reviewImage1Of3 = createReviewImage(member2, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
+            reviewImage1Of3.assignReview(review3)
             val review4 = createReview(member3, cafe2, 2.5, "카페 리뷰")
 
             review1.addCafeKeyword(keywords[0])
