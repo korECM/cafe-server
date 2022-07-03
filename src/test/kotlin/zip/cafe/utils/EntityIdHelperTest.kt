@@ -20,7 +20,7 @@ class TestEntity(
 class EntityIdHelperTest : FreeSpec({
 
     "전달된 엔티티의 id를 설정한다" {
-        val id = faker.random.nextLong()
+        val id = faker.newEntityId()
         val entity = setEntityId(id, TestEntity("someProperty"))
         entity.id shouldBe id
     }

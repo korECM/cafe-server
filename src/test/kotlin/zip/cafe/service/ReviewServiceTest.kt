@@ -24,6 +24,7 @@ import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.dto.ReviewRegisterDto
 import zip.cafe.utils.answersWithEntityId
 import zip.cafe.utils.faker
+import zip.cafe.utils.newEntityId
 import java.nio.charset.StandardCharsets.UTF_8
 
 class ReviewServiceTest : FreeSpec({
@@ -101,7 +102,7 @@ class ReviewServiceTest : FreeSpec({
             val s3FileDtos = listOf(createS3FileDto(reviewImageBucket))
             // mock
             every { memberRepository.findByIdOrNull(uploaderUserId) } returns uploader
-            every { reviewImageRepository.save(any()) } answersWithEntityId faker.random.nextLong()
+            every { reviewImageRepository.save(any()) } answersWithEntityId faker.newEntityId()
             // when
             val reviewImages = reviewService.saveUploadedReviewImage(uploaderUserId, s3FileDtos)
             // then

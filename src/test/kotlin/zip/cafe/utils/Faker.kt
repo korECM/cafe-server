@@ -1,5 +1,6 @@
 package zip.cafe.utils
 
+import io.github.serpro69.kfaker.Faker
 import io.github.serpro69.kfaker.faker
 
 fun createFaker() = faker {
@@ -9,3 +10,5 @@ fun createFaker() = faker {
 }
 
 val faker = createFaker()
+
+fun Faker.newEntityId() = this.random.nextLong(123456789)

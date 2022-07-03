@@ -6,10 +6,11 @@ import zip.cafe.util.createPoint
 import zip.cafe.util.seoulLatitude
 import zip.cafe.util.seoulLongitude
 import zip.cafe.utils.faker
+import zip.cafe.utils.newEntityId
 import zip.cafe.utils.setEntityId
 
 fun createCafe(
-    id: Long = faker.random.nextLong(),
+    id: Long = faker.newEntityId(),
     name: String = faker.name.name(),
     address: String = faker.address.cityWithState(),
     location: Point = createPoint(seoulLongitude + faker.random.nextDouble() / 2, seoulLatitude + faker.random.nextDouble() / 2)
