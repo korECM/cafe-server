@@ -55,7 +55,8 @@ class CafeControllerTest : WebMvcTestSpec() {
                             "keywords[].emoji" type STRING means "키워드 이모지" example "🎁",
                             "cafeImages" type ARRAY means "카페 이미지",
                             "cafeImages[].id" type NUMBER means "카페 이미지 id" example "1234L",
-                            "cafeImages[].url" type STRING means "이미지 주소" example "https://naver.com/logo.png"
+                            "cafeImages[].url" type STRING means "이미지 주소" example "https://naver.com/logo.png",
+                            "menus" type ARRAY means "카페 메뉴",
                         )
                     )
                 )

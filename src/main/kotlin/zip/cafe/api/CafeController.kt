@@ -34,7 +34,7 @@ class CafeController(
                 reviewCount = reviewSummary.numberOfReviews,
                 keywords = keywordSummary.map(::from),
                 cafeImages = imageSummary.map(::from),
-                menu = listOf()
+                menus = listOf()
             )
         )
     }

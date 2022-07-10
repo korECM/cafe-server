@@ -8,7 +8,7 @@ data class SingleCafeInfo(
     val name: String,
     val address: String,
     val openingHours: String,
-    val menu: List<Menu>,
+    val menus: List<Menu>,
     val averageOfFinalScores: Double,
     val reviewCount: Long,
     val keywords: List<Keyword>,
