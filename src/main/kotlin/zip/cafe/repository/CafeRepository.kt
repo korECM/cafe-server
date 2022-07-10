@@ -15,7 +15,7 @@ interface CafeRepository : JpaRepository<Cafe, Long> {
     @Query("select c from Cafe c where c.id = :id")
     fun findOneByIdForDetail(@Param("id") id: Long): Cafe?
 
-    @Query("select distinct i from ReviewImage i join fetch i.review r where i.review.cafe.id = :cafeId")
+    @Query("select distinct i from ReviewImage i join i.review r where i.review.cafe.id = :cafeId")
     fun getImageSummaryByCafeId(@Param("cafeId") cafeId: Long): List<ReviewImage>
 
     @Query("select distinct ck from Review r left join r._cafeKeywords rck join rck.cafeKeyword ck where r.cafe.id = :cafeId")
