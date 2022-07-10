@@ -7,6 +7,7 @@ data class SingleCafeInfo(
     val id: Long,
     val name: String,
     val address: String,
+    val openingHours: String,
     val averageOfFinalScores: Double,
     val reviewCount: Long,
     val keywords: List<Keyword>,

@@ -29,6 +29,7 @@ class CafeController(
                 id = cafe.id,
                 name = cafe.name,
                 address = cafe.address,
+                openingHours = cafe.openingHours,
                 averageOfFinalScores = reviewSummary.averageOfFinalScores,
                 reviewCount = reviewSummary.numberOfReviews,
                 keywords = keywordSummary.map(::from),

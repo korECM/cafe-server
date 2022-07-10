@@ -45,6 +45,7 @@ class CafeControllerTest : WebMvcTestSpec() {
                             "body" beneathPathWithSubsectionId "body",
                             "id" type NUMBER means "카페 id" example "5L",
                             "name" type STRING means "카페 이름" example "북앤레스트",
+                            "openingHours" type STRING means "카페 영업 시간" example "오전 7:00–오후 10:00",
                             "address" type STRING means "카페 주소" example "서울 강남구 삼성로104길 22 1층",
                             "reviewCount" type NUMBER means "카페에 달린 리뷰 개수" example "5",
                             "averageOfFinalScores" type NUMBER means "카페의 평균 리뷰 점수" example "4.5",
