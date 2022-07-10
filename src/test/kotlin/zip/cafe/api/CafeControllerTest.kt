@@ -8,6 +8,7 @@ import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.seeds.createCafe
+import zip.cafe.seeds.createMenu
 import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.CafeService
 import zip.cafe.service.dto.ReviewSummary
@@ -24,6 +25,11 @@ class CafeControllerTest : WebMvcTestSpec() {
             val reviewSummary = ReviewSummary(5L, 2.5)
             val cafeKeywords = listOf(CafeKeyword("아늑한", "🕊"), CafeKeyword("편안한", "🤔"))
             val reviewImages = listOf(createReviewImage(), createReviewImage())
+
+            val menu1 = createMenu()
+            val menu2 = createMenu()
+            cafe.addMenu(menu1)
+            cafe.addMenu(menu2)
 
             every { cafeService.findByIdForDetailPage(cafe.id) } returns cafe
             every { cafeService.getReviewSummaryById(cafe.id) } returns reviewSummary
