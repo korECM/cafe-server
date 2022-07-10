@@ -7,7 +7,7 @@ import zip.cafe.utils.setEntityId
 
 fun createMenu(
     id: Long = faker.newEntityId(),
-    name: String = faker.coffee.toString(),
+    name: String = faker.dessert.variety(),
     price: Long = faker.random.nextLong(5000) + 2000
 ) = setEntityId(
     id,
