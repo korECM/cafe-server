@@ -23,7 +23,7 @@ class JwtTokenProviderTest : FreeSpec({
             // when
             val result = jwtTokenProvider.isInvalidToken(token)
             // then
-            result shouldBe true
+            result shouldBe false
         }
         "만약 다른 secret을 가지는 jwtTokenProvider로 생성한 토큰을 검증 시도하면 실패한다" {
             // given
@@ -32,12 +32,12 @@ class JwtTokenProviderTest : FreeSpec({
             // when
             val result = jwtTokenProvider.isInvalidToken(token)
             // then
-            result shouldBe false
+            result shouldBe true
         }
         "만약 jwt token이 아닌 문자열을 검증 시도하면 실패한다" {
-            jwtTokenProvider.isInvalidToken("asdf") shouldBe false
-            jwtTokenProvider.isInvalidToken("") shouldBe false
-            jwtTokenProvider.isInvalidToken("1234") shouldBe false
+            jwtTokenProvider.isInvalidToken("asdf") shouldBe true
+            jwtTokenProvider.isInvalidToken("") shouldBe true
+            jwtTokenProvider.isInvalidToken("1234") shouldBe true
         }
         "토큰이 만료된 후에 검증 시도하면 실패한다" {
             // given
@@ -47,7 +47,7 @@ class JwtTokenProviderTest : FreeSpec({
             delay(10L)
             val result = anotherProvider.isInvalidToken(token)
             // then
-            result shouldBe false
+            result shouldBe true
         }
     }
 

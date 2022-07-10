@@ -39,7 +39,7 @@ class JwtTokenProvider(
     fun isInvalidToken(token: String): Boolean {
         try {
             parseClaims(token)
-            return true
+            return false
         } catch (e: SignatureException) {
             logger().info("잘못된 JWT 서명")
         } catch (e: MalformedJwtException) {
@@ -51,7 +51,7 @@ class JwtTokenProvider(
         } catch (e: IllegalArgumentException) {
             logger().info("잘못된 JWT 토큰")
         }
-        return false
+        return true
     }
 
     private fun parseClaims(token: String): Claims? = Jwts.parser().setSigningKey(key).parseClaimsJws(token).body
