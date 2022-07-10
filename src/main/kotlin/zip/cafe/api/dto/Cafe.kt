@@ -8,6 +8,7 @@ data class SingleCafeInfo(
     val name: String,
     val address: String,
     val openingHours: String,
+    val menu: List<Menu>,
     val averageOfFinalScores: Double,
     val reviewCount: Long,
     val keywords: List<Keyword>,
@@ -32,4 +33,10 @@ data class SingleCafeInfo(
             fun from(image: ReviewImage) = Image(image.id, image.cloudFrontURL)
         }
     }
+
+    data class Menu(
+        val id: Long,
+        val name: String,
+        val price: Long
+    )
 }

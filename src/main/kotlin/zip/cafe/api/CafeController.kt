@@ -33,7 +33,8 @@ class CafeController(
                 averageOfFinalScores = reviewSummary.averageOfFinalScores,
                 reviewCount = reviewSummary.numberOfReviews,
                 keywords = keywordSummary.map(::from),
-                cafeImages = imageSummary.map(::from)
+                cafeImages = imageSummary.map(::from),
+                menu = listOf()
             )
         )
     }
