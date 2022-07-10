@@ -63,8 +63,8 @@ class TestInitDB(
             val cafe2 = createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381), "10:00–20:00")
             val menu2Of1 = createMenu("아이스 아메리카노", 4000)
             val menu2Of2 = createMenu("플랫 화이트", 8000)
-            cafe1.addMenu(menu2Of1)
-            cafe1.addMenu(menu2Of2)
+            cafe2.addMenu(menu2Of1)
+            cafe2.addMenu(menu2Of2)
 
             val reviewImage1Of1 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/1c/0d/58/75/interior.jpg")
             val reviewImage2Of1 = createReviewImage(member1, "https://images.homify.com/c_fill,f_auto,q_0,w_740/v1497622888/p/photo/image/2067284/JAY_0354.jpg")
