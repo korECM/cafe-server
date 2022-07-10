@@ -2,11 +2,10 @@ package zip.cafe.entity.cafe
 
 import org.locationtech.jts.geom.Point
 import zip.cafe.entity.common.BaseClass
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
+import zip.cafe.entity.menu.Menu
+import javax.persistence.*
+import javax.persistence.CascadeType.ALL
 import javax.persistence.GenerationType.IDENTITY
-import javax.persistence.Id
 
 @Entity
 class Cafe(
@@ -23,4 +22,13 @@ class Cafe(
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "cafe_id", nullable = false)
     val id: Long = 0
+
+    @OneToMany(mappedBy = "cafe", cascade = [ALL])
+    private val _menus: MutableSet<CafeMenu> = mutableSetOf()
+    val menus: List<Menu>
+        get() = _menus.map { it.menu }
+
+    fun addMenu(menu: Menu) {
+        _menus += CafeMenu(cafe = this, menu = menu)
+    }
 }
