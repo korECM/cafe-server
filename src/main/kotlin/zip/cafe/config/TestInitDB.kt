@@ -9,6 +9,7 @@ import zip.cafe.entity.auth.LocalAuth
 import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Gender.MALE
 import zip.cafe.entity.member.Member
+import zip.cafe.entity.menu.Menu
 import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.entity.review.Review
 import zip.cafe.entity.toScore
@@ -52,7 +53,18 @@ class TestInitDB(
             val keywords = createKeywords()
 
             val cafe1 = createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058), "오전 7:00–오후 10:00")
+            val menu1Of1 = createMenu("아이스 아메리카노", 5000)
+            val menu1Of2 = createMenu("아이스 카페 라떼", 5500)
+            val menu1Of3 = createMenu("당근 케이크", 4000)
+            cafe1.addMenu(menu1Of1)
+            cafe1.addMenu(menu1Of2)
+            cafe1.addMenu(menu1Of3)
+
             val cafe2 = createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381), "10:00–20:00")
+            val menu2Of1 = createMenu("아이스 아메리카노", 4000)
+            val menu2Of2 = createMenu("플랫 화이트", 8000)
+            cafe1.addMenu(menu2Of1)
+            cafe1.addMenu(menu2Of2)
 
             val reviewImage1Of1 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/1c/0d/58/75/interior.jpg")
             val reviewImage2Of1 = createReviewImage(member1, "https://images.homify.com/c_fill,f_auto,q_0,w_740/v1497622888/p/photo/image/2067284/JAY_0354.jpg")
@@ -87,6 +99,15 @@ class TestInitDB(
             )
             em.persist(member)
             return member
+        }
+
+        private fun createMenu(name: String, price: Long): Menu {
+            val menu = Menu(
+                name = name,
+                price = price
+            )
+            em.persist(menu)
+            return menu
         }
 
         private fun createLocalAuth(member: Member, id: String, password: String) {
