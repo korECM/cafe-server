@@ -2,7 +2,9 @@ SET foreign_key_checks = 0
 truncate table cafe
 truncate table cafe_keyword
 truncate table cafe_like
+truncate table cafe_menu
 truncate table local_auth
+truncate table menu
 truncate table member
 truncate table member_follow
 truncate table review
