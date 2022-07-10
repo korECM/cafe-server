@@ -23,12 +23,17 @@ class LoginUserIdResolver(
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
-    ): Long {
+    ): Long? = try {
         val token = extractToken(webRequest)
+        println(token)
         if (jwtTokenProvider.isInvalidToken(token)) {
             throw LoginFailedException()
         }
-        return jwtTokenProvider.getUserPk(token)
+        jwtTokenProvider.getUserPk(token)
+    } catch (e: Exception) {
+        println(e)
+        val annotation = parameter.getParameterAnnotation(LoginUserId::class.java)!!
+        if (annotation.optional) null else throw e
     }
 
     private fun extractToken(request: NativeWebRequest): String {
