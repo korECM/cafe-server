@@ -9,6 +9,7 @@ import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.api.dto.SingleCafeInfo
 import zip.cafe.api.dto.SingleCafeInfo.Image.Companion.from
 import zip.cafe.api.dto.SingleCafeInfo.Keyword.Companion.from
+import zip.cafe.api.dto.SingleCafeInfo.InnerMenu.Companion.from
 import zip.cafe.service.CafeService
 
 @RequestMapping("/cafes")
@@ -34,7 +35,7 @@ class CafeController(
                 reviewCount = reviewSummary.numberOfReviews,
                 keywords = keywordSummary.map(::from),
                 cafeImages = imageSummary.map(::from),
-                menus = listOf()
+                menus = cafe.menus.map(::from)
             )
         )
     }

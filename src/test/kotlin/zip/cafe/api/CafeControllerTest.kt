@@ -57,6 +57,9 @@ class CafeControllerTest : WebMvcTestSpec() {
                             "cafeImages[].id" type NUMBER means "카페 이미지 id" example "1234L",
                             "cafeImages[].url" type STRING means "이미지 주소" example "https://naver.com/logo.png",
                             "menus" type ARRAY means "카페 메뉴",
+                            "menus[].id" type NUMBER means "카페 메뉴 id" example "1L",
+                            "menus[].name" type STRING means "카페 메뉴 이름" example "아이스 아메리카노",
+                            "menus[].price" type NUMBER means "카페 메뉴 가격" example "5000L",
                         )
                     )
                 )

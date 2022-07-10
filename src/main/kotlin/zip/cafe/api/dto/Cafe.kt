@@ -1,6 +1,7 @@
 package zip.cafe.api.dto
 
 import zip.cafe.entity.ReviewImage
+import zip.cafe.entity.menu.Menu
 import zip.cafe.entity.review.CafeKeyword
 
 data class SingleCafeInfo(
@@ -8,7 +9,7 @@ data class SingleCafeInfo(
     val name: String,
     val address: String,
     val openingHours: String,
-    val menus: List<Menu>,
+    val menus: List<InnerMenu>,
     val averageOfFinalScores: Double,
     val reviewCount: Long,
     val keywords: List<Keyword>,
@@ -34,9 +35,13 @@ data class SingleCafeInfo(
         }
     }
 
-    data class Menu(
+    data class InnerMenu(
         val id: Long,
         val name: String,
         val price: Long
-    )
+    ) {
+        companion object {
+            fun from(menu: Menu) = InnerMenu(id = menu.id, name = menu.name, price = menu.price)
+        }
+    }
 }
