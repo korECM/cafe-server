@@ -10,6 +10,8 @@ import zip.cafe.api.dto.SingleCafeInfo
 import zip.cafe.api.dto.SingleCafeInfo.Image.Companion.from
 import zip.cafe.api.dto.SingleCafeInfo.Keyword.Companion.from
 import zip.cafe.api.dto.SingleCafeInfo.InnerMenu.Companion.from
+import zip.cafe.api.dto.SingleCafeInfo.InnerFollowersWhoWriteReview.Companion.from
+import zip.cafe.security.LoginUserId
 import zip.cafe.service.CafeService
 
 @RequestMapping("/cafes")
@@ -19,11 +21,12 @@ class CafeController(
 ) {
 
     @GetMapping("/{cafeId}")
-    fun findCafeByIdForDetail(@PathVariable("cafeId") cafeId: Long): ApiResponse<SingleCafeInfo> {
+    fun findCafeByIdForDetail(@LoginUserId(optional = true) userId: Long?, @PathVariable("cafeId") cafeId: Long): ApiResponse<SingleCafeInfo> {
         val cafe = requireNotNull(cafeService.findByIdForDetailPage(cafeId)) { "$cafeId 카페를 찾을 수 없습니다" }
         val reviewSummary = cafeService.getReviewSummaryById(cafeId)
         val imageSummary = cafeService.getImageSummaryById(cafeId)
         val keywordSummary = cafeService.getKeywordSummaryById(cafeId)
+        val followersWhoWriteReview = userId?.let {cafeService.findFollowerWhoWriteReview(it, cafeId)} ?: listOf()
 
         return success(
             SingleCafeInfo(
@@ -35,7 +38,8 @@ class CafeController(
                 reviewCount = reviewSummary.numberOfReviews,
                 keywords = keywordSummary.map(::from),
                 cafeImages = imageSummary.map(::from),
-                menus = cafe.menus.map(::from)
+                menus = cafe.menus.map(::from),
+                followersWhoWriteReview = followersWhoWriteReview.map(::from)
             )
         )
     }

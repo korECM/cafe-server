@@ -7,10 +7,12 @@ import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.entity.review.CafeKeyword
+import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createCafe
 import zip.cafe.seeds.createMenu
 import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.CafeService
+import zip.cafe.service.dto.FollowerWhoWriteReview
 import zip.cafe.service.dto.ReviewSummary
 
 @WebMvcTest(CafeController::class)
@@ -35,6 +37,7 @@ class CafeControllerTest : WebMvcTestSpec() {
             every { cafeService.getReviewSummaryById(cafe.id) } returns reviewSummary
             every { cafeService.getKeywordSummaryById(cafe.id) } returns cafeKeywords
             every { cafeService.getImageSummaryById(cafe.id) } returns reviewImages
+            every { cafeService.findFollowerWhoWriteReview(MOCK_MVC_USER_ID ,cafe.id) } returns listOf(FollowerWhoWriteReview(1L, "김감자"), FollowerWhoWriteReview(2L, "홍길동"))
 
             val response = mockMvc.getWithPathParameter("/cafes/{cafeId}", cafe.id)
 
@@ -66,6 +69,9 @@ class CafeControllerTest : WebMvcTestSpec() {
                             "menus[].id" type NUMBER means "카페 메뉴 id" example "1L",
                             "menus[].name" type STRING means "카페 메뉴 이름" example "아이스 아메리카노",
                             "menus[].price" type NUMBER means "카페 메뉴 가격" example "5000L",
+                            "followersWhoWriteReview" type ARRAY means "유저가 팔로우한 사람들의 리뷰 정보",
+                            "followersWhoWriteReview[].id" type NUMBER means "그 사람의 id" example "1L",
+                            "followersWhoWriteReview[].name" type STRING means "그 사람의 닉네임" example "홍길동",
                         )
                     )
                 )

@@ -25,3 +25,8 @@ data class ReviewSummary(
     val numberOfReviews: Long,
     val averageOfFinalScores: Double
 )
+
+data class FollowerWhoWriteReview(
+    val id: Long,
+    val name: String
+)

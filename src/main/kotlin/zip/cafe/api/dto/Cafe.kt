@@ -3,6 +3,7 @@ package zip.cafe.api.dto
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.menu.Menu
 import zip.cafe.entity.review.CafeKeyword
+import zip.cafe.service.dto.FollowerWhoWriteReview
 
 data class SingleCafeInfo(
     val id: Long,
@@ -13,7 +14,8 @@ data class SingleCafeInfo(
     val averageOfFinalScores: Double,
     val reviewCount: Long,
     val keywords: List<Keyword>,
-    val cafeImages: List<Image>
+    val cafeImages: List<Image>,
+    val followersWhoWriteReview: List<InnerFollowersWhoWriteReview>,
 ) {
 
     data class Keyword(
@@ -42,6 +44,15 @@ data class SingleCafeInfo(
     ) {
         companion object {
             fun from(menu: Menu) = InnerMenu(id = menu.id, name = menu.name, price = menu.price)
+        }
+    }
+
+    data class InnerFollowersWhoWriteReview(
+        val id: Long,
+        val name: String
+    ) {
+        companion object {
+            fun from(data: FollowerWhoWriteReview) = InnerFollowersWhoWriteReview(id = data.id, name = data.name)
         }
     }
 }
