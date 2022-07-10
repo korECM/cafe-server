@@ -5,6 +5,7 @@ import zip.cafe.entity.member.Member
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
+@Table(name = "review_comment")
 @Entity
 class ReviewComment(
     @ManyToOne(fetch = LAZY)

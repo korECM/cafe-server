@@ -6,6 +6,7 @@ import zip.cafe.entity.review.Review
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
+@Table(name = "review_image")
 @Entity
 class ReviewImage(
     @Column(name = "bucket", nullable = false)

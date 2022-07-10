@@ -4,6 +4,7 @@ import zip.cafe.entity.common.BaseClass
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
+@Table(name = "member_follow")
 @Entity
 class MemberFollow(
     @ManyToOne(fetch = LAZY)

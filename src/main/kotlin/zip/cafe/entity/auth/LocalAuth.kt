@@ -6,6 +6,7 @@ import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 import javax.persistence.GenerationType.IDENTITY
 
+@Table(name = "local_auth")
 @Entity
 class LocalAuth(
     @Column(nullable = false)

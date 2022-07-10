@@ -6,6 +6,7 @@ import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 import javax.persistence.GenerationType.IDENTITY
 
+@Table(name= "cafe_like")
 @Entity
 class CafeLike(
     @ManyToOne(fetch = LAZY)

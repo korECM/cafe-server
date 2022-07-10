@@ -3,6 +3,7 @@ package zip.cafe.entity.review
 import zip.cafe.entity.common.BaseClass
 import javax.persistence.*
 
+@Table(name = "cafe_keyword")
 @Entity
 class CafeKeyword(
     val keyword: String,
