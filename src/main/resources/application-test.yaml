@@ -1,4 +1,4 @@
 spring:
-  jpa:
-    hibernate:
-      ddl-auto: create
+  sql:
+    init:
+      mode: always
