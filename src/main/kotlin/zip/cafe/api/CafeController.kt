@@ -8,6 +8,7 @@ import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.api.dto.SingleCafeInfo
 import zip.cafe.api.dto.SingleCafeInfo.Image.Companion.from
+import zip.cafe.api.dto.SingleCafeInfo.InnerFollowersWhoLikeCafe.Companion.from
 import zip.cafe.api.dto.SingleCafeInfo.InnerFollowersWhoWriteReview.Companion.from
 import zip.cafe.api.dto.SingleCafeInfo.InnerMenu.Companion.from
 import zip.cafe.api.dto.SingleCafeInfo.Keyword.Companion.from
@@ -27,6 +28,7 @@ class CafeController(
         val imageSummary = cafeService.getImageSummaryById(cafeId)
         val keywordSummary = cafeService.getKeywordSummaryById(cafeId)
         val followersWhoWriteReview = userId?.let { cafeService.findFollowerWhoWriteReview(it, cafeId) } ?: listOf()
+        val followersWhoLikeCafe = userId?.let { cafeService.findFollowerWhoLikeCafe(it, cafeId) } ?: listOf()
 
         return success(
             SingleCafeInfo(
@@ -39,7 +41,8 @@ class CafeController(
                 keywords = keywordSummary.map(::from),
                 cafeImages = imageSummary.map(::from),
                 menus = cafe.menus.map(::from),
-                followersWhoWriteReview = followersWhoWriteReview.map(::from)
+                followersWhoWriteReview = followersWhoWriteReview.map(::from),
+                followersWhoLikeCafe = followersWhoLikeCafe.map(::from),
             )
         )
     }

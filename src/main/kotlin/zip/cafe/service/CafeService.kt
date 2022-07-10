@@ -6,6 +6,7 @@ import zip.cafe.repository.CafeRepository
 import zip.cafe.repository.MemberFollowRepository
 import zip.cafe.repository.ReviewRepository
 import zip.cafe.repository.findOneById
+import zip.cafe.service.dto.FollowerWhoLikeCafe
 import zip.cafe.service.dto.FollowerWhoWriteReview
 
 @Transactional(readOnly = true)
@@ -29,5 +30,10 @@ class CafeService(
     fun findFollowerWhoWriteReview(memberId: Long, cafeId: Long): List<FollowerWhoWriteReview> {
         val followeeIds = memberFollowRepository.getFolloweeIds(memberId)
         return reviewRepository.findWhoWriteReview(followeeIds, cafeId)
+    }
+
+    fun findFollowerWhoLikeCafe(memberId: Long, cafeId: Long): List<FollowerWhoLikeCafe> {
+        val followeeIds = memberFollowRepository.getFolloweeIds(memberId)
+        return cafeRepository.findWhoLikeCafe(followeeIds, cafeId)
     }
 }

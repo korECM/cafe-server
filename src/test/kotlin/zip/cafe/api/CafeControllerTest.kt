@@ -12,6 +12,7 @@ import zip.cafe.seeds.createCafe
 import zip.cafe.seeds.createMenu
 import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.CafeService
+import zip.cafe.service.dto.FollowerWhoLikeCafe
 import zip.cafe.service.dto.FollowerWhoWriteReview
 import zip.cafe.service.dto.ReviewSummary
 
@@ -37,7 +38,14 @@ class CafeControllerTest : WebMvcTestSpec() {
             every { cafeService.getReviewSummaryById(cafe.id) } returns reviewSummary
             every { cafeService.getKeywordSummaryById(cafe.id) } returns cafeKeywords
             every { cafeService.getImageSummaryById(cafe.id) } returns reviewImages
-            every { cafeService.findFollowerWhoWriteReview(MOCK_MVC_USER_ID ,cafe.id) } returns listOf(FollowerWhoWriteReview(1L, "김감자"), FollowerWhoWriteReview(2L, "홍길동"))
+            every { cafeService.findFollowerWhoWriteReview(MOCK_MVC_USER_ID, cafe.id) } returns listOf(
+                FollowerWhoWriteReview(1L, "김감자"),
+                FollowerWhoWriteReview(2L, "홍길동")
+            )
+            every { cafeService.findFollowerWhoLikeCafe(MOCK_MVC_USER_ID, cafe.id) } returns listOf(
+                FollowerWhoLikeCafe(3L, "나도현"),
+                FollowerWhoLikeCafe(4L, "이진이")
+            )
 
             val response = mockMvc.getWithPathParameter("/cafes/{cafeId}", cafe.id)
 
@@ -72,6 +80,9 @@ class CafeControllerTest : WebMvcTestSpec() {
                             "followersWhoWriteReview" type ARRAY means "유저가 팔로우한 사람들의 리뷰 정보",
                             "followersWhoWriteReview[].id" type NUMBER means "그 사람의 id" example "1L",
                             "followersWhoWriteReview[].name" type STRING means "그 사람의 닉네임" example "홍길동",
+                            "followersWhoLikeCafe" type ARRAY means "유저가 팔로우한 사람들의 카페 좋아요 정보",
+                            "followersWhoLikeCafe[].id" type NUMBER means "그 사람의 id" example "3L",
+                            "followersWhoLikeCafe[].name" type STRING means "그 사람의 닉네임" example "고길동",
                         )
                     )
                 )
