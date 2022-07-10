@@ -8,9 +8,9 @@ import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.api.dto.SingleCafeInfo
 import zip.cafe.api.dto.SingleCafeInfo.Image.Companion.from
-import zip.cafe.api.dto.SingleCafeInfo.Keyword.Companion.from
-import zip.cafe.api.dto.SingleCafeInfo.InnerMenu.Companion.from
 import zip.cafe.api.dto.SingleCafeInfo.InnerFollowersWhoWriteReview.Companion.from
+import zip.cafe.api.dto.SingleCafeInfo.InnerMenu.Companion.from
+import zip.cafe.api.dto.SingleCafeInfo.Keyword.Companion.from
 import zip.cafe.security.LoginUserId
 import zip.cafe.service.CafeService
 
@@ -26,7 +26,7 @@ class CafeController(
         val reviewSummary = cafeService.getReviewSummaryById(cafeId)
         val imageSummary = cafeService.getImageSummaryById(cafeId)
         val keywordSummary = cafeService.getKeywordSummaryById(cafeId)
-        val followersWhoWriteReview = userId?.let {cafeService.findFollowerWhoWriteReview(it, cafeId)} ?: listOf()
+        val followersWhoWriteReview = userId?.let { cafeService.findFollowerWhoWriteReview(it, cafeId) } ?: listOf()
 
         return success(
             SingleCafeInfo(
