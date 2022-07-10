@@ -36,7 +36,7 @@ class JwtTokenProvider(
         }
     }
 
-    fun validateToken(token: String): Boolean {
+    fun isInvalidToken(token: String): Boolean {
         try {
             parseClaims(token)
             return true

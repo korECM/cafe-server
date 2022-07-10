@@ -25,7 +25,7 @@ class LoginUserIdResolver(
         binderFactory: WebDataBinderFactory?
     ): Long {
         val token = extractToken(webRequest)
-        if (!jwtTokenProvider.validateToken(token)) {
+        if (jwtTokenProvider.isInvalidToken(token)) {
             throw LoginFailedException()
         }
         return jwtTokenProvider.getUserPk(token)
