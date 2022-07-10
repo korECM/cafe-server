@@ -15,7 +15,9 @@ class Cafe(
     @Column(name = "address", nullable = false)
     val address: String,
     @Column(name = "location", nullable = false)
-    val location: Point
+    val location: Point,
+    @Column(name = "opening_hours", nullable = false)
+    val openingHours: String
 ) : BaseClass() {
     @Id
     @GeneratedValue(strategy = IDENTITY)

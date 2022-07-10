@@ -51,8 +51,8 @@ class TestInitDB(
 
             val keywords = createKeywords()
 
-            val cafe1 = createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058))
-            val cafe2 = createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381))
+            val cafe1 = createCafe("북앤레스트", "서울 강남구 삼성로104길 22 1층", createPoint(127.05655307, 37.51095058), "오전 7:00–오후 10:00")
+            val cafe2 = createCafe("스타벅스 삼성현대힐점", "서울 강남구 삼성로 605", createPoint(127.05275451, 37.51352381), "10:00–20:00")
 
             val reviewImage1Of1 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/1c/0d/58/75/interior.jpg")
             val reviewImage2Of1 = createReviewImage(member1, "https://images.homify.com/c_fill,f_auto,q_0,w_740/v1497622888/p/photo/image/2067284/JAY_0354.jpg")
@@ -98,8 +98,8 @@ class TestInitDB(
             em.persist(localAuth)
         }
 
-        private fun createCafe(name: String, address: String, location: Point): Cafe {
-            val cafe = Cafe(name = name, address = address, location = location)
+        private fun createCafe(name: String, address: String, location: Point, openingHours : String): Cafe {
+            val cafe = Cafe(name = name, address = address, location = location, openingHours = openingHours)
             em.persist(cafe)
             return cafe
         }
