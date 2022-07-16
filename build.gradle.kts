@@ -79,7 +79,7 @@ dependencies {
     kapt("com.querydsl:querydsl-apt:$qeurydslVersion:jpa")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation("org.hibernate:hibernate-spatial:5.6.9.Final")
+    implementation("org.hibernate:hibernate-spatial:5.6.10.Final")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.mockito")
