@@ -67,10 +67,6 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("org.mindrot:jbcrypt:0.4")
 
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.9")
-    implementation("org.springdoc:springdoc-openapi-webmvc-core:1.6.9")
-    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.9")
-
     implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.1")
 
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")

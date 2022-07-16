@@ -2,15 +2,6 @@ logging.level:
   org.hibernate.SQL: info
   # org.hibernate.type: trace
 
-springdoc:
-  default-consumes-media-type: application/json
-  default-produces-media-type: application/json
-  swagger-ui:
-    path: /swagger-ui.html
-    disable-swagger-default-url: true
-    display-query-params-without-oauth2: true
-  pre-loading-enabled: true
-
 jwt:
   header: Authorization
   secret: TOBE_OVERRIDE

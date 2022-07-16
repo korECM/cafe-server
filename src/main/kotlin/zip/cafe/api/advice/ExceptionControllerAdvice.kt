@@ -14,12 +14,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.error
 import zip.cafe.security.LoginFailedException
-import io.swagger.v3.oas.annotations.responses.ApiResponse as SwaggerApiResponse
 
 @RestControllerAdvice
 class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
 
-    @SwaggerApiResponse(responseCode = "400", description = "사용자의 요청 형식이 잘못된 경우")
     @ResponseStatus(BAD_REQUEST)
     override fun handleMethodArgumentNotValid(
         ex: MethodArgumentNotValidException,
@@ -35,7 +33,6 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         return bindingResult.fieldErrors.joinToString(", ") { "${it.field}: ${it.defaultMessage.orEmpty()}" }
     }
 
-    @SwaggerApiResponse(responseCode = "401", description = "사용자의 인증 정보가 유효하지 않은 경우")
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(LoginFailedException::class)
     fun handleUnauthorizedException(exception: LoginFailedException): ApiResponse<Unit> {
@@ -43,7 +40,6 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         return error(exception.message)
     }
 
-    @SwaggerApiResponse(responseCode = "400", description = "사용자의 요청이 유효하지 않은 경우")
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException::class, IllegalStateException::class)
     fun handleBadRequestException(exception: RuntimeException): ApiResponse<Unit> {
@@ -51,7 +47,6 @@ class ExceptionControllerAdvice : ResponseEntityExceptionHandler() {
         return error(exception.message)
     }
 
-    @SwaggerApiResponse(responseCode = "500", description = "서버 내부 오류")
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception::class)
     fun handleGlobalException(exception: Exception): ApiResponse<Unit> {
