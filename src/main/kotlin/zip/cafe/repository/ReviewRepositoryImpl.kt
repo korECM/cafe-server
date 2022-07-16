@@ -20,6 +20,7 @@ class ReviewRepositoryImpl(
             .leftJoin(reviewCafeKeyword.cafeKeyword).fetchJoin()
             .leftJoin(review._likes).fetchJoin()
             .where(review.member.id.`in`(authorIds))
+            .orderBy(review.id.desc())
             .fetch()
     }
 }
