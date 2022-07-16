@@ -217,4 +217,13 @@ jib {
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
     }
+
+    extraDirectories {
+        paths {
+            path {
+                setFrom(tasks.asciidoctor.get().outputDir.toString())
+                into = "/app/resources/static/docs"
+            }
+        }
+    }
 }
