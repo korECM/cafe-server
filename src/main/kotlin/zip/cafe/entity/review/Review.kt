@@ -85,4 +85,12 @@ class Review(
     fun removeLiker(member: Member) {
         _likes.removeIf { it.member == member }
     }
+
+    fun addImage(reviewImage: ReviewImage) {
+        if (_images.contains(reviewImage)) {
+            return
+        }
+        _images += reviewImage
+        reviewImage.assignReview(this)
+    }
 }

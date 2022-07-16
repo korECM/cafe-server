@@ -31,6 +31,7 @@ class ReviewImage(
 
     fun assignReview(review: Review) {
         this.review = review
+        review.addImage(this)
     }
 
     fun checkIsUploadedBy(user: Member) {

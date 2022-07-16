@@ -13,9 +13,9 @@ class FeedService(
     private val memberFollowRepository: MemberFollowRepository
 ) {
 
-    fun getReviewFeeds(loginMemberId: Long, minReviewIdInFeed: Long?): List<FeedInfo> {
+    fun getReviewFeeds(loginMemberId: Long, minReviewIdInFeed: Long?, limit: Long): List<FeedInfo> {
         val followeeIds = memberFollowRepository.getFolloweeIds(loginMemberId)
-        val reviews = reviewRepository.findByAuthorIdIn(followeeIds)
+        val reviews = reviewRepository.findByAuthorIdIn(followeeIds, minReviewIdInFeed, limit)
         return reviews.map { review ->
             FeedInfo(
                 id = review.id,

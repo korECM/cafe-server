@@ -17,8 +17,12 @@ class FeedController(
 ) {
 
     @GetMapping("/feeds/review")
-    fun reviewFeeds(@LoginUserId memberId: Long, @RequestParam(required = false) minReviewId: Long?): ResponseEntity<ApiResponse<List<FeedInfo>>> {
-        val feeds = feedService.getReviewFeeds(memberId, null)
+    fun reviewFeeds(
+        @LoginUserId memberId: Long,
+        @RequestParam(required = false) minReviewId: Long?,
+        @RequestParam(required = false, defaultValue = "10") limit: Long
+    ): ResponseEntity<ApiResponse<List<FeedInfo>>> {
+        val feeds = feedService.getReviewFeeds(memberId, minReviewIdInFeed = minReviewId, limit = limit)
         return ok(success(feeds))
     }
 }
