@@ -206,6 +206,10 @@ tasks.register<Copy>("copyDocument") {
     }
 }
 
+tasks.named("jib") {
+    dependsOn(tasks.asciidoctor)
+}
+
 jib {
     from {
         image = "gcr.io/distroless/java17-debian11"
