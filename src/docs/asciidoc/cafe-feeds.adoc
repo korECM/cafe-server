@@ -1,0 +1,8 @@
+[[Feed-API]]
+== Feed API
+
+[[Get-Feed]]
+=== 카페 피드 조회
+
+operation::get-cafe[snippets='http-request,path-parameters,http-response,response-fields-body']
+

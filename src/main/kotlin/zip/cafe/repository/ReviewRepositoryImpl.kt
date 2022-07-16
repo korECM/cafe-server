@@ -11,6 +11,7 @@ class ReviewRepositoryImpl(
     override fun findByAuthorIdIn(authorIds: List<Long>): List<Review> {
         return queryFactory
             .select(review)
+            .distinct()
             .from(review)
             .innerJoin(review.cafe).fetchJoin()
             .innerJoin(review.member).fetchJoin()
