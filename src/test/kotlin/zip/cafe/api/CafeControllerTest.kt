@@ -38,14 +38,6 @@ class CafeControllerTest : WebMvcTestSpec() {
             every { cafeService.getReviewSummaryById(cafe.id) } returns reviewSummary
             every { cafeService.getKeywordSummaryById(cafe.id) } returns cafeKeywords
             every { cafeService.getImageSummaryById(cafe.id) } returns reviewImages
-            every { cafeService.findFollowerWhoWriteReview(MOCK_MVC_USER_ID, cafe.id) } returns listOf(
-                FollowerWhoWriteReview(1L, "김감자"),
-                FollowerWhoWriteReview(2L, "홍길동")
-            )
-            every { cafeService.findFollowerWhoLikeCafe(MOCK_MVC_USER_ID, cafe.id) } returns listOf(
-                FollowerWhoLikeCafe(3L, "나도현"),
-                FollowerWhoLikeCafe(4L, "이진이")
-            )
 
             val response = mockMvc.getWithPathParameter("/cafes/{cafeId}", cafe.id)
 
@@ -77,9 +69,62 @@ class CafeControllerTest : WebMvcTestSpec() {
                             "menus[].id" type NUMBER means "카페 메뉴 id" example "1L",
                             "menus[].name" type STRING means "카페 메뉴 이름" example "아이스 아메리카노",
                             "menus[].price" type NUMBER means "카페 메뉴 가격" example "5000L",
+                        )
+                    )
+                )
+            }
+        }
+
+        "카페 id를 가지고 로그인한 유저의 팔로워 중 리뷰를 쓴 사람만 반환한다" {
+            val cafe = createCafe(id = 5L)
+            every { cafeService.findFollowerWhoWriteReview(MOCK_MVC_USER_ID, cafe.id) } returns listOf(
+                FollowerWhoWriteReview(1L, "김감자"),
+                FollowerWhoWriteReview(2L, "홍길동")
+            )
+
+            val response = mockMvc.getWithPathParameter("/cafes/{cafeId}/followers/write/review", cafe.id)
+
+            response.andExpect {
+                status { isOk() }
+            }.andDo {
+                handle(
+                    document(
+                        "get-cafe-followers-who-write-review",
+                        pathParameters(
+                            "cafeId" means "카페 id" example "5L"
+                        ),
+                        responseBody(
+                            "body" beneathPathWithSubsectionId "body",
                             "followersWhoWriteReview" type ARRAY means "유저가 팔로우한 사람들의 리뷰 정보",
                             "followersWhoWriteReview[].id" type NUMBER means "그 사람의 id" example "1L",
                             "followersWhoWriteReview[].name" type STRING means "그 사람의 닉네임" example "홍길동",
+                        )
+                    )
+                )
+            }
+        }
+
+
+        "카페 id를 가지고 로그인한 유저의 팔로워 중 카페를 좋아요 한 유저만 반환한다" {
+            val cafe = createCafe(id = 5L)
+            every { cafeService.findFollowerWhoLikeCafe(MOCK_MVC_USER_ID, cafe.id) } returns listOf(
+                FollowerWhoLikeCafe(3L, "나도현"),
+                FollowerWhoLikeCafe(4L, "이진이")
+            )
+
+            val response = mockMvc.getWithPathParameter("/cafes/{cafeId}/followers/like/cafe", cafe.id)
+
+            response.andExpect {
+                status { isOk() }
+            }.andDo {
+                handle(
+                    document(
+                        "get-cafe-followers-who-like-cafe",
+                        pathParameters(
+                            "cafeId" means "카페 id" example "5L"
+                        ),
+                        responseBody(
+                            "body" beneathPathWithSubsectionId "body",
                             "followersWhoLikeCafe" type ARRAY means "유저가 팔로우한 사람들의 카페 좋아요 정보",
                             "followersWhoLikeCafe[].id" type NUMBER means "그 사람의 id" example "3L",
                             "followersWhoLikeCafe[].name" type STRING means "그 사람의 닉네임" example "고길동",

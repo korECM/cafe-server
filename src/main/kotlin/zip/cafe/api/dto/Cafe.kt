@@ -16,8 +16,6 @@ data class SingleCafeInfo(
     val reviewCount: Long,
     val keywords: List<Keyword>,
     val cafeImages: List<Image>,
-    val followersWhoWriteReview: List<InnerFollowersWhoWriteReview>,
-    val followersWhoLikeCafe: List<InnerFollowersWhoLikeCafe>,
 ) {
 
     data class Keyword(
@@ -48,7 +46,11 @@ data class SingleCafeInfo(
             fun from(menu: Menu) = InnerMenu(id = menu.id, name = menu.name, price = menu.price)
         }
     }
+}
 
+data class FollowersWhoWriteReview(
+    val followersWhoWriteReview: List<InnerFollowersWhoWriteReview>,
+) {
     data class InnerFollowersWhoWriteReview(
         val id: Long,
         val name: String
@@ -57,7 +59,11 @@ data class SingleCafeInfo(
             fun from(data: FollowerWhoWriteReview) = InnerFollowersWhoWriteReview(id = data.id, name = data.name)
         }
     }
+}
 
+data class FollowersWhoLikeCafe(
+    val followersWhoLikeCafe: List<InnerFollowersWhoLikeCafe>,
+) {
     data class InnerFollowersWhoLikeCafe(
         val id: Long,
         val name: String
