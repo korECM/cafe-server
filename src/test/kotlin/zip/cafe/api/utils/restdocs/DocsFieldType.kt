@@ -9,6 +9,7 @@ sealed class DocsFieldType(
 
 object ARRAY : DocsFieldType(JsonFieldType.ARRAY)
 object STRING : DocsFieldType(JsonFieldType.STRING)
+object DATETIME : DocsFieldType(JsonFieldType.STRING)
 object NULL : DocsFieldType(JsonFieldType.NULL)
 object NUMBER : DocsFieldType(JsonFieldType.NUMBER)
 object BOOLEAN : DocsFieldType(JsonFieldType.BOOLEAN)

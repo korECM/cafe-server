@@ -101,7 +101,7 @@ class FeedControllerTest : WebMvcTestSpec() {
                         "review.likeCount" type NUMBER means "리뷰 좋아요 개수" example "5L",
                         "review.keyword" type ARRAY means "리뷰에 있는 키워드 목록",
                         "review.commentCount" type NUMBER means "리뷰 댓글 개수" example "3L",
-                        "review.createdAt" type STRING means "리뷰가 작성된 시간" formattedAs "yyyy-MM-dd HH:mm:ss" example "2022-02-12 13:52:12",
+                        "review.createdAt" type DATETIME means "리뷰가 작성된 시간" formattedAs "yyyy-MM-dd HH:mm:ss" example "2022-02-12 13:52:12",
                     )
                 )
             )

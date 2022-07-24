@@ -1,12 +1,13 @@
-|===
-    |필드명|타입|필수 여부|설명|예시|형식
+.+{{path}}+
+    |===
+    |파라미터 이름|설명|필수 여부|기본값|형식
 
-{{#fields}}
-    |{{#tableCellContent}}`{{path}}`{{/tableCellContent}}
-    |{{#tableCellContent}}`{{type}}`{{/tableCellContent}}
+{{#parameters}}
+    |{{#tableCellContent}}`+{{name}}+`{{/tableCellContent}}
     |{{#tableCellContent}}{{^optional}}`true`{{/optional}}{{/tableCellContent}}
     |{{#tableCellContent}}{{description}}{{/tableCellContent}}
     |{{#tableCellContent}}{{#example}}`{{.}}`{{/example}}{{/tableCellContent}}
     |{{#tableCellContent}}{{format}}{{/tableCellContent}}
-{{/fields}}
+
+{{/parameters}}
     |===
