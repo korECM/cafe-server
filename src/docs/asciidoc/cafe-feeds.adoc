@@ -4,5 +4,5 @@
 [[Get-Feed]]
 === 카페 피드 조회
 
-operation::get-cafe[snippets='http-request,path-parameters,http-response,response-fields-body']
+operation::get-feed-reviews[snippets='http-request,path-parameters,http-response,response-fields-body']
 
