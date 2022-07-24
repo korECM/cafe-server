@@ -67,7 +67,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("org.mindrot:jbcrypt:0.4")
 
-    implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.1")
+    implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.2")
 
     implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
 
