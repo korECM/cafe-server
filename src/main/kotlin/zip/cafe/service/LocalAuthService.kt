@@ -25,6 +25,10 @@ class LocalAuthService(
             "이미 사용중인 닉네임입니다"
         }
 
+        check(!localAuthRepository.existsByLocalIdIs(dto.id)) {
+            "이미 사용중인 아이디입니다"
+        }
+
         val member = dto.toMember()
         val localAuth = dto.toLocalAuth(member, passwordEncoder::encode)
 

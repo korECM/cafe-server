@@ -7,4 +7,6 @@ fun LocalAuthRepository.findByAuthId(id: String) = this.findByLocalId(id)
 
 interface LocalAuthRepository : JpaRepository<LocalAuth, Long> {
     fun findByLocalId(localId: String): LocalAuth?
+
+    fun existsByLocalIdIs(localId: String): Boolean
 }
