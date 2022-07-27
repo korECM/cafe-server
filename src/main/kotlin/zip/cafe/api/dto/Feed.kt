@@ -34,8 +34,9 @@ data class FeedReview(
     val images: List<FeedImage>,
     val keyword: List<FeedKeyword>,
     val likeCount: Int,
+    val content: String,
     val commentCount: Int,
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     val createdAt: LocalDateTime
 )
 

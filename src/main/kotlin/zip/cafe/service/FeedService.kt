@@ -26,6 +26,7 @@ class FeedService(
                     images = review.images.map(::FeedImage),
                     keyword = review.cafeKeywords.map(::FeedKeyword),
                     likeCount = review.likers.size,
+                    content = review.description,
                     commentCount = 0,
                     createdAt = review.createdAt
                 )
