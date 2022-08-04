@@ -12,4 +12,12 @@ val documentRequest: OperationRequestPreprocessor = preprocessRequest(
     prettyPrint()
 )
 
-val documentResponse: OperationResponsePreprocessor = preprocessResponse(prettyPrint())
+val documentResponse: OperationResponsePreprocessor = preprocessResponse(
+    removeHeaders(
+        "Transfer-Encoding",
+        "Date",
+        "Keep-Alive",
+        "Connection",
+        "Content-Length"
+    ), prettyPrint()
+)
