@@ -110,6 +110,12 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xbackend-threads=0")
+    }
+}
+
 jacoco {
     toolVersion = "0.8.7"
 }
