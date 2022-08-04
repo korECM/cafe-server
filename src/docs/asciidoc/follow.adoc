@@ -1,0 +1,13 @@
+[[follow-API]]
+== 팔로우 API
+
+[[follow]]
+=== 멤버 팔로우
+
+operation::follow[snippets='http-request,path-parameters,http-response']
+
+[[unfollow]]
+=== 멤버 언팔로우
+
+operation::unfollow[snippets='http-request,path-parameters,http-response']
+

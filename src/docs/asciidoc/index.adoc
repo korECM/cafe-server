@@ -9,6 +9,7 @@
 
 :operation-response-fields-body-title: Response Body
 include::common-response.adoc[]
+include::follow.adoc[]
 include::keyword.adoc[]
 include::cafe.adoc[]
 include::cafe-feeds.adoc[]
