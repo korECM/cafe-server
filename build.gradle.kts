@@ -15,7 +15,7 @@ plugins {
 group = "zip"
 version = "0.0.1-SNAPSHOT"
 val qeurydslVersion = "5.0.0"
-val kotestVersion = "5.3.2"
+val kotestVersion = "5.4.1"
 
 allOpen {
     annotation("javax.persistence.Entity")
@@ -99,7 +99,7 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("nl.jqno.equalsverifier:equalsverifier:3.10")
 
-    implementation("io.kotest.extensions:kotest-extensions-spring:1.1.1")
+    implementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
     implementation("io.github.serpro69:kotlin-faker:1.11.0")
 }
 
