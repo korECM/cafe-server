@@ -1,7 +1,5 @@
 package zip.cafe.api
 
-import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -20,9 +18,9 @@ class MemberController(
     @PostMapping("/nickname/duplicate")
     fun nicknameDuplicationCheck(
         @RequestParam nickname: String
-    ): ResponseEntity<ApiResponse<CheckNicknameDuplicationResponse>> {
+    ): ApiResponse<CheckNicknameDuplicationResponse> {
         val isDuplicated = memberService.checkNicknameDuplication(nickname)
         val response = CheckNicknameDuplicationResponse(isDuplicated)
-        return ok(success(response))
+        return success(response)
     }
 }

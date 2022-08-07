@@ -1,7 +1,5 @@
 package zip.cafe.api
 
-import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -21,16 +19,16 @@ class LocalAuthController(
 ) {
 
     @PostMapping("/signUp")
-    fun signUp(@Valid @RequestBody request: LocalSignUpRequest): ResponseEntity<ApiResponse<LocalSignUpResponse>> {
+    fun signUp(@Valid @RequestBody request: LocalSignUpRequest): ApiResponse<LocalSignUpResponse> {
         val registeredMemberId = localAuthService.signUp(request.toDto())
         val token = authService.generateToken(registeredMemberId, Date())
-        return ok().body(success(LocalSignUpResponse(token)))
+        return success(LocalSignUpResponse(token))
     }
 
     @PostMapping("/signIn")
-    fun signIn(@Valid @RequestBody request: LocalSignInRequest): ResponseEntity<ApiResponse<LocalSignInResponse>> {
+    fun signIn(@Valid @RequestBody request: LocalSignInRequest): ApiResponse<LocalSignInResponse> {
         val memberId = localAuthService.signIn(request.toDto())
         val token = authService.generateToken(memberId, Date())
-        return ok().body(success(LocalSignInResponse(token)))
+        return success(LocalSignInResponse(token))
     }
 }

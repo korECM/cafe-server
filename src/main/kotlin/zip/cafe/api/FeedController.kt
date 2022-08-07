@@ -1,7 +1,5 @@
 package zip.cafe.api
 
-import org.springframework.http.ResponseEntity
-import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -21,8 +19,8 @@ class FeedController(
         @LoginUserId memberId: Long,
         @RequestParam(required = false) minReviewId: Long?,
         @RequestParam(required = false, defaultValue = "10") limit: Long
-    ): ResponseEntity<ApiResponse<List<FeedInfo>>> {
+    ): ApiResponse<List<FeedInfo>> {
         val feeds = feedService.getReviewFeeds(memberId, minReviewIdInFeed = minReviewId, limit = limit)
-        return ok(success(feeds))
+        return success(feeds)
     }
 }
