@@ -2,12 +2,6 @@ package zip.cafe.api.dto
 
 import zip.cafe.entity.member.Member
 
-data class SearchInfo(
-    val cafes: List<CafeInfo>,
-    val keywords: List<KeywordInfo>,
-    val members: List<MemberInfo>,
-)
-
 data class CafeInfo(
     val id: Long,
     val name: String,
