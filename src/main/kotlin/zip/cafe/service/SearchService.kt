@@ -2,6 +2,7 @@ package zip.cafe.service
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Member
 import zip.cafe.repository.SearchRepository
 
@@ -11,5 +12,6 @@ class SearchService(
     private val searchRepository: SearchRepository
 ) {
 
-    fun search(query: String): List<Member> = searchRepository.searchByMemberNickname(query)
+    fun searchMember(name: String): List<Member> = searchRepository.searchByMemberNickname(name)
+    fun searchCafe(name: String): List<Cafe> = searchRepository.searchByCafeName(name)
 }
