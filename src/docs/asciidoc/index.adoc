@@ -11,6 +11,7 @@
 include::common-response.adoc[]
 include::follow.adoc[]
 include::keyword.adoc[]
+include::search.adoc[]
 include::cafe.adoc[]
 include::cafe-feeds.adoc[]
 include::review.adoc[]
