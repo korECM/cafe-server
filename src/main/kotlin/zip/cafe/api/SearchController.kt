@@ -19,14 +19,14 @@ class SearchController(
 ) {
 
     @GetMapping("/member")
-    fun searchMember(@RequestParam query: String): ApiResponse<List<MemberInfo>> {
-        val result = searchService.searchMember(query)
+    fun searchMember(@RequestParam name: String): ApiResponse<List<MemberInfo>> {
+        val result = searchService.searchMember(name)
         return success(result.map(::from))
     }
 
-    @GetMapping("/member")
-    fun searchCafe(@RequestParam query: String): ApiResponse<List<CafeInfo>> {
-        val result = searchService.searchCafe(query)
+    @GetMapping("/cafe")
+    fun searchCafe(@RequestParam name: String): ApiResponse<List<CafeInfo>> {
+        val result = searchService.searchCafe(name)
         return success(result.map(::from))
     }
 }
