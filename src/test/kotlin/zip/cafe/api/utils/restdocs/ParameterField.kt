@@ -6,7 +6,7 @@ import zip.cafe.api.utils.restdocs.RestDocs.DEFAULT_VALUE_KEY
 import zip.cafe.api.utils.restdocs.RestDocs.EXAMPLE_KEY
 import zip.cafe.api.utils.restdocs.RestDocs.FORMAT_KEY
 
-class PathParameterField(
+class ParameterField(
     var type: ParameterDescriptor
 ) {
     init {
@@ -15,25 +15,25 @@ class PathParameterField(
         type.attributes[FORMAT_KEY] = ""
     }
 
-    infix fun example(example: String): PathParameterField {
+    infix fun example(example: String): ParameterField {
         type.attributes[EXAMPLE_KEY] = example
         return this
     }
 
-    infix fun isOptional(value: Boolean): PathParameterField {
+    infix fun isOptional(value: Boolean): ParameterField {
         if (value) type = type.optional()
         return this
     }
 
-    infix fun default(value: String): PathParameterField {
+    infix fun default(value: String): ParameterField {
         type.attributes[DEFAULT_VALUE_KEY] = value
         return this
     }
 
-    infix fun format(value: String): PathParameterField {
+    infix fun format(value: String): ParameterField {
         type.attributes[FORMAT_KEY] = value
         return this
     }
 }
 
-infix fun String.means(mean: String) = PathParameterField(parameterWithName(this).description(mean))
+infix fun String.means(mean: String) = ParameterField(parameterWithName(this).description(mean))
