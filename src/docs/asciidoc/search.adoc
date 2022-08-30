@@ -1,0 +1,12 @@
+[[Search-API]]
+== Search API
+
+[[Search-Member-By-Name]]
+=== 멤버 이름 검색
+
+operation::search-member-name[snippets='http-request,request-parameters,http-response,response-fields-body']
+
+[[Search-Cafe-By-Name]]
+=== 카페 이름 검색
+
+operation::search-cafe-name[snippets='http-request,request-parameters,http-response,response-fields-body']
