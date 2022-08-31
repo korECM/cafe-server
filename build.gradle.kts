@@ -9,7 +9,7 @@ plugins {
     kotlin("plugin.jpa") version "1.7.10"
     kotlin("kapt") version "1.7.10"
     id("jacoco")
-    id("com.google.cloud.tools.jib") version "3.2.1"
+    id("com.google.cloud.tools.jib") version "3.3.0"
 }
 
 group = "zip"
