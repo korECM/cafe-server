@@ -1,4 +1,4 @@
-package zip.cafe.service
+package zip.cafe.service.auth
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -6,8 +6,8 @@ import zip.cafe.repository.LocalAuthRepository
 import zip.cafe.repository.MemberRepository
 import zip.cafe.repository.findByAuthId
 import zip.cafe.security.PasswordEncoder
-import zip.cafe.service.dto.LocalSignInDto
-import zip.cafe.service.dto.LocalSignUpDto
+import zip.cafe.service.auth.dto.LocalSignInDto
+import zip.cafe.service.auth.dto.LocalSignUpDto
 
 private const val LOGIN_FAIL_MESSAGE = "id가 존재하지 않거나 비밀번호가 일치하지 않습니다"
 

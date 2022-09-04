@@ -1,4 +1,4 @@
-package zip.cafe.service.dto
+package zip.cafe.service.auth.dto
 
 import zip.cafe.entity.auth.LocalAuth
 import zip.cafe.entity.member.Gender

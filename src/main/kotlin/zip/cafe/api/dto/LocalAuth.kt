@@ -1,7 +1,7 @@
 package zip.cafe.api.dto
 
-import zip.cafe.service.dto.LocalSignInDto
-import zip.cafe.service.dto.LocalSignUpDto
+import zip.cafe.service.auth.dto.LocalSignInDto
+import zip.cafe.service.auth.dto.LocalSignUpDto
 import javax.validation.constraints.*
 
 data class LocalSignUpRequest(

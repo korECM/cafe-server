@@ -7,6 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import zip.cafe.security.jwt.JwtTokenProvider
+import zip.cafe.service.auth.AuthService
 import java.util.*
 
 class AuthServiceTest : FreeSpec({

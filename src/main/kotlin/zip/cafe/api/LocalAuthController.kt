@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import zip.cafe.api.dto.*
 import zip.cafe.api.dto.ApiResponse.Companion.success
-import zip.cafe.service.AuthService
-import zip.cafe.service.LocalAuthService
+import zip.cafe.service.auth.AuthService
+import zip.cafe.service.auth.LocalAuthService
 import java.util.*
 import javax.validation.Valid
 

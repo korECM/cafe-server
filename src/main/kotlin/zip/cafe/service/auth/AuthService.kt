@@ -1,4 +1,4 @@
-package zip.cafe.service
+package zip.cafe.service.auth
 
 import org.springframework.stereotype.Service
 import zip.cafe.security.jwt.JwtTokenProvider
