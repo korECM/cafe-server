@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @Tags(integrationTestTag)
 @SpringBootTest
-class CafeAplicationIntegrationTest : FreeSpec({
+class CafeApplicationIntegrationTest : FreeSpec({
     "init Test" {
     }
 }) {

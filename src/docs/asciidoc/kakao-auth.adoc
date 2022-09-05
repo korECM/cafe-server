@@ -1,0 +1,7 @@
+[[Kakao-Auth-API]]
+== Kakao Auth API
+
+[[Auth-Kakao-Sign-In]]
+=== 카카오 로그인
+
+operation::auth-kakao-sign-in[snippets='http-request,request-parameters,http-response,response-fields-body']
