@@ -5,11 +5,13 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
-import zip.cafe.api.utils.restdocs.document
-import zip.cafe.api.utils.restdocs.means
-import zip.cafe.api.utils.restdocs.requestParameters
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.post
+import zip.cafe.api.auth.dto.KakaoSignInRequest
+import zip.cafe.api.utils.mockmvc.documentWithHandle
+import zip.cafe.api.utils.restdocs.STRING
+import zip.cafe.api.utils.restdocs.requestFields
+import zip.cafe.api.utils.restdocs.type
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.service.auth.AuthService
 import zip.cafe.service.auth.KakaoAuthService
@@ -29,18 +31,22 @@ class KakaoAuthControllerTest : WebMvcTestSpec() {
 
             every { kakaoAuthService.getUserInfo(accessToken) } just Runs
 
-            val response = mockMvc.perform(RestDocumentationRequestBuilders.post("/auth/kakao/signIn").param("accessToken", accessToken))
+            val response = mockMvc.post("/auth/kakao/signIn") {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(KakaoSignInRequest(accessToken))
+            }
 
-            response.andExpect(
-                MockMvcResultMatchers.status().isCreated
-            ).andDo(
-                document(
-                    "auth-kakao-sign-in",
-                    requestParameters(
-                        "accessToken" means "액세스 토큰" example accessToken
+            response.andExpect {
+                status { isCreated() }
+            }
+                .andDo {
+                    documentWithHandle(
+                        "auth-kakao-sign-in",
+                        requestFields(
+                            "accessToken" type STRING means "액세스 토큰" example accessToken
+                        )
                     )
-                )
-            )
+                }
         }
     }
 }

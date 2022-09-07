@@ -2,6 +2,7 @@ package zip.cafe.api.auth
 
 import org.springframework.http.HttpStatus.CREATED
 import org.springframework.web.bind.annotation.*
+import zip.cafe.api.auth.dto.KakaoSignInRequest
 import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.api.dto.LocalSignUpResponse
@@ -17,8 +18,8 @@ class KakaoAuthController(
 
     @ResponseStatus(CREATED)
     @PostMapping("/signIn")
-    fun signUp(@RequestParam accessToken: String): ApiResponse<LocalSignUpResponse> {
-        kakaoAuthService.getUserInfo(accessToken)
+    fun signUp(@RequestBody request: KakaoSignInRequest): ApiResponse<LocalSignUpResponse> {
+        kakaoAuthService.getUserInfo(request.accessToken)
         return success(null)
     }
 }
