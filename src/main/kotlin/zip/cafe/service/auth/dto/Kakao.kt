@@ -9,7 +9,7 @@ data class KakaoTokenInfo(
     val id: Long,
     @JsonProperty("expires_in")
     val expiresIn: Number,
-    @JsonProperty("expires_in")
+    @JsonProperty("app_id")
     val appId: Number
 )
 
