@@ -1,4 +1,4 @@
-package zip.cafe.api
+package zip.cafe.api.auth
 
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

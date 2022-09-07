@@ -1,4 +1,4 @@
-package zip.cafe.api
+package zip.cafe.api.auth
 
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.Runs
@@ -19,6 +19,7 @@ class KakaoAuthControllerTest : WebMvcTestSpec() {
 
     @MockkBean
     private lateinit var kakaoAuthService: KakaoAuthService
+
     @MockkBean
     private lateinit var authService: AuthService
 
