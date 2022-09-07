@@ -21,7 +21,7 @@ class KakaoAuthService(
         println("response = $response")
     }
 
-    private fun createEntityForGetUserInfo(accessToken: String) = HttpEntity<Nothing>(HttpHeaders().apply { setBasicAuth(accessToken) })
+    private fun createEntityForGetUserInfo(accessToken: String) = HttpEntity<Nothing>(HttpHeaders().apply { setBearerAuth(accessToken) })
 }
 
 
