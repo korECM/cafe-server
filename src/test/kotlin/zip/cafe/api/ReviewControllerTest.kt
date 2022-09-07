@@ -12,6 +12,7 @@ import org.springframework.restdocs.request.RequestDocumentation.requestParts
 import org.springframework.test.web.servlet.multipart
 import org.springframework.test.web.servlet.post
 import zip.cafe.api.dto.ReviewRegisterRequest
+import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.connector.dto.S3FileDto
@@ -87,21 +88,19 @@ class ReviewControllerTest : WebMvcTestSpec() {
             response.andExpect {
                 status { isCreated() }
             }.andDo {
-                handle(
-                    document(
-                        "write-review",
-                        requestFields(
-                            "cafeId" type NUMBER means "카페 Id" example "1L",
-                            "visitPurpose" type ENUM(Purpose::class) means "방문 목적",
-                            "visitPurposeScore" type NUMBER means "방문 목적 점수" example "3",
-                            "foodInfos" type ARRAY means "카페에서 먹은 음식 정보",
-                            "foodInfos[].food" type ENUM(Food::class) means "먹은 음식",
-                            "foodInfos[].score" type NUMBER means "먹은 음식에 대한 점수" example "3.0",
-                            "keywords" type ARRAY means "키워드 API에서 내려준 키워드 Id 리스트" example "[1, 2]",
-                            "reviewImageIds" type ARRAY means "업로드한 리뷰 이미지 Id 리스트" example "[3, 5, 6]",
-                            "description" type STRING means "리뷰 내용" example "커피도 맛있고 친절한 카페",
-                            "finalScore" type NUMBER means "최종 리뷰 점수" example "4",
-                        )
+                documentWithHandle(
+                    "write-review",
+                    requestFields(
+                        "cafeId" type NUMBER means "카페 Id" example "1L",
+                        "visitPurpose" type ENUM(Purpose::class) means "방문 목적",
+                        "visitPurposeScore" type NUMBER means "방문 목적 점수" example "3",
+                        "foodInfos" type ARRAY means "카페에서 먹은 음식 정보",
+                        "foodInfos[].food" type ENUM(Food::class) means "먹은 음식",
+                        "foodInfos[].score" type NUMBER means "먹은 음식에 대한 점수" example "3.0",
+                        "keywords" type ARRAY means "키워드 API에서 내려준 키워드 Id 리스트" example "[1, 2]",
+                        "reviewImageIds" type ARRAY means "업로드한 리뷰 이미지 Id 리스트" example "[3, 5, 6]",
+                        "description" type STRING means "리뷰 내용" example "커피도 맛있고 친절한 카페",
+                        "finalScore" type NUMBER means "최종 리뷰 점수" example "4",
                     )
                 )
             }
@@ -137,17 +136,15 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 status { isCreated() }
             }
                 .andDo {
-                    handle(
-                        document(
-                            "upload-review-images",
-                            requestParts(
-                                partWithName("images").description("업로드 할 리뷰 이미지 파일 목록")
-                            ),
-                            responseBody(
-                                "body" beneathPathWithSubsectionId "body",
-                                "id" type NUMBER means "이미지 id" example "3",
-                                "url" type STRING means "이미지 주소" example "https://techblog.woowahan.com/wp-content/uploads/img/2020-05-13/rest-docs-09.png",
-                            )
+                    documentWithHandle(
+                        "upload-review-images",
+                        requestParts(
+                            partWithName("images").description("업로드 할 리뷰 이미지 파일 목록")
+                        ),
+                        responseBody(
+                            "body" beneathPathWithSubsectionId "body",
+                            "id" type NUMBER means "이미지 id" example "3",
+                            "url" type STRING means "이미지 주소" example "https://techblog.woowahan.com/wp-content/uploads/img/2020-05-13/rest-docs-09.png",
                         )
                     )
                 }
@@ -165,10 +162,8 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 status { isCreated() }
             }
                 .andDo {
-                    handle(
-                        document(
-                            "like-review"
-                        )
+                    documentWithHandle(
+                        "like-review"
                     )
                 }
         }
@@ -185,10 +180,8 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 status { isNoContent() }
             }
                 .andDo {
-                    handle(
-                        document(
-                            "unlike-review"
-                        )
+                    documentWithHandle(
+                        "unlike-review"
                     )
                 }
         }

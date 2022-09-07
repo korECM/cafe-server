@@ -3,6 +3,7 @@ package zip.cafe.api
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
@@ -44,32 +45,30 @@ class CafeControllerTest : WebMvcTestSpec() {
             response.andExpect {
                 status { isOk() }
             }.andDo {
-                handle(
-                    document(
-                        "get-cafe",
-                        pathParameters(
-                            "cafeId" means "카페 id" example "5L"
-                        ),
-                        responseBody(
-                            "body" beneathPathWithSubsectionId "body",
-                            "id" type NUMBER means "카페 id" example "5L",
-                            "name" type STRING means "카페 이름" example "북앤레스트",
-                            "openingHours" type STRING means "카페 영업 시간" example "오전 7:00–오후 10:00",
-                            "address" type STRING means "카페 주소" example "서울 강남구 삼성로104길 22 1층",
-                            "reviewCount" type NUMBER means "카페에 달린 리뷰 개수" example "5",
-                            "averageOfFinalScores" type NUMBER means "카페의 평균 리뷰 점수" example "4.5",
-                            "keywords" type ARRAY means "사람들이 카페에 남긴 키워드 목록",
-                            "keywords[].id" type NUMBER means "키워드 id" example "1L",
-                            "keywords[].keyword" type STRING means "키워드 이름" example "아늑한",
-                            "keywords[].emoji" type STRING means "키워드 이모지" example "🎁",
-                            "cafeImages" type ARRAY means "카페 이미지",
-                            "cafeImages[].id" type NUMBER means "카페 이미지 id" example "1234L",
-                            "cafeImages[].url" type STRING means "이미지 주소" example "https://naver.com/logo.png",
-                            "menus" type ARRAY means "카페 메뉴",
-                            "menus[].id" type NUMBER means "카페 메뉴 id" example "1L",
-                            "menus[].name" type STRING means "카페 메뉴 이름" example "아이스 아메리카노",
-                            "menus[].price" type NUMBER means "카페 메뉴 가격" example "5000L",
-                        )
+                documentWithHandle(
+                    "get-cafe",
+                    pathParameters(
+                        "cafeId" means "카페 id" example "5L"
+                    ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                        "id" type NUMBER means "카페 id" example "5L",
+                        "name" type STRING means "카페 이름" example "북앤레스트",
+                        "openingHours" type STRING means "카페 영업 시간" example "오전 7:00–오후 10:00",
+                        "address" type STRING means "카페 주소" example "서울 강남구 삼성로104길 22 1층",
+                        "reviewCount" type NUMBER means "카페에 달린 리뷰 개수" example "5",
+                        "averageOfFinalScores" type NUMBER means "카페의 평균 리뷰 점수" example "4.5",
+                        "keywords" type ARRAY means "사람들이 카페에 남긴 키워드 목록",
+                        "keywords[].id" type NUMBER means "키워드 id" example "1L",
+                        "keywords[].keyword" type STRING means "키워드 이름" example "아늑한",
+                        "keywords[].emoji" type STRING means "키워드 이모지" example "🎁",
+                        "cafeImages" type ARRAY means "카페 이미지",
+                        "cafeImages[].id" type NUMBER means "카페 이미지 id" example "1234L",
+                        "cafeImages[].url" type STRING means "이미지 주소" example "https://naver.com/logo.png",
+                        "menus" type ARRAY means "카페 메뉴",
+                        "menus[].id" type NUMBER means "카페 메뉴 id" example "1L",
+                        "menus[].name" type STRING means "카페 메뉴 이름" example "아이스 아메리카노",
+                        "menus[].price" type NUMBER means "카페 메뉴 가격" example "5000L",
                     )
                 )
             }
@@ -87,18 +86,16 @@ class CafeControllerTest : WebMvcTestSpec() {
             response.andExpect {
                 status { isOk() }
             }.andDo {
-                handle(
-                    document(
-                        "get-cafe-followers-who-write-review",
-                        pathParameters(
-                            "cafeId" means "카페 id" example "5L"
-                        ),
-                        responseBody(
-                            "body" beneathPathWithSubsectionId "body",
-                            "followersWhoWriteReview" type ARRAY means "유저가 팔로우한 사람들의 리뷰 정보",
-                            "followersWhoWriteReview[].id" type NUMBER means "그 사람의 id" example "1L",
-                            "followersWhoWriteReview[].name" type STRING means "그 사람의 닉네임" example "홍길동",
-                        )
+                documentWithHandle(
+                    "get-cafe-followers-who-write-review",
+                    pathParameters(
+                        "cafeId" means "카페 id" example "5L"
+                    ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                        "followersWhoWriteReview" type ARRAY means "유저가 팔로우한 사람들의 리뷰 정보",
+                        "followersWhoWriteReview[].id" type NUMBER means "그 사람의 id" example "1L",
+                        "followersWhoWriteReview[].name" type STRING means "그 사람의 닉네임" example "홍길동",
                     )
                 )
             }
@@ -117,18 +114,16 @@ class CafeControllerTest : WebMvcTestSpec() {
             response.andExpect {
                 status { isOk() }
             }.andDo {
-                handle(
-                    document(
-                        "get-cafe-followers-who-like-cafe",
-                        pathParameters(
-                            "cafeId" means "카페 id" example "5L"
-                        ),
-                        responseBody(
-                            "body" beneathPathWithSubsectionId "body",
-                            "followersWhoLikeCafe" type ARRAY means "유저가 팔로우한 사람들의 카페 좋아요 정보",
-                            "followersWhoLikeCafe[].id" type NUMBER means "그 사람의 id" example "3L",
-                            "followersWhoLikeCafe[].name" type STRING means "그 사람의 닉네임" example "고길동",
-                        )
+                documentWithHandle(
+                    "get-cafe-followers-who-like-cafe",
+                    pathParameters(
+                        "cafeId" means "카페 id" example "5L"
+                    ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                        "followersWhoLikeCafe" type ARRAY means "유저가 팔로우한 사람들의 카페 좋아요 정보",
+                        "followersWhoLikeCafe[].id" type NUMBER means "그 사람의 id" example "3L",
+                        "followersWhoLikeCafe[].name" type STRING means "그 사람의 닉네임" example "고길동",
                     )
                 )
             }

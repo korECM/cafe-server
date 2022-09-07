@@ -5,8 +5,8 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.postWithPathParameter
-import zip.cafe.api.utils.restdocs.document
 import zip.cafe.api.utils.restdocs.means
 import zip.cafe.api.utils.restdocs.pathParameters
 import zip.cafe.api.utils.spec.WebMvcTestSpec
@@ -31,12 +31,10 @@ class MemberFollowControllerTest : WebMvcTestSpec() {
             response.andExpect {
                 status { isCreated() }
             }.andDo {
-                handle(
-                    document(
-                        "follow",
-                        pathParameters(
-                            "targetMemberId" means "팔로우하려는 대상의 id" example "5L"
-                        )
+                documentWithHandle(
+                    "follow",
+                    pathParameters(
+                        "targetMemberId" means "팔로우하려는 대상의 id" example "5L"
                     )
                 )
             }
@@ -53,12 +51,10 @@ class MemberFollowControllerTest : WebMvcTestSpec() {
             response.andExpect {
                 status { isAccepted() }
             }.andDo {
-                handle(
-                    document(
-                        "unfollow",
-                        pathParameters(
-                            "targetMemberId" means "언팔로우하려는 대상의 id" example "3L"
-                        )
+                documentWithHandle(
+                    "unfollow",
+                    pathParameters(
+                        "targetMemberId" means "언팔로우하려는 대상의 id" example "3L"
                     )
                 )
             }
