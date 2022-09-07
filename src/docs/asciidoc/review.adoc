@@ -2,17 +2,17 @@
 == Review API
 
 [[writeReview]]
-=== 리뷰 작성
+==== 리뷰 작성
 operation::write-review[snippets='http-request,request-fields,http-response']
 
 [[uploadReviewImages]]
-=== 리뷰에 들어갈 이미지 업로드
+==== 리뷰에 들어갈 이미지 업로드
 operation::upload-review-images[snippets='http-request,request-parts,http-response,response-fields-body']
 
 [[likeReview]]
-=== 리뷰 좋아요
+==== 리뷰 좋아요
 operation::like-review[snippets='http-request,http-response']
 
 [[unlikeReview]]
-=== 리뷰 좋아요 취소
+==== 리뷰 좋아요 취소
 operation::unlike-review[snippets='http-request,http-response']

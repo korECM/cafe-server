@@ -2,16 +2,16 @@
 == Cafe API
 
 [[Get-Cafe]]
-=== 카페 조회
+==== 카페 조회
 
 operation::get-cafe[snippets='http-request,path-parameters,http-response,response-fields-body']
 
 [[Get-Cafe-Followers-Who-Write-Review]]
-=== 해당 카페에 리뷰를 작성한 팔로워 조회
+==== 해당 카페에 리뷰를 작성한 팔로워 조회
 
 operation::get-cafe-followers-who-write-review[snippets='http-request,path-parameters,http-response,response-fields-body']
 
 [[Get-Cafe-Followers-Who-Like-Cafe]]
-=== 해당 카페에 좋아요를 누른 팔로워 조회
+==== 해당 카페에 좋아요를 누른 팔로워 조회
 
 operation::get-cafe-followers-who-like-cafe[snippets='http-request,path-parameters,http-response,response-fields-body']

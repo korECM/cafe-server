@@ -3,13 +3,18 @@
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 3
 :sectlinks:
 :docinfo: shared-head
 
-:operation-response-fields-body-title: Response Body
 include::common-response.adoc[]
+
+[[Auth]]
+== Auth
+
+include::apple-auth.adoc[]
 include::kakao-auth.adoc[]
+
 include::follow.adoc[]
 include::keyword.adoc[]
 include::search.adoc[]
