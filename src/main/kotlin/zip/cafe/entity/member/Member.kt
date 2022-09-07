@@ -2,26 +2,24 @@ package zip.cafe.entity.member
 
 import zip.cafe.entity.common.BaseClass
 import zip.cafe.util.logger
-import java.time.LocalDate
 import javax.persistence.*
 import javax.persistence.CascadeType.ALL
-import javax.persistence.EnumType.STRING
 import javax.persistence.GenerationType.IDENTITY
 
 @Entity
 class Member(
-    @Column(nullable = true)
-    val name: String,
+//    @Column(nullable = true)
+//    val name: String,
 
     @Column(nullable = false)
     val nickname: String,
 
-    @Column(nullable = false)
-    var birthDay: LocalDate,
-
-    @Enumerated(STRING)
-    @Column(nullable = false)
-    var gender: Gender
+//    @Column(nullable = false)
+//    var birthDay: LocalDate,
+//
+//    @Enumerated(STRING)
+//    @Column(nullable = false)
+//    var gender: Gender
 ) : BaseClass() {
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -55,6 +53,6 @@ class Member(
     }
 
     override fun toString(): String {
-        return "Member(name='$name', nickname='$nickname', birthDay=$birthDay, gender=$gender, id=$id)"
+        return "Member(nickname='$nickname', id=$id)"
     }
 }

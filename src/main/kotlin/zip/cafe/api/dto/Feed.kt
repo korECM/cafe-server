@@ -18,7 +18,7 @@ data class FeedMember(
     val id: Long,
     val name: String
 ) {
-    constructor(member: Member) : this(member.id, member.name)
+    constructor(member: Member) : this(member.id, member.nickname)
 }
 
 data class FeedCafe(

@@ -22,7 +22,7 @@ class SearchControllerTest : WebMvcTestSpec() {
         "멤버 이름 검색" {
             val memberName = "홍"
 
-            every { searchService.searchMember(memberName) } returns listOf(createMember(name = "홍1"), createMember(name = "홍2"))
+            every { searchService.searchMember(memberName) } returns listOf(createMember(), createMember())
 
             val response = mockMvc.perform(get("/search/member").param("name", memberName))
 

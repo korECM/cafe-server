@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.auth.LocalAuth
 import zip.cafe.entity.cafe.Cafe
-import zip.cafe.entity.member.Gender.MALE
 import zip.cafe.entity.member.Member
 import zip.cafe.entity.menu.Menu
 import zip.cafe.entity.review.CafeKeyword
@@ -16,7 +15,6 @@ import zip.cafe.entity.toScore
 import zip.cafe.security.jwt.JwtTokenProvider
 import zip.cafe.util.createPoint
 import zip.cafe.util.logger
-import java.time.LocalDate
 import java.util.*
 import javax.annotation.PostConstruct
 import javax.persistence.EntityManager
@@ -39,12 +37,12 @@ class TestInitDB(
         private val jwtTokenProvider: JwtTokenProvider
     ) {
         fun dbInit() {
-            val member1 = createMember("길동길동", "기르동이")
+            val member1 = createMember("기르동이")
             createLocalAuth(member1, "testId", "testPw")
             logger().info("\n\nTest User Token \n\n{}\n\n", jwtTokenProvider.createToken(member1.id, Date()))
-            val member2 = createMember("기리기리", "리게")
+            val member2 = createMember("리게")
             createLocalAuth(member2, "1234", "1234")
-            val member3 = createMember("소소임", "커피")
+            val member3 = createMember("커피")
             createLocalAuth(member3, "asdf", "asdf")
 
             member1.follow(member2)
@@ -109,12 +107,9 @@ class TestInitDB(
             review3.addLiker(member1)
         }
 
-        private fun createMember(name: String, nickName: String): Member {
+        private fun createMember(nickName: String): Member {
             val member = Member(
-                name = name,
                 nickname = nickName,
-                birthDay = LocalDate.of(2000, 2, 20),
-                gender = MALE
             )
             em.persist(member)
             return member

@@ -1,11 +1,7 @@
 package zip.cafe.service.auth.dto
 
 import zip.cafe.entity.auth.LocalAuth
-import zip.cafe.entity.member.Gender
 import zip.cafe.entity.member.Member
-import zip.cafe.entity.member.fromResidentRegistrationNumber
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 data class LocalSignUpDto(
     val id: String,
@@ -17,13 +13,10 @@ data class LocalSignUpDto(
 ) {
 
     fun toMember(): Member {
-        val birthDay = LocalDate.parse("20$frontResidentRegistrationNumber", DateTimeFormatter.BASIC_ISO_DATE)
-        val gender = Gender.fromResidentRegistrationNumber(seventhDigitOfResidentRegistrationNumber)
+//        val birthDay = LocalDate.parse("20$frontResidentRegistrationNumber", DateTimeFormatter.BASIC_ISO_DATE)
+//        val gender = Gender.fromResidentRegistrationNumber(seventhDigitOfResidentRegistrationNumber)
         return Member(
-            name = name,
             nickname = nickname,
-            birthDay = birthDay,
-            gender = gender
         )
     }
 
