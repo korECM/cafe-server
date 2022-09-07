@@ -39,8 +39,9 @@ class KakaoAuthService(
 
     fun getUserId(accessToken: String): Long {
         val host = "$kakaoHost/v1/user/access_token_info"
-        val entity = createEntityForGetUserInfo(accessToken)
+        val entity = createKakaoAuthHeader(accessToken)
         try {
+            println("entity = $entity")
             val response = restTemplate.exchange(host, HttpMethod.GET, entity, KakaoTokenInfo::class.java)
             println("response = $response")
             return response.body?.id ?: throw KakaoLoginFail(kakaoLoginFailMsg)
@@ -52,7 +53,7 @@ class KakaoAuthService(
 
     fun getUserInfo(accessToken: String): KakaoUserInfo {
         val host = "$kakaoHost/v2/user/me"
-        val entity = createEntityForGetUserInfo(accessToken)
+        val entity = createKakaoAuthHeader(accessToken)
         try {
             val response = restTemplate.exchange(host, HttpMethod.GET, entity, KakaoUserInfo::class.java)
             println("response = $response")
@@ -72,7 +73,7 @@ class KakaoAuthService(
         return member
     }
 
-    private fun createEntityForGetUserInfo(accessToken: String) = HttpEntity<Nothing>(HttpHeaders().apply { setBearerAuth(accessToken) })
+    private fun createKakaoAuthHeader(accessToken: String) = HttpEntity<Nothing>(HttpHeaders().apply { setBearerAuth(accessToken) })
 }
 
 
