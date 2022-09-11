@@ -41,7 +41,7 @@ data class MemberInfo(
             return MemberInfo(
                 member.id,
                 member.nickname,
-                "https://images.chosun.com/resizer/08-lUWhtJ5pJpORejo8xPXHKyBE=/600x655/smart/cloudfront-ap-northeast-1.images.arcpublishing.com/chosun/57OEJVMO3RCD3K5LXOWT456IPY.jpg",
+                member.profileImage,
                 "어쩌구팬카페"
             )
         }
