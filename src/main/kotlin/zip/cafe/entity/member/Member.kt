@@ -14,6 +14,9 @@ class Member(
     @Column(nullable = false)
     val nickname: String,
 
+    @Column(nullable = false)
+    val profileImage: String,
+
 //    @Column(nullable = false)
 //    var birthDay: LocalDate,
 //
@@ -54,5 +57,9 @@ class Member(
 
     override fun toString(): String {
         return "Member(nickname='$nickname', id=$id)"
+    }
+
+    companion object {
+        const val DEFAULT_PROFILE_IMAGE_URL = "https://picsum.photos/200"
     }
 }

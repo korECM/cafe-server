@@ -54,8 +54,6 @@ class KakaoAuthService(
         val host = "$kakaoHost/v2/user/me"
         val entity = createKakaoAuthHeader(accessToken)
         try {
-            val responseRaw = restTemplate.exchange(host, HttpMethod.GET, entity, String::class.java)
-            println(responseRaw)
             val response = restTemplate.exchange(host, HttpMethod.GET, entity, KakaoUserInfo::class.java)
             println("response = $response")
             return response.body ?: throw KakaoLoginFail(kakaoLoginFailMsg)
@@ -67,7 +65,7 @@ class KakaoAuthService(
 
     @Transactional
     fun saveNewKakaoAccount(kakaoUserId: Long, nickname: String, profileImageURL: String): Member {
-        val member = Member(nickname = nickname)
+        val member = Member(nickname = nickname, profileImage = profileImageURL)
         val kakaoAuth = KakaoAuth(kakaoUserId, member)
         memberRepository.save(member)
         kakaoAuthRepository.save(kakaoAuth)

@@ -8,10 +8,12 @@ import zip.cafe.utils.setEntityId
 val MOCK_MVC_USER_ID = faker.newEntityId()
 fun createMember(
     id: Long = faker.newEntityId(),
-    nickname: String = faker.name.name()
+    nickname: String = faker.name.name(),
+    profileImageURL: String = Member.DEFAULT_PROFILE_IMAGE_URL
 ): Member = setEntityId(
     id,
     Member(
         nickname = nickname,
+        profileImage = profileImageURL,
     )
 )

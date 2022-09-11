@@ -107,9 +107,10 @@ class TestInitDB(
             review3.addLiker(member1)
         }
 
-        private fun createMember(nickName: String): Member {
+        private fun createMember(nickName: String, profileImageURL : String = Member.DEFAULT_PROFILE_IMAGE_URL): Member {
             val member = Member(
                 nickname = nickName,
+                profileImage = profileImageURL,
             )
             em.persist(member)
             return member

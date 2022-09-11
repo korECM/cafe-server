@@ -17,6 +17,7 @@ data class LocalSignUpDto(
 //        val gender = Gender.fromResidentRegistrationNumber(seventhDigitOfResidentRegistrationNumber)
         return Member(
             nickname = nickname,
+            profileImage = Member.DEFAULT_PROFILE_IMAGE_URL,
         )
     }
 
