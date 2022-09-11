@@ -13,7 +13,6 @@ import zip.cafe.repository.MemberRepository
 import zip.cafe.repository.findByKakaoUserId
 import zip.cafe.service.auth.dto.KakaoTokenInfo
 import zip.cafe.service.auth.dto.KakaoUserInfo
-import zip.cafe.service.auth.exception.KakaoLoginFail
 import zip.cafe.util.logger
 
 private const val kakaoHost = "https://kapi.kakao.com"
@@ -43,10 +42,10 @@ class KakaoAuthService(
         try {
             val response = restTemplate.exchange(host, HttpMethod.GET, entity, KakaoTokenInfo::class.java)
             println("response = $response")
-            return response.body?.id ?: throw KakaoLoginFail(kakaoLoginFailMsg)
+            return response.body?.id ?: throw RuntimeException(kakaoLoginFailMsg)
         } catch (e: Throwable) {
             logger().error("kakao get token info error", e)
-            throw KakaoLoginFail(kakaoLoginFailMsg)
+            throw RuntimeException(kakaoLoginFailMsg)
         }
     }
 
@@ -56,10 +55,10 @@ class KakaoAuthService(
         try {
             val response = restTemplate.exchange(host, HttpMethod.GET, entity, KakaoUserInfo::class.java)
             println("response = $response")
-            return response.body ?: throw KakaoLoginFail(kakaoLoginFailMsg)
+            return response.body ?: throw RuntimeException(kakaoLoginFailMsg)
         } catch (e: Throwable) {
             logger().error("kakao get user info error", e)
-            throw KakaoLoginFail(kakaoLoginFailMsg)
+            throw RuntimeException(kakaoLoginFailMsg)
         }
     }
 
