@@ -15,6 +15,7 @@ class AppleAuthController(
     @ResponseStatus(CREATED)
     @PostMapping("/signIn")
     fun signUp(@RequestBody request: AppleSignInRequest): ApiResponse<AppleSignInResponse> {
+        println(request)
         return success(null)
     }
 }
