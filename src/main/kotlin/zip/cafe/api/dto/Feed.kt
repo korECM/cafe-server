@@ -16,9 +16,10 @@ data class FeedInfo(
 
 data class FeedMember(
     val id: Long,
-    val name: String
+    val name: String,
+    val profileImage: String,
 ) {
-    constructor(member: Member) : this(member.id, member.nickname)
+    constructor(member: Member) : this(member.id, member.nickname, member.profileImage)
 }
 
 data class FeedCafe(
