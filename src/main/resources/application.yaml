@@ -2,6 +2,9 @@ logging.level:
   org.hibernate.SQL: info
   # org.hibernate.type: trace
 
+apple:
+  clientId: ${APPLE_CLIENT_ID:SHOULD_BE_REPLACED}
+
 jwt:
   header: Authorization
   secret: TOBE_OVERRIDE

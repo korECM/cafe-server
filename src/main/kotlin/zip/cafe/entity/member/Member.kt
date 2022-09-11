@@ -24,6 +24,8 @@ class Member(
 //    @Column(nullable = false)
 //    var gender: Gender
 ) : BaseClass() {
+    constructor(nickname: String) : this(nickname, DEFAULT_PROFILE_IMAGE_URL)
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "user_id", nullable = false)
