@@ -42,6 +42,8 @@ class KakaoAuthService(
         val entity = createKakaoAuthHeader(accessToken)
         try {
             println("entity = $entity")
+            val responseRaw = restTemplate.exchange(host, HttpMethod.GET, entity, String::class.java)
+            println(responseRaw)
             val response = restTemplate.exchange(host, HttpMethod.GET, entity, KakaoTokenInfo::class.java)
             println("response = $response")
             return response.body?.id ?: throw KakaoLoginFail(kakaoLoginFailMsg)
