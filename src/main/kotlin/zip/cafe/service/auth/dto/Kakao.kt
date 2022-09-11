@@ -61,9 +61,9 @@ data class KakaoUserAccount(
 
 data class KakaoUserProfile(
     val nickname: String,
-    @JsonProperty("profile_image")
+    @JsonProperty("profile_image_url")
     val profileImageURL: String,
-    @JsonProperty("thumbnail_image")
+    @JsonProperty("thumbnail_image_url")
     val thumbnailImageURL: String,
     @JsonProperty("is_default_image")
     val isDefaultImage: Boolean,
