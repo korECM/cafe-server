@@ -10,7 +10,7 @@ import javax.persistence.GenerationType.IDENTITY
 @Entity
 class AppleAuth(
     @Column(nullable = false)
-    var appleId: Long,
+    var appleId: String,
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", nullable = false)

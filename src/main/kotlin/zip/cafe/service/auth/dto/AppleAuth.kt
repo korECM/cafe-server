@@ -1,5 +1,6 @@
 package zip.cafe.service.auth.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.math.BigInteger
 import java.security.KeyFactory
 import java.security.PublicKey
@@ -60,3 +61,23 @@ data class Key(
         return KeyFactory.getInstance(kty).generatePublic(publicKeySpec)
     }
 }
+
+data class AppleIdentityTokenBody(
+    val aud: String,
+    @JsonProperty("auth_time")
+    val authTime: Int,
+    @JsonProperty("c_hash")
+    val cHash: String,
+    val email: String,
+    @JsonProperty("email_verified")
+    val emailVerified: String,
+    val exp: Int,
+    val iat: Int,
+    @JsonProperty("is_private_email")
+    val isPrivateEmail: String,
+    val iss: String,
+    val nonce: String,
+    @JsonProperty("nonce_supported")
+    val nonceSupported: Boolean,
+    val sub: String
+)

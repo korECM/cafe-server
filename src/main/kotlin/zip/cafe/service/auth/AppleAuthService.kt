@@ -29,17 +29,19 @@ class AppleAuthService(
     private val appleClientId: String
 ) {
     fun findMemberIdByAppleIdentityToken(identityToken: String): Long {
-        val publicKey = getPublicKey(identityToken)
+        val appleUserId = getUserId(identityToken)
+        val foundAppleAuth = appleAuthRepository.findByAppleId(appleUserId)
+        if (foundAppleAuth != null) {
+            return foundAppleAuth.member.id
+        }
+        val newMember = saveNewAppleAccount(appleUserId, "")
+        return newMember.id
+    }
 
+    private fun getUserId(identityToken: String): String {
+        val publicKey = getPublicKey(identityToken)
         val claims = parseIdentityToken(publicKey, identityToken)
-//        val foundAppleAuth = appleAuthRepository.findByAppleId(appleId)
-//        if (foundAppleAuth != null) {
-//            return foundAppleAuth.member.id
-//        }
-//        val userInfo = getUserInfo(accessToken)
-//        val newMember = saveNewAppleAccount(userInfo.id, userInfo.profile.nickname, userInfo.profile.profileImageURL)
-//        return newMember.id
-        return 5
+        return claims.subject
     }
 
     private fun getPublicKey(identityToken: String): PublicKey {
@@ -78,9 +80,9 @@ class AppleAuthService(
     }
 
     @Transactional
-    protected fun saveNewAppleAccount(appleId: Long, nickname: String): Member {
+    protected fun saveNewAppleAccount(appleUserId: String, nickname: String): Member {
         val member = Member(nickname = nickname)
-        val appleAuth = AppleAuth(appleId, member)
+        val appleAuth = AppleAuth(appleUserId, member)
         memberRepository.save(member)
         appleAuthRepository.save(appleAuth)
         return member
