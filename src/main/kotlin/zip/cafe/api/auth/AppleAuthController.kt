@@ -9,6 +9,7 @@ import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.service.auth.AppleAuthService
 import zip.cafe.service.auth.AuthService
 import java.util.*
+import javax.validation.Valid
 
 @RequestMapping("/auth/apple")
 @RestController
@@ -19,7 +20,7 @@ class AppleAuthController(
 
     @ResponseStatus(CREATED)
     @PostMapping("/signIn")
-    fun signUp(@RequestBody request: AppleSignInRequest): ApiResponse<AppleSignInResponse> {
+    fun signUp(@Valid @RequestBody request: AppleSignInRequest): ApiResponse<AppleSignInResponse> {
         println(request)
         val memberId = appleAuthService.findMemberIdByAppleIdentityToken(request.identityToken)
         val generatedToken = authService.generateToken(memberId, Date())

@@ -9,6 +9,7 @@ import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.service.auth.AuthService
 import zip.cafe.service.auth.KakaoAuthService
 import java.util.*
+import javax.validation.Valid
 
 @RequestMapping("/auth/kakao")
 @RestController
@@ -19,7 +20,7 @@ class KakaoAuthController(
 
     @ResponseStatus(CREATED)
     @PostMapping("/signIn")
-    fun signUp(@RequestBody request: KakaoSignInRequest): ApiResponse<KakaoSignInResponse> {
+    fun signUp(@Valid @RequestBody request: KakaoSignInRequest): ApiResponse<KakaoSignInResponse> {
         val memberId = kakaoAuthService.findMemberIdByKakaoAccessToken(request.accessToken)
         val generatedToken = authService.generateToken(memberId, Date())
         return success(KakaoSignInResponse(generatedToken))
