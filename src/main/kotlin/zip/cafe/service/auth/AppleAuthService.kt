@@ -52,7 +52,7 @@ class AppleAuthService(
         if (split.size != 3) {
             throw RuntimeException(appleLoginFailMsg)
         }
-        val header = split[0]
+        val header = String(Base64.getDecoder().decode(split[0]))
         return objectMapper.readValue(header, AppleIdentityTokenHeader::class.java)
     }
 
