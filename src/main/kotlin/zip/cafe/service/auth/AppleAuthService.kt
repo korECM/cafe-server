@@ -73,7 +73,7 @@ class AppleAuthService(
         val claimsJws = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(identityToken)
         println(claimsJws)
         println(claimsJws.body)
-        if (claimsJws.body.issuer != "https://appleid.apple.com/") throw RuntimeException(appleLoginFailMsg)
+        if (claimsJws.body.issuer != "https://appleid.apple.com") throw RuntimeException(appleLoginFailMsg)
         if (claimsJws.body.audience != appleClientId) throw RuntimeException(appleLoginFailMsg)
         if (claimsJws.body.expiration.before(Date())) throw RuntimeException(appleLoginFailMsg)
         return claimsJws.body
