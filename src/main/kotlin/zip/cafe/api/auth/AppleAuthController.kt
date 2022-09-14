@@ -22,7 +22,8 @@ class AppleAuthController(
     @PostMapping("/signIn")
     fun signUp(@Valid @RequestBody request: AppleSignInRequest): ApiResponse<AppleSignInResponse> {
         println(request)
-        val memberId = appleAuthService.findMemberIdByAppleIdentityToken(request.identityToken)
+        val defaultNickname = request.lastName + request.firstName
+        val memberId = appleAuthService.findMemberIdByAppleIdentityToken(request.identityToken, defaultNickname)
         val generatedToken = authService.generateToken(memberId, Date())
         return success(AppleSignInResponse(generatedToken))
     }

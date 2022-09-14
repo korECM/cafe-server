@@ -27,17 +27,19 @@ class AppleAuthControllerTest : WebMvcTestSpec() {
     init {
         "애플 로그인 / 회원가입" {
             val identityToken = "JWjHXiVIlkxciAy_fTiEft3wDaAdHvOVcV_D6wwpCinI2gAAAYMNQf1c"
+            val firstName = "길동"
+            val lastName = "홍"
             val memberId = MOCK_MVC_USER_ID
             val jwtToken =
                 "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1IiwiaWF0IjoxNjU4OTI4Mjg1LCJleHAiOjE2NTg5NTk4MjF9.oAc8ycJgnmM5crByz0DrvKEoH3xGceqAWPHLFtUIwTHFQopf9kbSYXsR5FML05_FUbdPIf_FGKPwo_bdIjgOyw"
 
-            every { appleAuthService.findMemberIdByAppleIdentityToken(identityToken) } returns memberId
+            every { appleAuthService.findMemberIdByAppleIdentityToken(identityToken, lastName + firstName) } returns memberId
             every { authService.generateToken(memberId, any()) } returns jwtToken
 
 
             val response = mockMvc.post("/auth/apple/signIn") {
                 contentType = MediaType.APPLICATION_JSON
-                content = objectMapper.writeValueAsString(AppleSignInRequest(identityToken))
+                content = objectMapper.writeValueAsString(AppleSignInRequest(identityToken, firstName, lastName))
             }
 
             response.andExpect {

@@ -28,13 +28,13 @@ class AppleAuthService(
     @Value("\${apple.clientId}")
     private val appleClientId: String
 ) {
-    fun findMemberIdByAppleIdentityToken(identityToken: String): Long {
+    fun findMemberIdByAppleIdentityToken(identityToken: String, nickname: String): Long {
         val appleUserId = getUserId(identityToken)
         val foundAppleAuth = appleAuthRepository.findByAppleId(appleUserId)
         if (foundAppleAuth != null) {
             return foundAppleAuth.member.id
         }
-        val newMember = saveNewAppleAccount(appleUserId, "")
+        val newMember = saveNewAppleAccount(appleUserId, nickname)
         return newMember.id
     }
 
