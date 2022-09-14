@@ -7,10 +7,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.post
 import zip.cafe.api.auth.dto.AppleSignInRequest
 import zip.cafe.api.utils.mockmvc.documentWithHandle
-import zip.cafe.api.utils.restdocs.STRING
-import zip.cafe.api.utils.restdocs.requestFields
-import zip.cafe.api.utils.restdocs.responseBody
-import zip.cafe.api.utils.restdocs.type
+import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.service.auth.AppleAuthService
@@ -55,6 +52,7 @@ class AppleAuthControllerTest : WebMvcTestSpec() {
                             "lastName" type STRING means "lastName" example lastName,
                         ),
                         responseBody(
+                            "body" beneathPathWithSubsectionId "body",
                             "token" type STRING means "JWT 토큰" example jwtToken
                         )
                     )
