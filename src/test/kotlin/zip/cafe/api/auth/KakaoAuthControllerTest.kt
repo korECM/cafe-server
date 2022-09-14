@@ -9,6 +9,7 @@ import zip.cafe.api.auth.dto.KakaoSignInRequest
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.STRING
 import zip.cafe.api.utils.restdocs.requestFields
+import zip.cafe.api.utils.restdocs.responseBody
 import zip.cafe.api.utils.restdocs.type
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.seeds.MOCK_MVC_USER_ID
@@ -47,6 +48,9 @@ class KakaoAuthControllerTest : WebMvcTestSpec() {
                         "auth-kakao-sign-in",
                         requestFields(
                             "accessToken" type STRING means "액세스 토큰" example accessToken
+                        ),
+                        responseBody(
+                            "token" type STRING means "JWT 토큰" example jwtToken
                         )
                     )
                 }
