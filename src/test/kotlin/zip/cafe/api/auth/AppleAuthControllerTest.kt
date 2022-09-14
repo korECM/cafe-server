@@ -9,6 +9,7 @@ import zip.cafe.api.auth.dto.AppleSignInRequest
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.STRING
 import zip.cafe.api.utils.restdocs.requestFields
+import zip.cafe.api.utils.restdocs.responseBody
 import zip.cafe.api.utils.restdocs.type
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.seeds.MOCK_MVC_USER_ID
@@ -49,7 +50,12 @@ class AppleAuthControllerTest : WebMvcTestSpec() {
                     documentWithHandle(
                         "auth-apple-sign-in",
                         requestFields(
-                            "identityToken" type STRING means "Identity 토큰" example identityToken
+                            "identityToken" type STRING means "Identity 토큰" example identityToken,
+                            "firstName" type STRING means "firstName" example firstName,
+                            "lastName" type STRING means "lastName" example lastName,
+                        ),
+                        responseBody(
+                            "token" type STRING means "JWT 토큰" example jwtToken
                         )
                     )
                 }
