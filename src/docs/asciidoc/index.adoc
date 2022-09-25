@@ -15,6 +15,8 @@ include::common-response.adoc[]
 include::apple-auth.adoc[]
 include::kakao-auth.adoc[]
 
+include::profile.adoc[]
+
 include::follow.adoc[]
 include::keyword.adoc[]
 include::search.adoc[]
