@@ -9,6 +9,7 @@ import org.springframework.web.method.support.ModelAndViewContainer
 import zip.cafe.security.LoginFailedException
 import zip.cafe.security.LoginUserId
 import zip.cafe.security.jwt.JwtTokenProvider
+import zip.cafe.util.logger
 
 @Component
 class LoginUserIdResolver(
@@ -25,13 +26,13 @@ class LoginUserIdResolver(
         binderFactory: WebDataBinderFactory?
     ): Long? = try {
         val token = extractToken(webRequest)
-        println(token)
+        logger().info("extracted Token : $token")
         if (jwtTokenProvider.isInvalidToken(token)) {
             throw LoginFailedException()
         }
         jwtTokenProvider.getUserPk(token)
     } catch (e: Exception) {
-        println(e)
+        logger().error("LoginUserIdResolver error", e)
         val annotation = parameter.getParameterAnnotation(LoginUserId::class.java)!!
         if (annotation.optional) null else throw e
     }
