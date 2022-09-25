@@ -7,12 +7,16 @@ import zip.cafe.entity.member.Member
 import zip.cafe.entity.review.CafeKeyword
 import java.time.LocalDateTime
 
+data class FeedWithPagination(
+    val feeds: List<FeedInfo>,
+    val isLastPage: Boolean,
+)
+
 data class FeedInfo(
     val id: Long,
     val member: FeedMember,
     val cafe: FeedCafe,
     val review: FeedReview,
-    val isLastPage: Boolean,
 )
 
 data class FeedMember(

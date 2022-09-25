@@ -13,16 +13,15 @@ class FeedService(
     private val memberFollowRepository: MemberFollowRepository
 ) {
 
-    fun getReviewFeeds(loginMemberId: Long, minReviewIdInFeed: Long?, limit: Long): List<FeedInfo> {
+    fun getReviewFeeds(loginMemberId: Long, minReviewIdInFeed: Long?, limit: Long): FeedWithPagination {
         val followeeIds = memberFollowRepository.getFolloweeIds(loginMemberId)
         val reviews = reviewRepository.findByAuthorIdIn(followeeIds + loginMemberId, minReviewIdInFeed, limit)
         val isLastPage = minReviewIdInFeed?.let { reviewRepository.isLastPage(followeeIds, minReviewIdInFeed, limit) } ?: false
-        return reviews.map { review ->
+        return FeedWithPagination(feeds = reviews.map { review ->
             FeedInfo(
                 id = review.id,
                 member = FeedMember(review.member),
                 cafe = FeedCafe(review.cafe),
-                isLastPage = isLastPage,
                 review = FeedReview(
                     finalScore = review.finalScore.score,
                     images = review.images.map(::FeedImage),
@@ -33,6 +32,6 @@ class FeedService(
                     createdAt = review.createdAt
                 )
             )
-        }.sortedByDescending { it.id }
+        }.sortedByDescending { it.id }, isLastPage = isLastPage)
     }
 }
