@@ -16,11 +16,13 @@ class FeedService(
     fun getReviewFeeds(loginMemberId: Long, minReviewIdInFeed: Long?, limit: Long): List<FeedInfo> {
         val followeeIds = memberFollowRepository.getFolloweeIds(loginMemberId)
         val reviews = reviewRepository.findByAuthorIdIn(followeeIds + loginMemberId, minReviewIdInFeed, limit)
+        val isLastPage = minReviewIdInFeed?.let { reviewRepository.isLastPage(followeeIds, minReviewIdInFeed, limit) } ?: false
         return reviews.map { review ->
             FeedInfo(
                 id = review.id,
                 member = FeedMember(review.member),
                 cafe = FeedCafe(review.cafe),
+                isLastPage = isLastPage,
                 review = FeedReview(
                     finalScore = review.finalScore.score,
                     images = review.images.map(::FeedImage),

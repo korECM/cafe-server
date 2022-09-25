@@ -11,7 +11,8 @@ data class FeedInfo(
     val id: Long,
     val member: FeedMember,
     val cafe: FeedCafe,
-    val review: FeedReview
+    val review: FeedReview,
+    val isLastPage: Boolean,
 )
 
 data class FeedMember(

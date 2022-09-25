@@ -27,4 +27,16 @@ class ReviewRepositoryImpl(
     }
 
     private fun olderThanHasEverSeen(minReviewIdInFeed: Long?): BooleanExpression? = minReviewIdInFeed?.let { review.id.lt(it) }
+
+    override fun isLastPage(authorIds: List<Long>, minReviewIdInFeed: Long, limit: Long): Boolean {
+        // limit보다 1 크게 조회해서 조회되는 게시글 개수 비교
+        return queryFactory
+            .select(review.id.count())
+            .distinct()
+            .from(review)
+            .where(review.member.id.`in`(authorIds).and(olderThanHasEverSeen(minReviewIdInFeed)))
+            .orderBy(review.id.desc())
+            .limit(limit + 1)
+            .fetchOne()?.let { it <= limit } ?: true
+    }
 }

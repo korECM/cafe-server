@@ -57,6 +57,7 @@ class FeedControllerTest : WebMvcTestSpec() {
                     id = it.id,
                     member = FeedMember(createMember()),
                     cafe = FeedCafe(createCafe()),
+                    isLastPage = true,
                     review = FeedReview(
                         finalScore = it.finalScore.score,
                         images = it.images.map(::FeedImage),
@@ -87,6 +88,7 @@ class FeedControllerTest : WebMvcTestSpec() {
                     responseBody(
                         "body" beneathPathWithSubsectionId "body",
                         "id" type NUMBER means "리뷰 id" example "5L",
+                        "isLastPage" type BOOLEAN means "더 조회할 피드가 없는지 여부. 마지막 페이지면 true" example "true",
                         "member" type OBJECT means "리뷰를 쓴 유저",
                         "member.id" type NUMBER means "유저 id" example "10L",
                         "member.name" type STRING means "유저의 닉네임" example "한은주",
