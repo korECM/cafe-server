@@ -13,4 +13,17 @@ class CafeKeyword(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_keyword_id", nullable = false)
     val id: Long = 0
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CafeKeyword
+
+        if (keyword != other.keyword) return false
+        if (emoji != other.emoji) return false
+
+        return true
+    }
+
+    override fun hashCode() = 31 * keyword.hashCode() + emoji.hashCode()
 }
