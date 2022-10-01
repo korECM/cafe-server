@@ -176,7 +176,7 @@ fun createReviewRegisterDto(
 ) = ReviewRegisterDto(
     visitPurpose = visitPurpose,
     visitPurposeScore = visitPurposeScore,
-    foodInfos = listOf(),
+    foodInfos = foodInfos,
     keywords = keywords,
     reviewImageIds = reviewImages,
     description = "",
