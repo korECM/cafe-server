@@ -2,6 +2,7 @@ package zip.cafe.api.dto
 
 import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Member
+import zip.cafe.entity.review.ReviewCafeKeyword
 
 data class CafeInfo(
     val id: Long,
@@ -24,9 +25,16 @@ data class CafeInfo(
 
 data class KeywordInfo(
     val id: Long,
-    val name: String,
-    val numberOfPosts: Long,
-)
+    val keyword: String,
+    val numberOfReviews: Int,
+) {
+    companion object {
+        fun from(reviewCafeKeyword: List<ReviewCafeKeyword>): List<KeywordInfo> {
+            return reviewCafeKeyword.groupBy { it.cafeKeyword }
+                .map { KeywordInfo(it.key.id, it.key.keyword, it.value.size) }
+        }
+    }
+}
 
 
 data class MemberInfo(

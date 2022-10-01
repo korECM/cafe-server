@@ -8,6 +8,8 @@ import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.api.dto.CafeInfo
 import zip.cafe.api.dto.CafeInfo.Companion.from
+import zip.cafe.api.dto.KeywordInfo
+import zip.cafe.api.dto.KeywordInfo.Companion.from
 import zip.cafe.api.dto.MemberInfo
 import zip.cafe.api.dto.MemberInfo.Companion.from
 import zip.cafe.service.SearchService
@@ -28,5 +30,12 @@ class SearchController(
     fun searchCafe(@RequestParam name: String): ApiResponse<List<CafeInfo>> {
         val result = searchService.searchCafe(name)
         return success(result.map(::from))
+    }
+
+    @GetMapping("/keyword")
+    fun searchKeyword(@RequestParam keyword: String): ApiResponse<List<KeywordInfo>> {
+        val result = searchService.searchKeyword(keyword)
+        println(result)
+        return success(from(result))
     }
 }

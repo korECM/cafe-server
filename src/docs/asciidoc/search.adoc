@@ -10,3 +10,8 @@ operation::search-member-name[snippets='http-request,request-parameters,http-res
 ==== 카페 이름 검색
 
 operation::search-cafe-name[snippets='http-request,request-parameters,http-response,response-fields-body']
+
+[[Search-Keyword]]
+==== 키워드 검색
+
+operation::search-keyword[snippets='http-request,request-parameters,http-response,response-fields-body']
