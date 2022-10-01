@@ -7,6 +7,7 @@ data class ProfileInfo(
     val nickname: String,
     val profileImageURL: String,
     val description: String,
+    val sumOfReviewAndFootPrint : Int,
     val numberOfFollowers: Int,
     val numberOfFollowees: Int
 ) {
@@ -16,6 +17,7 @@ data class ProfileInfo(
             nickname = member.nickname,
             profileImageURL = member.profileImage,
             description = "",
+            sumOfReviewAndFootPrint = 0,
             numberOfFollowers = member.followers.size,
             numberOfFollowees = member.followees.size
         )

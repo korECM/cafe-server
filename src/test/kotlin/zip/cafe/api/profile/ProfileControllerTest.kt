@@ -25,6 +25,7 @@ class ProfileControllerTest : WebMvcTestSpec() {
                 nickname = "홍길동",
                 profileImageURL = Member.DEFAULT_PROFILE_IMAGE_URL,
                 description = "적당한 설명",
+                sumOfReviewAndFootPrint = 10,
                 numberOfFollowers = 151612,
                 numberOfFollowees = 165,
             )
@@ -45,6 +46,7 @@ class ProfileControllerTest : WebMvcTestSpec() {
                         "nickname" type STRING means "유저의 닉네임" example "홍길동",
                         "profileImageURL" type STRING means "유저의 프로필 이미지 URL" example "https://cafezip.s3.ap-northeast-2.amazonaws.com/profiles/5L.png",
                         "description" type STRING means "유저의 설명" example "적당한 설명",
+                        "sumOfReviewAndFootPrint" type NUMBER means "유저의 리뷰와 발자국 합" example "10",
                         "numberOfFollowers" type NUMBER means "유저의 팔로워 수" example "151612",
                         "numberOfFollowees" type NUMBER means "유저의 팔로잉 수" example "165",
                     )
