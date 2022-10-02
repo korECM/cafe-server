@@ -1,0 +1,17 @@
+SET REFERENTIAL_INTEGRITY FALSE
+truncate table cafe
+truncate table cafe_keyword
+truncate table cafe_like
+truncate table cafe_menu
+truncate table local_auth
+truncate table menu
+truncate table member
+truncate table member_follow
+truncate table review
+truncate table review_cafe_keyword
+truncate table review_comment
+truncate table review_food_info
+truncate table review_image
+truncate table review_like
+truncate table visit_purpose_information
+SET REFERENTIAL_INTEGRITY TRUE

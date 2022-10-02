@@ -1,9 +1,9 @@
 package zip.cafe.config
 
-import org.locationtech.jts.geom.Point
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import zip.cafe.entity.Point
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.auth.LocalAuth
 import zip.cafe.entity.cafe.Cafe
@@ -19,7 +19,7 @@ import java.util.*
 import javax.annotation.PostConstruct
 import javax.persistence.EntityManager
 
-@Profile("test")
+@Profile("test_data")
 @Component
 class TestInitDB(
     private val initService: InitService,

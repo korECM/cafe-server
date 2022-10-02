@@ -1,0 +1,19 @@
+spring:
+  config:
+    activate:
+      on-profile: h2
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-h2-test.sql
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: mysql
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-mysql-test.sql

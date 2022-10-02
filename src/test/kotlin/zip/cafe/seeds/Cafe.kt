@@ -1,6 +1,6 @@
 package zip.cafe.seeds
 
-import org.locationtech.jts.geom.Point
+import zip.cafe.entity.Point
 import zip.cafe.entity.cafe.Cafe
 import zip.cafe.util.createPoint
 import zip.cafe.util.seoulLatitude

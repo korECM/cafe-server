@@ -10,7 +10,7 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comments: false
-        dialect: org.hibernate.spatial.dialect.mysql.MySQL8SpatialDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     hibernate:
       ddl-auto: validate
