@@ -1,5 +1,5 @@
 [[Cafe-API]]
-== Cafe API
+=== Cafe API
 
 [[Get-Cafe]]
 ==== 카페 조회

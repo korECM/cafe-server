@@ -1,5 +1,5 @@
 [[Keyword-API]]
-== Keyword API
+=== Keyword API
 
 [[Get-Keyword-List]]
 ==== 키워드 목록 조회

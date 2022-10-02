@@ -1,5 +1,5 @@
 [[Feed-API]]
-== Feed API
+=== Feed API
 
 [[Get-Feed]]
 ==== 카페 피드 조회

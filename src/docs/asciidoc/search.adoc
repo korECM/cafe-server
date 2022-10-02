@@ -1,5 +1,5 @@
 [[Search-API]]
-== Search API
+=== Search API
 
 [[Search-Member-By-Name]]
 ==== 멤버 이름 검색

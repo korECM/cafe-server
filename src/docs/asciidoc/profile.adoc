@@ -1,9 +1,7 @@
 [[profile-API]]
-== 프로필 API
+=== 프로필 API
 
 [[get]]
 ==== 멤버 프로필 조회
 
 operation::get-profile[snippets='http-request,path-parameters,http-response,response-fields-body']
-
-

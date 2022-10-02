@@ -1,5 +1,5 @@
 [[Review-API]]
-== Review API
+=== Review API
 
 [[writeReview]]
 ==== 리뷰 작성

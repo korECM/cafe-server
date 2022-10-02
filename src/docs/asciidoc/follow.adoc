@@ -1,5 +1,5 @@
 [[follow-API]]
-== 팔로우 API
+=== 팔로우 API
 
 [[follow]]
 ==== 멤버 팔로우

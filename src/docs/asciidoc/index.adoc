@@ -7,6 +7,9 @@
 :sectlinks:
 :docinfo: shared-head
 
+[[Common]]
+== 공통
+
 include::common-response.adoc[]
 
 [[Auth]]
@@ -14,6 +17,9 @@ include::common-response.adoc[]
 
 include::apple-auth.adoc[]
 include::kakao-auth.adoc[]
+
+[[Etc]]
+== 기타
 
 include::profile.adoc[]
 
