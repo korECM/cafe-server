@@ -69,7 +69,7 @@ dependencies {
 
     implementation("io.awspring.cloud:spring-cloud-starter-aws:2.4.2")
 
-    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.0")
+    implementation("com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.8.1")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")
