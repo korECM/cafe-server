@@ -15,7 +15,7 @@ plugins {
 group = "zip"
 version = "0.0.15-SNAPSHOT"
 val qeurydslVersion = "5.0.0"
-val kotestVersion = "5.4.1"
+val kotestVersion = "5.4.2"
 
 allOpen {
     annotation("javax.persistence.Entity")
