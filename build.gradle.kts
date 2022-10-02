@@ -6,7 +6,7 @@ plugins {
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.7.10"
     kotlin("plugin.spring") version "1.7.10"
-    kotlin("plugin.jpa") version "1.7.10"
+    kotlin("plugin.jpa") version "1.7.20"
     kotlin("kapt") version "1.7.10"
     id("jacoco")
     id("com.google.cloud.tools.jib") version "3.3.0"
