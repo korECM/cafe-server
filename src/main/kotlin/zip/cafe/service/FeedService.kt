@@ -6,6 +6,7 @@ import zip.cafe.api.dto.*
 import zip.cafe.repository.MemberFollowRepository
 import zip.cafe.repository.ReviewRepository
 
+
 @Transactional(readOnly = true)
 @Service
 class FeedService(
@@ -20,8 +21,8 @@ class FeedService(
         return FeedWithPagination(feeds = reviews.map { review ->
             FeedInfo(
                 id = review.id,
-                member = FeedMember(review.member),
-                cafe = FeedCafe(review.cafe),
+                member = FeedMember(review.footprint.member),
+                cafe = FeedCafe(review.footprint.cafe),
                 review = FeedReview(
                     finalScore = review.finalScore.score,
                     images = review.images.map(::FeedImage),

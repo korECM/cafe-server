@@ -4,7 +4,6 @@ import zip.cafe.entity.FloatScore
 import zip.cafe.entity.Food
 import zip.cafe.entity.IntScore
 import zip.cafe.entity.ReviewImage
-import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.common.BaseClass
 import zip.cafe.entity.member.Member
 import javax.persistence.*
@@ -13,13 +12,8 @@ import javax.persistence.FetchType.LAZY
 
 @Entity
 class Review(
-    @ManyToOne(fetch = LAZY, optional = false)
-    @JoinColumn(name = "cafe_id", nullable = false)
-    val cafe: Cafe,
-
-    @ManyToOne(fetch = LAZY, optional = false)
-    @JoinColumn(name = "member_id", nullable = false)
-    val member: Member,
+    @OneToOne(fetch = LAZY, optional = false, mappedBy = "review")
+    val footprint: Footprint,
 
     @Embedded
     @Column(nullable = false)
@@ -29,11 +23,10 @@ class Review(
     val description: String,
 ) : BaseClass() {
     companion object {
-        fun from(cafe: Cafe, member: Member, finalScore: FloatScore, description: String): Review {
-            val review = Review(cafe, member, finalScore, description)
-//            cafe.addReview(review)
-            return review
-        }
+        fun from(footprint: Footprint, finalScore: FloatScore, description: String): Review =
+            Review(footprint, finalScore, description).apply {
+                footprint.review = this
+            }
     }
 
     @Id

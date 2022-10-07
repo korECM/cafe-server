@@ -20,6 +20,9 @@ spring:
       accept-case-insensitive-enums: true
   jpa:
     open-in-view: false
+    properties:
+      hibernate:
+        default_batch_fetch_size: 300
 
 cloud:
   aws:

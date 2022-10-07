@@ -11,9 +11,9 @@ import zip.cafe.service.dto.ReviewSummary
 fun ReviewRepository.findOneById(id: Long) = this.findByIdOrNull(id) ?: throw NoSuchElementException()
 
 interface ReviewRepository : JpaRepository<Review, Long>, ReviewRepositoryCustom {
-    @Query("select new zip.cafe.service.dto.ReviewSummary(COUNT(r), COALESCE(AVG(r.finalScore), 0)) from Review r where r.cafe.id = :cafeId")
+    @Query("select new zip.cafe.service.dto.ReviewSummary(COUNT(r), COALESCE(AVG(r.finalScore), 0)) from Review r join r.footprint f where f.cafe.id = :cafeId")
     fun getReviewSummaryByCafeId(@Param("cafeId") cafeId: Long): ReviewSummary
 
-    @Query("select new zip.cafe.service.dto.FollowerWhoWriteReview(m.id, m.nickname) from Review r join r.member m where r.cafe.id = :cafeId and r.member.id in :memberIds")
+    @Query("select new zip.cafe.service.dto.FollowerWhoWriteReview(m.id, m.nickname) from Review r join r.footprint f join f.member m where f.cafe.id = :cafeId and f.member.id in :memberIds")
     fun findWhoWriteReview(@Param("memberIds") memberIds: List<Long>, @Param("cafeId") cafeId: Long): List<FollowerWhoWriteReview>
 }

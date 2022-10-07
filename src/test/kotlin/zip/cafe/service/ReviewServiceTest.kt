@@ -34,6 +34,7 @@ class ReviewServiceTest : FreeSpec({
     val cafeKeywordRepository: CafeKeywordRepository = mockk(relaxed = true)
     val reviewRepository: ReviewRepository = mockk(relaxed = true)
     val reviewImageRepository: ReviewImageRepository = mockk(relaxed = true)
+    val footprintRepository: FootprintRepository = mockk(relaxed = true)
     val s3Connector: S3Connector = mockk(relaxed = true)
     val reviewImageBucket = "test-bucket"
     val reviewService = ReviewService(
@@ -42,6 +43,7 @@ class ReviewServiceTest : FreeSpec({
         cafeKeywordRepository = cafeKeywordRepository,
         reviewRepository = reviewRepository,
         reviewImageRepository = reviewImageRepository,
+        footprintRepository = footprintRepository,
         s3Connector = s3Connector,
         reviewImageBucket = reviewImageBucket,
     )
@@ -130,6 +132,7 @@ class ReviewServiceTest : FreeSpec({
             cafeKeywordRepository,
             reviewRepository,
             reviewImageRepository,
+            footprintRepository,
             s3Connector,
         )
     }

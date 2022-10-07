@@ -10,11 +10,14 @@ import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Member
 import zip.cafe.entity.menu.Menu
 import zip.cafe.entity.review.CafeKeyword
+import zip.cafe.entity.review.Footprint
 import zip.cafe.entity.review.Review
 import zip.cafe.entity.toScore
 import zip.cafe.security.jwt.JwtTokenProvider
 import zip.cafe.util.createPoint
 import zip.cafe.util.logger
+import java.time.LocalDate
+import java.time.LocalDate.now
 import java.util.*
 import javax.annotation.PostConstruct
 import javax.persistence.EntityManager
@@ -78,18 +81,29 @@ class TestInitDB(
 
             val reviewImage1Of1 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/1c/0d/58/75/interior.jpg")
             val reviewImage2Of1 = createReviewImage(member1, "https://images.homify.com/c_fill,f_auto,q_0,w_740/v1497622888/p/photo/image/2067284/JAY_0354.jpg")
-            val review1 = createReview(member1, cafe1, 3.5, "설명 1")
+            val footprint1 = createFootprint(member1, cafe1, now())
+            val review1 = createReview(footprint1, 3.5, "설명 1")
             reviewImage1Of1.assignReview(review1)
             reviewImage2Of1.assignReview(review1)
             val reviewImage1Of2 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
-            val review2 = createReview(member1, cafe2, 4.5, "설명인 것")
+            val footprint2 = createFootprint(member1, cafe2, now().minusDays(3))
+            val review2 = createReview(footprint2, 4.5, "설명인 것")
             reviewImage1Of2.assignReview(review2)
-            val review3 = createReview(member2, cafe1, 1.5, "또 다른 설명")
+            val footprint3 = createFootprint(member2, cafe1, now().minusDays(5).minusMonths(1))
+            val review3 = createReview(footprint3, 1.5, "또 다른 설명")
             val reviewImage1Of3 = createReviewImage(member2, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
             reviewImage1Of3.assignReview(review3)
-            val review4 = createReview(member3, cafe1, 1.5, "카페 리뷰1")
-            val review5 = createReview(member3, cafe2, 2.5, "카페 리뷰2")
-            val review6 = createReview(member3, cafe3, 3.5, "카페 리뷰3")
+            val footprint4 = createFootprint(member3, cafe1, now().minusDays(5).minusWeeks(1))
+            val review4 = createReview(footprint4, 1.5, "카페 리뷰1")
+            val footprint5 = createFootprint(member3, cafe2, now().plusDays(5).minusWeeks(2))
+            val review5 = createReview(footprint5, 2.5, "카페 리뷰2")
+            val footprint6 = createFootprint(member3, cafe3, now().plusDays(3).minusWeeks(1))
+            val review6 = createReview(footprint6, 3.5, "카페 리뷰3")
+
+            createFootprint(member2, cafe2, now())
+            createFootprint(member1, cafe1, now().minusWeeks(13))
+            createFootprint(member1, cafe3, now().plusDays(2))
+            createFootprint(member3, cafe3, now().minusWeeks(2))
 
             review1.addCafeKeyword(keywords[0])
             review1.addCafeKeyword(keywords[1])
@@ -107,7 +121,7 @@ class TestInitDB(
             review3.addLiker(member1)
         }
 
-        private fun createMember(nickName: String, profileImageURL : String = Member.DEFAULT_PROFILE_IMAGE_URL): Member {
+        private fun createMember(nickName: String, profileImageURL: String = Member.DEFAULT_PROFILE_IMAGE_URL): Member {
             val member = Member(
                 nickname = nickName,
                 profileImage = profileImageURL,
@@ -134,7 +148,7 @@ class TestInitDB(
             em.persist(localAuth)
         }
 
-        private fun createCafe(name: String, address: String, location: Point, openingHours : String): Cafe {
+        private fun createCafe(name: String, address: String, location: Point, openingHours: String): Cafe {
             val cafe = Cafe(name = name, address = address, location = location, openingHours = openingHours)
             em.persist(cafe)
             return cafe
@@ -172,15 +186,18 @@ class TestInitDB(
             return reviewImage
         }
 
-        private fun createReview(member: Member, cafe: Cafe, score: Double, description: String): Review {
-            val review = Review(
-                cafe = cafe,
-                member = member,
+        private fun createFootprint(member: Member, cafe: Cafe, visitDate: LocalDate): Footprint =
+            Footprint(member = member, cafe = cafe, visitDate = visitDate).apply {
+                em.persist(this)
+            }
+
+        private fun createReview(footprint: Footprint, score: Double, description: String): Review =
+            Review.from(
+                footprint = footprint,
                 finalScore = score.toScore(),
                 description = description
-            )
-            em.persist(review)
-            return review
-        }
+            ).apply {
+                em.persist(this)
+            }
     }
 }

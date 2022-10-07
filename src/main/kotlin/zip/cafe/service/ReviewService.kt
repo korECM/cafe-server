@@ -8,9 +8,11 @@ import org.springframework.web.multipart.MultipartFile
 import zip.cafe.connector.S3Connector
 import zip.cafe.connector.dto.S3FileDto
 import zip.cafe.entity.ReviewImage
+import zip.cafe.entity.review.Footprint
 import zip.cafe.entity.review.Review
 import zip.cafe.repository.*
 import zip.cafe.service.dto.ReviewRegisterDto
+import java.time.LocalDate.now
 
 @Transactional(readOnly = true)
 @Service
@@ -20,6 +22,7 @@ class ReviewService(
     private val cafeKeywordRepository: CafeKeywordRepository,
     private val reviewRepository: ReviewRepository,
     private val reviewImageRepository: ReviewImageRepository,
+    private val footprintRepository: FootprintRepository,
     private val s3Connector: S3Connector,
     @Value("\${cloud.aws.s3.review-image-bucket}")
     private val reviewImageBucket: String
@@ -33,7 +36,9 @@ class ReviewService(
         reviewImages.forEach { it.checkIsUploadedBy(uploadMember) }
 
         val cafe = cafeRepository.findOneById(cafeId)
-        val review = Review(cafe = cafe, member = uploadMember, finalScore = dto.finalScore, description = dto.description)
+        // TODO 날짜 받기
+        val footprint = Footprint(cafe = cafe, member = uploadMember, visitDate = now())
+        val review = Review.from(footprint = footprint, finalScore = dto.finalScore, description = dto.description)
 
         review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)
 
@@ -41,6 +46,7 @@ class ReviewService(
 
         cafeKeywordRepository.findByIdIn(dto.keywords).forEach(review::addCafeKeyword)
 
+        footprintRepository.save(footprint)
         reviewRepository.save(review)
         reviewImages.forEach { it.assignReview(review) }
     }
