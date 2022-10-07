@@ -140,6 +140,14 @@ tasks.test {
     outputs.dir(snippetsDir)
     systemProperty("org.springframework.restdocs.outputDir", snippetsDir)
     finalizedBy(testCoverage)
+
+    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceAtLeast(1).also {
+        println("Setting maxParallelForks to $it")
+    }
+
+    systemProperty("kotest.framework.parallelism", maxParallelForks)
+    systemProperty("kotest.framework.classpath.scanning.config.disable", true)
+
     doLast {
         println("View code coverage at:")
         println("file://$buildDir/reports/coverage/index.html")
