@@ -13,7 +13,6 @@ import zip.cafe.entity.review.Review
 import zip.cafe.repository.*
 import zip.cafe.service.dto.FootprintAndReviewRegisterDto
 import java.time.LocalDate
-import java.time.LocalDate.now
 
 @Transactional(readOnly = true)
 @Service
@@ -47,7 +46,7 @@ class ReviewService(
 
         val cafe = cafeRepository.findOneById(cafeId)
         // TODO 날짜 받기
-        val footprint = Footprint(cafe = cafe, member = uploadMember, visitDate = now())
+        val footprint = Footprint(cafe = cafe, member = uploadMember, visitDate = dto.visitDate)
         val review = Review.from(footprint = footprint, finalScore = dto.finalScore, description = dto.description)
 
         review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)

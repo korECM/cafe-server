@@ -26,6 +26,7 @@ import zip.cafe.utils.answersWithEntityId
 import zip.cafe.utils.faker
 import zip.cafe.utils.newEntityId
 import java.nio.charset.StandardCharsets.UTF_8
+import java.time.LocalDate
 
 class ReviewServiceTest : FreeSpec({
 
@@ -175,13 +176,15 @@ fun createReviewRegisterDto(
     keywords: List<Long> = List(keywordLength) { faker.random.nextLong(10) },
     reviewImageLength: Int = faker.random.nextInt(1, 5),
     reviewImages: List<Long> = List(reviewImageLength) { faker.random.nextLong(10) },
-    finalScore: FloatScore = createFloatScore()
+    finalScore: FloatScore = createFloatScore(),
+    visitDate: LocalDate = LocalDate.now().minusDays(faker.random.nextLong(100)),
 ) = FootprintAndReviewRegisterDto(
     visitPurpose = visitPurpose,
     visitPurposeScore = visitPurposeScore,
     foodInfos = foodInfos,
     keywords = keywords,
     reviewImageIds = reviewImages,
-    description = "",
-    finalScore = finalScore
+    description = "좋은 카페~",
+    finalScore = finalScore,
+    visitDate = visitDate
 )

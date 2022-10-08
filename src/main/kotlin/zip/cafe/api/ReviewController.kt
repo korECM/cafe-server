@@ -22,7 +22,7 @@ class ReviewController(
 ) {
 
     @ResponseStatus(CREATED)
-    @PostMapping("")
+    @PostMapping
     fun register(
         @LoginUserId userId: Long,
         @Valid @RequestBody request: ReviewRegisterRequest

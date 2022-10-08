@@ -4,6 +4,7 @@ import zip.cafe.entity.FloatScore
 import zip.cafe.entity.Food
 import zip.cafe.entity.IntScore
 import zip.cafe.entity.review.Purpose
+import java.time.LocalDate
 
 data class FootprintAndReviewRegisterDto(
     val visitPurpose: Purpose,
@@ -12,7 +13,8 @@ data class FootprintAndReviewRegisterDto(
     val keywords: List<Long>,
     val reviewImageIds: List<Long>,
     val description: String,
-    val finalScore: FloatScore
+    val finalScore: FloatScore,
+    val visitDate: LocalDate
 ) {
 
     data class FoodInfo(

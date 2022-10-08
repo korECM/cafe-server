@@ -15,6 +15,7 @@ import zip.cafe.api.dto.ReviewRegisterRequest
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
+import zip.cafe.config.formatAsDefault
 import zip.cafe.connector.dto.S3FileDto
 import zip.cafe.entity.FloatScore
 import zip.cafe.entity.Food
@@ -27,6 +28,7 @@ import zip.cafe.service.ReviewLikeService
 import zip.cafe.service.ReviewService
 import zip.cafe.service.dto.FootprintAndReviewRegisterDto
 import zip.cafe.service.dto.FootprintAndReviewRegisterDto.FoodInfo
+import java.time.LocalDate
 
 @WebMvcTest(ReviewController::class)
 class ReviewControllerTest : WebMvcTestSpec() {
@@ -44,6 +46,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
 
             val visitPurpose = Purpose.STUDY
             val visitPurposeScore = 5
+            val visitDate = LocalDate.now()
 
             val food1 = Food.BAKERY
             val food2 = Food.BEVERAGE
@@ -65,7 +68,8 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 keywords = keywords,
                 reviewImageIds = reviewImageIds,
                 description = description,
-                finalScore = finalScore
+                finalScore = finalScore,
+                visitDate = visitDate
             )
 
             val dto = FootprintAndReviewRegisterDto(
@@ -75,7 +79,8 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 keywords = keywords,
                 reviewImageIds = reviewImageIds,
                 description = description,
-                finalScore = FloatScore(score = finalScore)
+                finalScore = FloatScore(score = finalScore),
+                visitDate = visitDate
             )
 
             every { reviewService.createFootprintAndReview(cafeId, MOCK_MVC_USER_ID, dto) } just Runs
@@ -94,6 +99,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
                         "cafeId" type NUMBER means "카페 Id" example "1L",
                         "visitPurpose" type ENUM(Purpose::class) means "방문 목적",
                         "visitPurposeScore" type NUMBER means "방문 목적 점수" example "3",
+                        "visitDate" type DATE means "방문 날짜" example visitDate.formatAsDefault(),
                         "foodInfos" type ARRAY means "카페에서 먹은 음식 정보",
                         "foodInfos[].food" type ENUM(Food::class) means "먹은 음식",
                         "foodInfos[].score" type NUMBER means "먹은 음식에 대한 점수" example "3.0",

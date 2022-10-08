@@ -1,10 +1,13 @@
 package zip.cafe.api.dto
 
+import com.fasterxml.jackson.annotation.JsonFormat
+import zip.cafe.config.defaultDateFormat
 import zip.cafe.entity.Food
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.toScore
 import zip.cafe.service.dto.FootprintAndReviewRegisterDto
+import java.time.LocalDate
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
@@ -27,7 +30,10 @@ data class ReviewRegisterRequest(
     val description: String,
 
     @field:NotNull(message = "카페 ID가 존재하지 않습니다")
-    val finalScore: Double
+    val finalScore: Double,
+
+    @JsonFormat(pattern = defaultDateFormat)
+    val visitDate: LocalDate
 ) {
     data class FoodInfo(
         @field:NotBlank(message = "선택한 음식이 없습니다")
@@ -45,7 +51,8 @@ data class ReviewRegisterRequest(
             reviewImageIds = reviewImageIds,
             keywords = keywords,
             description = description,
-            finalScore = finalScore.toScore()
+            finalScore = finalScore.toScore(),
+            visitDate = visitDate
         )
     }
 }
