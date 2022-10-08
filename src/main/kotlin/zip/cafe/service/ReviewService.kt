@@ -30,6 +30,15 @@ class ReviewService(
 ) {
 
     @Transactional
+    fun createFootprint(cafeId: Long, memberId: Long, visitDate: LocalDate): Long {
+        val member = memberRepository.findOneById(memberId)
+        val cafe = cafeRepository.findOneById(cafeId)
+        val footprint = Footprint(cafe = cafe, member = member, visitDate)
+        footprintRepository.save(footprint)
+        return footprint.id
+    }
+
+    @Transactional
     fun createFootprintAndReview(cafeId: Long, uploadMemberId: Long, dto: FootprintAndReviewRegisterDto) {
         val uploadMember = memberRepository.findOneById(uploadMemberId)
         val reviewImages = reviewImageRepository.findByIdIn(dto.reviewImageIds)

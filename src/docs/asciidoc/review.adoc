@@ -1,6 +1,10 @@
 [[Review-API]]
 === Review API
 
+[[writeFoorprint]]
+==== 발자국 작성
+operation::write-footprint[snippets='http-request,request-fields,http-response,response-fields-body']
+
 [[writeReview]]
 ==== 리뷰 작성
 operation::write-review[snippets='http-request,request-fields,http-response']
