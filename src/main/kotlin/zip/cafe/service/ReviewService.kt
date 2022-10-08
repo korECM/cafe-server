@@ -54,6 +54,7 @@ class ReviewService(
         reviewImages.forEach { it.checkIsUploadedBy(uploadMember) }
 
         val review = Review.from(footprint = footprint, finalScore = dto.finalScore, description = dto.description)
+        reviewRepository.save(review)
 
         review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)
 
@@ -61,8 +62,6 @@ class ReviewService(
 
         cafeKeywordRepository.findByIdIn(dto.keywords).forEach(review::addCafeKeyword)
 
-        footprintRepository.save(footprint)
-        reviewRepository.save(review)
         reviewImages.forEach { it.assignReview(review) }
 
         return review.id

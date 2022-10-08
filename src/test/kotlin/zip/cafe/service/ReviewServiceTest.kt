@@ -72,7 +72,6 @@ class ReviewServiceTest : FreeSpec({
             // mock
             every { memberRepository.findByIdOrNull(uploaderMemberId) } returns uploader
             every { cafeRepository.findByIdOrNull(cafeId) } returns cafe
-            every { footprintRepository.save(any()) } answersWithEntityId footprintId
             every { footprintRepository.findOneById(footprintId) } returns footprint
             every { reviewImageRepository.findByIdIn(reviewImageIds) } returns reviewImages
             // when
