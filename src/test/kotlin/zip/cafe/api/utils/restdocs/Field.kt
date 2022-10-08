@@ -5,6 +5,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import zip.cafe.api.utils.restdocs.RestDocs.DEFAULT_VALUE_KEY
 import zip.cafe.api.utils.restdocs.RestDocs.EXAMPLE_KEY
 import zip.cafe.api.utils.restdocs.RestDocs.FORMAT_KEY
+import zip.cafe.config.defaultDateFormat
+import zip.cafe.config.defaultDateTimeFormat
 
 class Field(
     var type: FieldDescriptor
@@ -21,7 +23,7 @@ class Field(
     }
 
     infix fun example(example: String): Field {
-        type.attributes[RestDocs.EXAMPLE_KEY] = example
+        type.attributes[EXAMPLE_KEY] = example
         return this
     }
 
@@ -36,14 +38,14 @@ class Field(
     }
 
     infix fun formattedAs(value: String): Field {
-        type.attributes[RestDocs.FORMAT_KEY] = value
+        type.attributes[FORMAT_KEY] = value
         return this
     }
 }
 
-infix fun String.type(fieldType: DocsFieldType): Field {
-    if (fieldType is ENUM<*>) {
-        return Field(fieldWithPath(this).type(fieldType.type)).example(fieldType.enums.joinToString(" or "))
-    }
-    return Field(fieldWithPath(this).type(fieldType.type))
+infix fun String.type(fieldType: DocsFieldType): Field = when (fieldType) {
+    is ENUM<*> -> Field(fieldWithPath(this).type(fieldType.type)).example(fieldType.enums.joinToString(" or "))
+    is DATETIME -> Field(fieldWithPath(this).type(fieldType.type)).formattedAs(defaultDateTimeFormat)
+    is DATE -> Field(fieldWithPath(this).type(fieldType.type)).formattedAs(defaultDateFormat)
+    else -> Field(fieldWithPath(this).type(fieldType.type))
 }
