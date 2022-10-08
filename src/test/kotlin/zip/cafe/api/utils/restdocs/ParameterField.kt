@@ -15,10 +15,12 @@ class ParameterField(
         type.attributes[FORMAT_KEY] = ""
     }
 
-    infix fun example(example: String): ParameterField {
-        type.attributes[EXAMPLE_KEY] = example
+    infix fun example(value: String): ParameterField {
+        type.attributes[EXAMPLE_KEY] = value
         return this
     }
+
+    infix fun example(value: Number): ParameterField = example(value.toString())
 
     infix fun isOptional(value: Boolean): ParameterField {
         if (value) type = type.optional()
@@ -29,6 +31,8 @@ class ParameterField(
         type.attributes[DEFAULT_VALUE_KEY] = value
         return this
     }
+
+    infix fun default(value: Number): ParameterField = default(value.toString())
 
     infix fun format(value: String): ParameterField {
         type.attributes[FORMAT_KEY] = value
