@@ -26,8 +26,8 @@ import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.ReviewLikeService
 import zip.cafe.service.ReviewService
-import zip.cafe.service.dto.FootprintAndReviewRegisterDto
-import zip.cafe.service.dto.FootprintAndReviewRegisterDto.FoodInfo
+import zip.cafe.service.dto.ReviewRegisterDto
+import zip.cafe.service.dto.ReviewRegisterDto.FoodInfo
 import java.time.LocalDate
 
 @WebMvcTest(ReviewController::class)
@@ -72,7 +72,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 visitDate = visitDate
             )
 
-            val dto = FootprintAndReviewRegisterDto(
+            val dto = ReviewRegisterDto(
                 visitPurpose = visitPurpose,
                 visitPurposeScore = IntScore(score = visitPurposeScore),
                 foodInfos = listOf(FoodInfo(food1, foodScore1.toScore()), FoodInfo(food2, foodScore2.toScore())),

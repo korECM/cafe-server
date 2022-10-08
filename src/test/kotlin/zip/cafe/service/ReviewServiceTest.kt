@@ -21,7 +21,7 @@ import zip.cafe.seeds.createFloatScore
 import zip.cafe.seeds.createIntScore
 import zip.cafe.seeds.createMember
 import zip.cafe.seeds.createReviewImage
-import zip.cafe.service.dto.FootprintAndReviewRegisterDto
+import zip.cafe.service.dto.ReviewRegisterDto
 import zip.cafe.utils.answersWithEntityId
 import zip.cafe.utils.faker
 import zip.cafe.utils.newEntityId
@@ -173,13 +173,13 @@ fun createReviewRegisterDto(
     visitPurpose: Purpose = faker.random.nextEnum(Purpose::class.java),
     visitPurposeScore: IntScore = createIntScore(),
     foodInfoLength: Int = faker.random.nextInt(0, Food.values().size - 1),
-    foodInfos: List<FootprintAndReviewRegisterDto.FoodInfo> = randomFoodList.slice(0..foodInfoLength).map { FootprintAndReviewRegisterDto.FoodInfo(it, createIntScore()) },
+    foodInfos: List<ReviewRegisterDto.FoodInfo> = randomFoodList.slice(0..foodInfoLength).map { ReviewRegisterDto.FoodInfo(it, createIntScore()) },
     keywordLength: Int = faker.random.nextInt(1, 5),
     keywords: List<Long> = List(keywordLength) { faker.random.nextLong(10) },
     reviewImageLength: Int = faker.random.nextInt(1, 5),
     reviewImages: List<Long> = List(reviewImageLength) { faker.random.nextLong(10) },
     finalScore: FloatScore = createFloatScore(),
-) = FootprintAndReviewRegisterDto(
+) = ReviewRegisterDto(
     visitPurpose = visitPurpose,
     visitPurposeScore = visitPurposeScore,
     foodInfos = foodInfos,

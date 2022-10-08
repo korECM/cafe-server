@@ -6,7 +6,7 @@ import zip.cafe.entity.Food
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.toScore
-import zip.cafe.service.dto.FootprintAndReviewRegisterDto
+import zip.cafe.service.dto.ReviewRegisterDto
 import java.time.LocalDate
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -43,11 +43,11 @@ data class ReviewRegisterRequest(
         val score: Int
     )
 
-    fun toDto(): FootprintAndReviewRegisterDto {
-        return FootprintAndReviewRegisterDto(
+    fun toDto(): ReviewRegisterDto {
+        return ReviewRegisterDto(
             visitPurpose = visitPurpose,
             visitPurposeScore = visitPurposeScore.toScore(),
-            foodInfos = foodInfos.map { info -> FootprintAndReviewRegisterDto.FoodInfo(info.food, info.score.toScore()) },
+            foodInfos = foodInfos.map { info -> ReviewRegisterDto.FoodInfo(info.food, info.score.toScore()) },
             reviewImageIds = reviewImageIds,
             keywords = keywords,
             description = description,

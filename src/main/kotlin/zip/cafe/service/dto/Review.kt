@@ -5,7 +5,7 @@ import zip.cafe.entity.Food
 import zip.cafe.entity.IntScore
 import zip.cafe.entity.review.Purpose
 
-data class FootprintAndReviewRegisterDto(
+data class ReviewRegisterDto(
     val visitPurpose: Purpose,
     val visitPurposeScore: IntScore,
     val foodInfos: List<FoodInfo>,

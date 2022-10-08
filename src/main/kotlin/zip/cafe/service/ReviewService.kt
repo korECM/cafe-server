@@ -11,7 +11,7 @@ import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.review.Footprint
 import zip.cafe.entity.review.Review
 import zip.cafe.repository.*
-import zip.cafe.service.dto.FootprintAndReviewRegisterDto
+import zip.cafe.service.dto.ReviewRegisterDto
 import java.time.LocalDate
 
 @Transactional(readOnly = true)
@@ -38,7 +38,7 @@ class ReviewService(
     }
 
     @Transactional
-    fun createFootprintAndReview(cafeId: Long, uploadMemberId: Long, visitDate: LocalDate, dto: FootprintAndReviewRegisterDto) {
+    fun createFootprintAndReview(cafeId: Long, uploadMemberId: Long, visitDate: LocalDate, dto: ReviewRegisterDto) {
         val uploadMember = memberRepository.findOneById(uploadMemberId)
         val reviewImages = reviewImageRepository.findByIdIn(dto.reviewImageIds)
         require(reviewImages.size == dto.reviewImageIds.size) { "리뷰의 이미지 중 존재하지 않는 것이 있습니다" }
