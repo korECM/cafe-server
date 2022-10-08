@@ -25,8 +25,8 @@ import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.ReviewLikeService
 import zip.cafe.service.ReviewService
-import zip.cafe.service.dto.ReviewRegisterDto
-import zip.cafe.service.dto.ReviewRegisterDto.FoodInfo
+import zip.cafe.service.dto.FootprintAndReviewRegisterDto
+import zip.cafe.service.dto.FootprintAndReviewRegisterDto.FoodInfo
 
 @WebMvcTest(ReviewController::class)
 class ReviewControllerTest : WebMvcTestSpec() {
@@ -68,7 +68,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 finalScore = finalScore
             )
 
-            val dto = ReviewRegisterDto(
+            val dto = FootprintAndReviewRegisterDto(
                 visitPurpose = visitPurpose,
                 visitPurposeScore = IntScore(score = visitPurposeScore),
                 foodInfos = listOf(FoodInfo(food1, foodScore1.toScore()), FoodInfo(food2, foodScore2.toScore())),
@@ -78,7 +78,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 finalScore = FloatScore(score = finalScore)
             )
 
-            every { reviewService.createReview(cafeId, MOCK_MVC_USER_ID, dto) } just Runs
+            every { reviewService.createFootprintAndReview(cafeId, MOCK_MVC_USER_ID, dto) } just Runs
 
             val response = mockMvc.post("/reviews") {
                 this.contentType = MediaType.APPLICATION_JSON
