@@ -29,7 +29,7 @@ data class ReviewRegisterRequest(
 
     val description: String,
 
-    @field:NotNull(message = "카페 ID가 존재하지 않습니다")
+    @field:NotNull(message = "평가 점수가 없습니다")
     val finalScore: Double,
 
     @JsonFormat(pattern = defaultDateFormat)
