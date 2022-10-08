@@ -1,6 +1,7 @@
 package zip.cafe.api.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
+import zip.cafe.config.defaultDateTimeFormat
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Member
@@ -42,7 +43,7 @@ data class FeedReview(
     val likeCount: Int,
     val content: String,
     val commentCount: Int,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = defaultDateTimeFormat)
     val createdAt: LocalDateTime
 )
 
