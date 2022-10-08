@@ -18,11 +18,12 @@ class AppleAuthController(
     private val authService: AuthService,
 ) {
 
+    private fun compositeName(firstName: String?, lastName: String?): String = if (lastName == null || firstName == null) "기본 닉네임" else lastName + firstName
+
     @ResponseStatus(CREATED)
     @PostMapping("/signIn")
     fun signUp(@Valid @RequestBody request: AppleSignInRequest): ApiResponse<AppleSignInResponse> {
-        println(request)
-        val defaultNickname = request.lastName + request.firstName
+        val defaultNickname = compositeName(request.firstName, request.lastName)
         val memberId = appleAuthService.findMemberIdByAppleIdentityToken(request.identityToken, defaultNickname)
         val generatedToken = authService.generateToken(memberId, Date())
         return success(AppleSignInResponse(generatedToken))
