@@ -17,10 +17,7 @@ import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.member.Member
 import zip.cafe.entity.review.Purpose
 import zip.cafe.repository.*
-import zip.cafe.seeds.createFloatScore
-import zip.cafe.seeds.createIntScore
-import zip.cafe.seeds.createMember
-import zip.cafe.seeds.createReviewImage
+import zip.cafe.seeds.*
 import zip.cafe.service.dto.ReviewRegisterDto
 import zip.cafe.utils.answersWithEntityId
 import zip.cafe.utils.faker
@@ -53,11 +50,15 @@ class ReviewServiceTest : FreeSpec({
         "사용자가 올렸던 리뷰 이미지가 아닌 경우 IllegalArgumentException 예외를 던진다" {
             // given
             val cafeId = 123L
+            val cafe = createCafe(id = cafeId)
 
             val uploaderMemberId = 1L
             val uploader = createMember(id = uploaderMemberId)
             val anotherUploader = createMember()
             val visitDate = LocalDate.now().minusDays(faker.random.nextLong(100))
+
+            val footprintId = 51L
+            val footprint = createFootprint(id = footprintId)
 
             val reviewImageIds = listOf(5L, 6L)
             val reviewImages = listOf(
@@ -70,12 +71,15 @@ class ReviewServiceTest : FreeSpec({
             )
             // mock
             every { memberRepository.findByIdOrNull(uploaderMemberId) } returns uploader
+            every { cafeRepository.findByIdOrNull(cafeId) } returns cafe
+            every { footprintRepository.save(any()) } answersWithEntityId footprintId
+            every { footprintRepository.findOneById(footprintId) } returns footprint
             every { reviewImageRepository.findByIdIn(reviewImageIds) } returns reviewImages
             // when
             shouldThrow<IllegalArgumentException> {
                 reviewService.createFootprintAndReview(
                     cafeId = cafeId,
-                    uploadMemberId = uploaderMemberId,
+                    memberId = uploaderMemberId,
                     visitDate = visitDate,
                     dto = dto
                 )

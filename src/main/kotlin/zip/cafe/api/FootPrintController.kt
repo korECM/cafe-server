@@ -6,6 +6,7 @@ import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.api.dto.FootPrintRegisterRequest
 import zip.cafe.api.dto.FootPrintRegisterResponse
+import zip.cafe.api.dto.ReviewRegisterFromFootprintRequest
 import zip.cafe.security.LoginUserId
 import zip.cafe.service.ReviewService
 import javax.validation.Valid
@@ -23,5 +24,16 @@ class FootPrintController(
     ): ApiResponse<FootPrintRegisterResponse> {
         val createdFootprintId = reviewService.createFootprint(request.cafeId, userId, request.visitDate)
         return success(FootPrintRegisterResponse(createdFootprintId))
+    }
+
+    @ResponseStatus(CREATED)
+    @PostMapping("/{footprintId}/reviews")
+    fun registerFromFootprint(
+        @PathVariable footprintId: Long,
+        @LoginUserId userId: Long,
+        @Valid @RequestBody request: ReviewRegisterFromFootprintRequest,
+    ): ApiResponse<Nothing> {
+        reviewService.createReview(footprintId, userId, request.toDto())
+        return success(null)
     }
 }

@@ -5,7 +5,7 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.http.MediaType
+import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.request.RequestDocumentation.partWithName
 import org.springframework.restdocs.request.RequestDocumentation.requestParts
@@ -17,17 +17,12 @@ import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.config.formatAsDefault
 import zip.cafe.connector.dto.S3FileDto
-import zip.cafe.entity.FloatScore
 import zip.cafe.entity.Food
-import zip.cafe.entity.IntScore
 import zip.cafe.entity.review.Purpose
-import zip.cafe.entity.toScore
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.ReviewLikeService
 import zip.cafe.service.ReviewService
-import zip.cafe.service.dto.ReviewRegisterDto
-import zip.cafe.service.dto.ReviewRegisterDto.FoodInfo
 import java.time.LocalDate
 
 @WebMvcTest(ReviewController::class)
@@ -60,6 +55,8 @@ class ReviewControllerTest : WebMvcTestSpec() {
 
             val finalScore = 3.0
 
+            val reviewId = 5L
+
             val request = ReviewRegisterRequest(
                 cafeId = cafeId,
                 visitPurpose = visitPurpose,
@@ -72,20 +69,10 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 visitDate = visitDate
             )
 
-            val dto = ReviewRegisterDto(
-                visitPurpose = visitPurpose,
-                visitPurposeScore = IntScore(score = visitPurposeScore),
-                foodInfos = listOf(FoodInfo(food1, foodScore1.toScore()), FoodInfo(food2, foodScore2.toScore())),
-                keywords = keywords,
-                reviewImageIds = reviewImageIds,
-                description = description,
-                finalScore = FloatScore(score = finalScore),
-            )
-
-            every { reviewService.createFootprintAndReview(cafeId, MOCK_MVC_USER_ID, visitDate, dto) } just Runs
+            every { reviewService.createFootprintAndReview(cafeId, MOCK_MVC_USER_ID, visitDate, request.toDto()) } returns reviewId
 
             val response = mockMvc.post("/reviews") {
-                this.contentType = MediaType.APPLICATION_JSON
+                this.contentType = APPLICATION_JSON
                 this.content = objectMapper.writeValueAsString(request)
             }
 

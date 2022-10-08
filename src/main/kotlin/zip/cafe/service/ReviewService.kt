@@ -29,6 +29,13 @@ class ReviewService(
 ) {
 
     @Transactional
+    fun createFootprintAndReview(cafeId: Long, memberId: Long, visitDate: LocalDate, dto: ReviewRegisterDto): Long {
+        val footprintId = createFootprint(cafeId, memberId, visitDate)
+        val reviewId = createReview(footprintId, memberId, dto)
+        return reviewId
+    }
+
+    @Transactional
     fun createFootprint(cafeId: Long, memberId: Long, visitDate: LocalDate): Long {
         val member = memberRepository.findOneById(memberId)
         val cafe = cafeRepository.findOneById(cafeId)
@@ -38,15 +45,14 @@ class ReviewService(
     }
 
     @Transactional
-    fun createFootprintAndReview(cafeId: Long, uploadMemberId: Long, visitDate: LocalDate, dto: ReviewRegisterDto) {
-        val uploadMember = memberRepository.findOneById(uploadMemberId)
+    fun createReview(footprintId: Long, memberId: Long, dto: ReviewRegisterDto): Long {
+        val footprint = footprintRepository.findOneById(footprintId)
+
+        val uploadMember = memberRepository.findOneById(memberId)
         val reviewImages = reviewImageRepository.findByIdIn(dto.reviewImageIds)
         require(reviewImages.size == dto.reviewImageIds.size) { "리뷰의 이미지 중 존재하지 않는 것이 있습니다" }
         reviewImages.forEach { it.checkIsUploadedBy(uploadMember) }
 
-        val cafe = cafeRepository.findOneById(cafeId)
-        // TODO 날짜 받기
-        val footprint = Footprint(cafe = cafe, member = uploadMember, visitDate = visitDate)
         val review = Review.from(footprint = footprint, finalScore = dto.finalScore, description = dto.description)
 
         review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)
@@ -58,6 +64,8 @@ class ReviewService(
         footprintRepository.save(footprint)
         reviewRepository.save(review)
         reviewImages.forEach { it.assignReview(review) }
+
+        return review.id
     }
 
     @Transactional(propagation = NEVER)
