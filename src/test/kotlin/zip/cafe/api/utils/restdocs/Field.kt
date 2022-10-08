@@ -22,10 +22,12 @@ class Field(
         return this
     }
 
-    infix fun example(example: String): Field {
-        type.attributes[EXAMPLE_KEY] = example
+    infix fun example(value: String): Field {
+        type.attributes[EXAMPLE_KEY] = value
         return this
     }
+
+    infix fun example(value: Number): Field = example(value.toString())
 
     infix fun isOptional(value: Boolean): Field {
         if (value) type = type.optional()
@@ -36,6 +38,8 @@ class Field(
         type.attributes[DEFAULT_VALUE_KEY] = value
         return this
     }
+
+    infix fun default(value: Number): Field = default(value.toString())
 
     infix fun formattedAs(value: String): Field {
         type.attributes[FORMAT_KEY] = value
