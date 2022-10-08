@@ -1,7 +1,7 @@
 jwt:
   header: Authorization
   secret: a4dfe14b45336ecef0ec2ccad0278c13e6f5e79245cc77113aa725c665ea9d3d3e01e8070f52e3e0fa525edc1f5f03ecd0914b31ef661328797006d65bcbff16
-  token-validity-in-milliseconds: 31536000
+  token-validity-in-milliseconds: 259200000
 
 spring:
   jpa:
