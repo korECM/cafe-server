@@ -73,9 +73,6 @@ data class ReviewRegisterFromFootprintRequest(
 
     @field:NotNull(message = "평가 점수가 없습니다")
     val finalScore: Double,
-
-    @JsonFormat(pattern = defaultDateFormat)
-    val visitDate: LocalDate
 ) {
     data class FoodInfo(
         @field:NotBlank(message = "선택한 음식이 없습니다")

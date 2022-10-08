@@ -63,7 +63,6 @@ class FootPrintControllerTest : WebMvcTestSpec() {
 
             val visitPurpose = Purpose.STUDY
             val visitPurposeScore = 5
-            val visitDate = LocalDate.now()
 
             val food1 = Food.BAKERY
             val food2 = Food.BEVERAGE
@@ -87,7 +86,6 @@ class FootPrintControllerTest : WebMvcTestSpec() {
                 reviewImageIds = reviewImageIds,
                 description = description,
                 finalScore = finalScore,
-                visitDate = visitDate
             )
 
             every { reviewService.createReview(footprintId, memberId, request.toDto()) } returns reviewId
@@ -108,7 +106,6 @@ class FootPrintControllerTest : WebMvcTestSpec() {
                     requestFields(
                         "visitPurpose" type ENUM(Purpose::class) means "방문 목적",
                         "visitPurposeScore" type NUMBER means "방문 목적 점수" example "3",
-                        "visitDate" type DATE means "방문 날짜" example visitDate.formatAsDefault(),
                         "foodInfos" type ARRAY means "카페에서 먹은 음식 정보",
                         "foodInfos[].food" type ENUM(Food::class) means "먹은 음식",
                         "foodInfos[].score" type NUMBER means "먹은 음식에 대한 점수" example "3.0",
