@@ -27,7 +27,7 @@ class ReviewController(
         @LoginUserId userId: Long,
         @Valid @RequestBody request: ReviewRegisterRequest
     ): ApiResponse<Nothing> {
-        reviewService.createFootprintAndReview(request.cafeId, userId, request.toDto())
+        reviewService.createFootprintAndReview(request.cafeId, userId, request.visitDate, request.toDto())
         return success(null)
     }
 

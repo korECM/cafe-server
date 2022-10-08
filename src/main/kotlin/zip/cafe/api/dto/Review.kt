@@ -52,7 +52,6 @@ data class ReviewRegisterRequest(
             keywords = keywords,
             description = description,
             finalScore = finalScore.toScore(),
-            visitDate = visitDate
         )
     }
 }

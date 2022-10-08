@@ -80,10 +80,9 @@ class ReviewControllerTest : WebMvcTestSpec() {
                 reviewImageIds = reviewImageIds,
                 description = description,
                 finalScore = FloatScore(score = finalScore),
-                visitDate = visitDate
             )
 
-            every { reviewService.createFootprintAndReview(cafeId, MOCK_MVC_USER_ID, dto) } just Runs
+            every { reviewService.createFootprintAndReview(cafeId, MOCK_MVC_USER_ID, visitDate, dto) } just Runs
 
             val response = mockMvc.post("/reviews") {
                 this.contentType = MediaType.APPLICATION_JSON

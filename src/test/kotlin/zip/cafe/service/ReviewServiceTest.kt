@@ -57,6 +57,7 @@ class ReviewServiceTest : FreeSpec({
             val uploaderMemberId = 1L
             val uploader = createMember(id = uploaderMemberId)
             val anotherUploader = createMember()
+            val visitDate = LocalDate.now().minusDays(faker.random.nextLong(100))
 
             val reviewImageIds = listOf(5L, 6L)
             val reviewImages = listOf(
@@ -75,6 +76,7 @@ class ReviewServiceTest : FreeSpec({
                 reviewService.createFootprintAndReview(
                     cafeId = cafeId,
                     uploadMemberId = uploaderMemberId,
+                    visitDate = visitDate,
                     dto = dto
                 )
             }
@@ -177,7 +179,6 @@ fun createReviewRegisterDto(
     reviewImageLength: Int = faker.random.nextInt(1, 5),
     reviewImages: List<Long> = List(reviewImageLength) { faker.random.nextLong(10) },
     finalScore: FloatScore = createFloatScore(),
-    visitDate: LocalDate = LocalDate.now().minusDays(faker.random.nextLong(100)),
 ) = FootprintAndReviewRegisterDto(
     visitPurpose = visitPurpose,
     visitPurposeScore = visitPurposeScore,
@@ -186,5 +187,4 @@ fun createReviewRegisterDto(
     reviewImageIds = reviewImages,
     description = "좋은 카페~",
     finalScore = finalScore,
-    visitDate = visitDate
 )

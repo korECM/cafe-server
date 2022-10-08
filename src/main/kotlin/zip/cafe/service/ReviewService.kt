@@ -38,7 +38,7 @@ class ReviewService(
     }
 
     @Transactional
-    fun createFootprintAndReview(cafeId: Long, uploadMemberId: Long, dto: FootprintAndReviewRegisterDto) {
+    fun createFootprintAndReview(cafeId: Long, uploadMemberId: Long, visitDate: LocalDate, dto: FootprintAndReviewRegisterDto) {
         val uploadMember = memberRepository.findOneById(uploadMemberId)
         val reviewImages = reviewImageRepository.findByIdIn(dto.reviewImageIds)
         require(reviewImages.size == dto.reviewImageIds.size) { "리뷰의 이미지 중 존재하지 않는 것이 있습니다" }
@@ -46,7 +46,7 @@ class ReviewService(
 
         val cafe = cafeRepository.findOneById(cafeId)
         // TODO 날짜 받기
-        val footprint = Footprint(cafe = cafe, member = uploadMember, visitDate = dto.visitDate)
+        val footprint = Footprint(cafe = cafe, member = uploadMember, visitDate = visitDate)
         val review = Review.from(footprint = footprint, finalScore = dto.finalScore, description = dto.description)
 
         review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)
