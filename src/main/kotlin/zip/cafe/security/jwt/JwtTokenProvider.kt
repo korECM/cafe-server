@@ -37,7 +37,7 @@ class JwtTokenProvider(
         val claims = parseClaims(token)
         requireNotNull(claims) { "올바른 JWT 토큰이 아니라 값을 추출할 수 없습니다" }
         return try {
-            claims[MEMBER_ID_KEY, Long::class.java]
+            claims[MEMBER_ID_KEY, Number::class.java].toLong()
         } catch (e: java.lang.NumberFormatException) {
             throw IllegalArgumentException("올바른 JWT 토큰이 아니라 값을 추출할 수 없습니다")
         }
