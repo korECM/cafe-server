@@ -19,7 +19,8 @@ class JwtTokenProviderTest : FreeSpec({
     "검증" - {
         "생성한 토큰은 검증에 통과한다" {
             // given
-            val token = jwtTokenProvider.createToken(1L, Date())
+            val nickname = "길동길동"
+            val token = jwtTokenProvider.createToken(1L, nickname = nickname, at = Date())
             // when
             val result = jwtTokenProvider.isInvalidToken(token)
             // then
@@ -27,8 +28,9 @@ class JwtTokenProviderTest : FreeSpec({
         }
         "만약 다른 secret을 가지는 jwtTokenProvider로 생성한 토큰을 검증 시도하면 실패한다" {
             // given
+            val nickname = "길동길동"
             val anotherProvider = JwtTokenProvider(secretToken = secretToken + "asdf", tokenValidityInMilliSecond = tokenValidityInSecond)
-            val token = anotherProvider.createToken(1L, Date())
+            val token = anotherProvider.createToken(1L, nickname = nickname, at = Date())
             // when
             val result = jwtTokenProvider.isInvalidToken(token)
             // then
@@ -41,8 +43,9 @@ class JwtTokenProviderTest : FreeSpec({
         }
         "토큰이 만료된 후에 검증 시도하면 실패한다" {
             // given
+            val nickname = "길동길동"
             val anotherProvider = JwtTokenProvider(secretToken = secretToken, tokenValidityInMilliSecond = 1)
-            val token = anotherProvider.createToken(1L, Date())
+            val token = anotherProvider.createToken(1L, nickname = nickname, at = Date())
             // when
             delay(10L)
             val result = anotherProvider.isInvalidToken(token)
@@ -54,7 +57,8 @@ class JwtTokenProviderTest : FreeSpec({
     "토큰에서 userPK를 얻어올 수 있다" {
         // given
         val userPk = 1L
-        val token = jwtTokenProvider.createToken(userPk, Date())
+        val nickname = "길동길동"
+        val token = jwtTokenProvider.createToken(userPk, nickname = nickname, at = Date())
         // when
         val findUserPk = jwtTokenProvider.getUserPk(token)
         // then

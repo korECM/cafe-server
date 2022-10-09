@@ -20,14 +20,15 @@ class AuthServiceTest : FreeSpec({
     "jwtTokenProvider로부터 토큰을 생성해서 반환한다" {
         // given
         val memberId = 1L
+        val nickname = "길동길동"
         val now = Date()
         // mock
-        every { jwtTokenProvider.createToken(memberId, now) } returns tempJWTToken
+        every { jwtTokenProvider.createToken(memberId, nickname = nickname, at = now) } returns tempJWTToken
         // when
         val generateToken = authService.generateToken(memberId, now)
         // then
         generateToken shouldBe tempJWTToken
-        verify { jwtTokenProvider.createToken(memberId, now) }
+        verify { jwtTokenProvider.createToken(memberId, nickname = nickname, at = now) }
     }
 
     afterTest { clearMocks(jwtTokenProvider) }

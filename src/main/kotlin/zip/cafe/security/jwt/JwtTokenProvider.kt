@@ -7,6 +7,10 @@ import zip.cafe.util.logger
 import zip.cafe.util.plus
 import java.util.*
 
+private const val MEMBER_ID_KEY = "memberId"
+
+private const val NICKNAME_KEY = "nickname"
+
 @Component
 class JwtTokenProvider(
     @Value("\${jwt.secret}")
@@ -16,8 +20,11 @@ class JwtTokenProvider(
 ) {
     private val key: String = Base64.getEncoder().encodeToString(secretToken.toByteArray(Charsets.UTF_8))
 
-    fun createToken(userPk: Long, at: Date): String {
-        val claims = Jwts.claims().setSubject(userPk.toString())
+    fun createToken(userPk: Long, nickname: String = "", at: Date): String {
+        val claims = Jwts.claims().apply {
+            set(MEMBER_ID_KEY, userPk)
+            set(NICKNAME_KEY, nickname)
+        }
         return Jwts.builder()
             .setClaims(claims)
             .setIssuedAt(at)
@@ -29,8 +36,8 @@ class JwtTokenProvider(
     fun getUserPk(token: String): Long {
         val claims = parseClaims(token)
         requireNotNull(claims) { "올바른 JWT 토큰이 아니라 값을 추출할 수 없습니다" }
-        try {
-            return claims.subject.toLong()
+        return try {
+            claims[MEMBER_ID_KEY, Long::class.java]
         } catch (e: java.lang.NumberFormatException) {
             throw IllegalArgumentException("올바른 JWT 토큰이 아니라 값을 추출할 수 없습니다")
         }
