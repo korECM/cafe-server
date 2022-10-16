@@ -11,7 +11,7 @@ import javax.persistence.CascadeType.ALL
 import javax.persistence.FetchType.LAZY
 
 @Entity
-class Review(
+class Review protected constructor(
     @OneToOne(fetch = LAZY, optional = false, mappedBy = "review")
     val footprint: Footprint,
 
