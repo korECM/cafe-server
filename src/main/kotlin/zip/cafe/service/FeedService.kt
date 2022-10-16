@@ -16,21 +16,21 @@ class FeedService(
 
     fun getReviewFeeds(loginMemberId: Long, minReviewIdInFeed: Long?, limit: Long): FeedWithPagination {
         val followeeIds = memberFollowRepository.getFolloweeIds(loginMemberId)
-        val reviews = reviewRepository.findByAuthorIdIn(followeeIds + loginMemberId, minReviewIdInFeed, limit)
+        val footprints = reviewRepository.findByAuthorIdIn(followeeIds + loginMemberId, minReviewIdInFeed, limit)
         val isLastPage = minReviewIdInFeed?.let { reviewRepository.isLastPage(followeeIds, minReviewIdInFeed, limit) } ?: false
-        return FeedWithPagination(feeds = reviews.map { review ->
+        return FeedWithPagination(feeds = footprints.map { footprint ->
             FeedInfo(
-                id = review.id,
-                member = FeedMember(review.footprint.member),
-                cafe = FeedCafe(review.footprint.cafe),
+                id = footprint.id,
+                member = FeedMember(footprint.member),
+                cafe = FeedCafe(footprint.cafe),
                 review = FeedReview(
-                    finalScore = review.finalScore.score,
-                    images = review.images.map(::FeedImage),
-                    keyword = review.cafeKeywords.map(::FeedKeyword),
-                    likeCount = review.likers.size,
-                    content = review.description,
-                    commentCount = 0,
-                    createdAt = review.createdAt
+                    finalScore = footprint.review!!.finalScore.score,
+                    images = footprint.review!!.images.map(::FeedImage),
+                    keyword = footprint.review!!.cafeKeywords.map(::FeedKeyword),
+                    likeCount = footprint.review!!.likeCount,
+                    content = footprint.review!!.description,
+                    commentCount = footprint.review!!.commentCount,
+                    createdAt = footprint.createdAt
                 )
             )
         }.sortedByDescending { it.id }, isLastPage = isLastPage)

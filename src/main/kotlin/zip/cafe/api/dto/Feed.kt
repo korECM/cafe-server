@@ -40,9 +40,9 @@ data class FeedReview(
     val finalScore: Double,
     val images: List<FeedImage>,
     val keyword: List<FeedKeyword>,
-    val likeCount: Int,
+    val likeCount: Long,
     val content: String,
-    val commentCount: Int,
+    val commentCount: Long,
     @JsonFormat(pattern = defaultDateTimeFormat)
     val createdAt: LocalDateTime
 )

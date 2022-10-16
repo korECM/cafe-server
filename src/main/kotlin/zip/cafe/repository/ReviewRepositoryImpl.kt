@@ -2,21 +2,23 @@ package zip.cafe.repository
 
 import com.querydsl.core.types.dsl.BooleanExpression
 import com.querydsl.jpa.impl.JPAQueryFactory
+import zip.cafe.entity.review.Footprint
 import zip.cafe.entity.review.QFootprint.footprint
 import zip.cafe.entity.review.QReview.review
-import zip.cafe.entity.review.Review
 
 class ReviewRepositoryImpl(
     private val queryFactory: JPAQueryFactory
 ) : ReviewRepositoryCustom {
-    override fun findByAuthorIdIn(authorIds: List<Long>, minReviewIdInFeed: Long?, limit: Long): List<Review> {
+    override fun findByAuthorIdIn(authorIds: List<Long>, minReviewIdInFeed: Long?, limit: Long): List<Footprint> {
         return queryFactory
-            .select(review)
-            .distinct()
-            .from(review)
-            .innerJoin(review.footprint, footprint).fetchJoin()
+            .select(footprint)
+            .from(footprint)
+            // TODO Feed에 발자국도 내려주면 OUTER JOIN으로 변경
+            .innerJoin(footprint.review).fetchJoin()
+            .innerJoin(footprint.member).fetchJoin()
+            .innerJoin(footprint.cafe).fetchJoin()
             .where(footprint.member.id.`in`(authorIds).and(olderThanHasEverSeen(minReviewIdInFeed)))
-            .orderBy(review.id.desc())
+            .orderBy(footprint.id.desc())
             .limit(limit)
             .fetch()
     }

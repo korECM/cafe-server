@@ -21,6 +21,8 @@ class Review(
 
     @Column(nullable = false)
     val description: String,
+    _likeCount: Long = 0L,
+    _commentCount: Long = 0L,
 ) : BaseClass() {
     companion object {
         fun from(footprint: Footprint, finalScore: FloatScore, description: String): Review =
@@ -59,6 +61,12 @@ class Review(
     val likers: List<Member>
         get() = _likes.map { it.member }
 
+    @Column(nullable = false)
+    var likeCount: Long = _likeCount
+
+    @Column(nullable = false)
+    var commentCount: Long = _commentCount
+
     fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
         _visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
     }
@@ -73,10 +81,14 @@ class Review(
 
     fun addLiker(member: Member) {
         _likes += ReviewLike(review = this, member = member)
+        likeCount += 1
     }
 
     fun removeLiker(member: Member) {
-        _likes.removeIf { it.member == member }
+        val isRemoved = _likes.removeIf { it.member == member }
+        if (isRemoved) {
+            likeCount -= 1
+        }
     }
 
     fun addImage(reviewImage: ReviewImage) {
