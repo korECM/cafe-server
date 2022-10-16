@@ -17,6 +17,9 @@ class Member(
     @Column(nullable = false)
     val profileImage: String,
 
+    _followerCount: Long = 0L,
+    _followeeCount: Long = 0L,
+
 //    @Column(nullable = false)
 //    var birthDay: LocalDate,
 //
@@ -41,10 +44,22 @@ class Member(
     val followees: List<Member>
         get() = _followees.map { it.to }
 
+    @Column(nullable = false)
+    var followerCount: Long = _followerCount
+        protected set
+
+    @Column(nullable = false)
+    var followeeCount: Long = _followeeCount
+        protected set
+
     fun follow(member: Member) {
         val memberFollow = MemberFollow(from = this, to = member)
-        _followees += memberFollow
-        member._followers += memberFollow
+        val isNewFollowee = _followees.add(memberFollow)
+        if (isNewFollowee) {
+            followeeCount += 1
+            member._followers += memberFollow
+            member.followerCount += 1
+        }
     }
 
     fun unfolow(member: Member) {
@@ -54,7 +69,9 @@ class Member(
             return
         }
         _followees -= followMember
+        followeeCount -= 1
         member._followers -= followMember
+        member.followerCount -= 1
     }
 
     override fun toString(): String {

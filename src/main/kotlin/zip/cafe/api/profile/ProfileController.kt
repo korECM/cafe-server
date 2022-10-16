@@ -21,4 +21,10 @@ class ProfileController(
         val profile = profileService.getProfile(memberId)
         return success(profile)
     }
+
+    @GetMapping("/members/{memberId}/reviews")
+    fun getReview(@LoginUserId loginMemberId: Long, @PathVariable memberId: Long): ApiResponse<ProfileInfo> {
+        val profile = profileService.getProfile(memberId)
+        return success(profile)
+    }
 }

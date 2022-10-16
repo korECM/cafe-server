@@ -8,8 +8,8 @@ data class ProfileInfo(
     val profileImageURL: String,
     val description: String,
     val sumOfReviewAndFootPrint : Int,
-    val numberOfFollowers: Int,
-    val numberOfFollowees: Int
+    val numberOfFollowers: Long,
+    val numberOfFollowees: Long
 ) {
     companion object {
         fun from(member: Member) = ProfileInfo(
@@ -18,8 +18,8 @@ data class ProfileInfo(
             profileImageURL = member.profileImage,
             description = "",
             sumOfReviewAndFootPrint = 0,
-            numberOfFollowers = member.followers.size,
-            numberOfFollowees = member.followees.size
+            numberOfFollowers = member.followeeCount,
+            numberOfFollowees = member.followerCount
         )
     }
 }
