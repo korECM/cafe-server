@@ -25,10 +25,12 @@ class Review protected constructor(
     _commentCount: Long = 0L,
 ) : BaseClass() {
     companion object {
-        fun from(footprint: Footprint, finalScore: FloatScore, description: String): Review =
-            Review(footprint, finalScore, description).apply {
+        fun from(footprint: Footprint, finalScore: FloatScore, description: String): Review {
+            footprint.member.reviewCount += 1
+            return Review(footprint, finalScore, description).apply {
                 footprint.review = this
             }
+        }
     }
 
     @Id

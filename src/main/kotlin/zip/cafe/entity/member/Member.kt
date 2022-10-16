@@ -22,6 +22,8 @@ class Member(
 
     _followerCount: Long = 0L,
     _followeeCount: Long = 0L,
+    _footprintCount: Long = 0L,
+    _reviewCount: Long = 0L,
 
 //    @Column(nullable = false)
 //    var birthDay: LocalDate,
@@ -54,6 +56,12 @@ class Member(
     @Column(nullable = false)
     var followeeCount: Long = _followeeCount
         protected set
+
+    @Column(nullable = false)
+    var reviewCount: Long = _reviewCount
+
+    @Column(nullable = false)
+    var footprintCount: Long = _footprintCount
 
     fun follow(member: Member) {
         val memberFollow = MemberFollow(from = this, to = member)

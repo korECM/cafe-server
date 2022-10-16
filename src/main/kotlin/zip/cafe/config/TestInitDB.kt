@@ -187,7 +187,7 @@ class TestInitDB(
         }
 
         private fun createFootprint(member: Member, cafe: Cafe, visitDate: LocalDate): Footprint =
-            Footprint(member = member, cafe = cafe, visitDate = visitDate).apply {
+            Footprint.from(member = member, cafe = cafe, visitDate = visitDate).apply {
                 em.persist(this)
             }
 

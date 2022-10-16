@@ -61,7 +61,7 @@ class FeedControllerTest : WebMvcTestSpec() {
                         finalScore = it.finalScore.score,
                         images = it.images.map(::FeedImage),
                         keyword = it.cafeKeywords.map(::FeedKeyword),
-                        likeCount = it.likers.size,
+                        likeCount = it.likeCount,
                         content = "친절한 카페",
                         commentCount = 0,
                         createdAt = it.createdAt

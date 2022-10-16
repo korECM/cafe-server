@@ -39,7 +39,7 @@ class ReviewService(
     fun createFootprint(cafeId: Long, memberId: Long, visitDate: LocalDate): Long {
         val member = memberRepository.findOneById(memberId)
         val cafe = cafeRepository.findOneById(cafeId)
-        val footprint = Footprint(cafe = cafe, member = member, visitDate)
+        val footprint = Footprint.from(cafe = cafe, member = member, visitDate)
         footprintRepository.save(footprint)
         return footprint.id
     }

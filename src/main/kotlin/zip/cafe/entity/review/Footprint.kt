@@ -8,7 +8,7 @@ import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
 @Entity
-class Footprint(
+class Footprint protected constructor(
     @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "cafe_id", nullable = false)
     val cafe: Cafe,
@@ -19,6 +19,14 @@ class Footprint(
 
     val visitDate: LocalDate,
 ) : BaseClass() {
+
+    companion object {
+        fun from(cafe: Cafe, member: Member, visitDate: LocalDate): Footprint {
+            member.footprintCount += 1
+            return Footprint(cafe, member, visitDate)
+        }
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "footprint_id", nullable = false)

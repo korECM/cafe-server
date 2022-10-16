@@ -18,7 +18,7 @@ fun createFootprint(
     visitDate: LocalDate = now().minusDays(faker.random.nextLong(365))
 ) = setEntityId(
     id,
-    Footprint(
+    Footprint.from(
         cafe = cafe,
         member = member,
         visitDate = visitDate
