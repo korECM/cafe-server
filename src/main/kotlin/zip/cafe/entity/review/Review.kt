@@ -82,8 +82,10 @@ class Review protected constructor(
     }
 
     fun addLiker(member: Member) {
-        _likes += ReviewLike(review = this, member = member)
-        likeCount += 1
+        val isNewLike = _likes.add(ReviewLike(review = this, member = member))
+        if (isNewLike) {
+            likeCount += 1
+        }
     }
 
     fun removeLiker(member: Member) {
