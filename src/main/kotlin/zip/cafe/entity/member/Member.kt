@@ -17,6 +17,9 @@ class Member(
     @Column(nullable = false)
     val profileImage: String,
 
+    @Column(nullable = false)
+    val description : String = "",
+
     _followerCount: Long = 0L,
     _followeeCount: Long = 0L,
 
