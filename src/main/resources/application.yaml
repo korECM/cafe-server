@@ -8,7 +8,7 @@ apple:
 jwt:
   header: Authorization
   secret: TOBE_OVERRIDE
-  token-validity-in-milliseconds: 259200000
+  token-validity-in-milliseconds: 2592000000
 
 spring:
   servlet:
