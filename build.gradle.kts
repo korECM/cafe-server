@@ -98,7 +98,7 @@ dependencies {
     testImplementation("nl.jqno.equalsverifier:equalsverifier:3.10.1")
 
     implementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
-    implementation("io.github.serpro69:kotlin-faker:1.11.0")
+    implementation("io.github.serpro69:kotlin-faker:1.12.0")
 }
 
 tasks.withType<KotlinCompile> {
