@@ -2,7 +2,6 @@ package zip.cafe.repository
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.data.repository.query.Param
 import zip.cafe.entity.review.Review
 import zip.cafe.service.dto.FollowerWhoWriteReview
@@ -16,4 +15,7 @@ interface ReviewRepository : JpaRepository<Review, Long>, ReviewRepositoryCustom
 
     @Query("select new zip.cafe.service.dto.FollowerWhoWriteReview(m.id, m.nickname) from Review r join r.footprint f join f.member m where f.cafe.id = :cafeId and f.member.id in :memberIds")
     fun findWhoWriteReview(@Param("memberIds") memberIds: List<Long>, @Param("cafeId") cafeId: Long): List<FollowerWhoWriteReview>
+
+    @Query("select r from Review r join fetch r.footprint where r.id = :reviewId")
+    fun findByIdOrNull(@Param("reviewId") id: Long): Review?
 }
