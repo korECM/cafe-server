@@ -18,4 +18,7 @@ interface ReviewRepository : JpaRepository<Review, Long>, ReviewRepositoryCustom
 
     @Query("select r from Review r join fetch r.footprint where r.id = :reviewId")
     fun findByIdOrNull(@Param("reviewId") id: Long): Review?
+
+    @Query("select r from Review r join fetch r.footprint where r.footprint.member.id = :memberId")
+    fun findAllByMemberId(@Param("memberId") memberId: Long): List<Review>
 }
