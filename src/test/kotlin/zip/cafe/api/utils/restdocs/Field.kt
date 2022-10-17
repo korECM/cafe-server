@@ -8,6 +8,8 @@ import zip.cafe.api.utils.restdocs.RestDocs.FORMAT_KEY
 import zip.cafe.config.defaultDateFormat
 import zip.cafe.config.defaultDateTimeFormat
 
+object optional
+
 class Field(
     var type: FieldDescriptor
 ) {
@@ -29,8 +31,8 @@ class Field(
 
     infix fun example(value: Number): Field = example(value.toString())
 
-    infix fun isOptional(value: Boolean): Field {
-        if (value) type = type.optional()
+    infix fun and(x: optional): Field {
+        type = type.optional()
         return this
     }
 

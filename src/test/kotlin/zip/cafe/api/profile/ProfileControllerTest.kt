@@ -3,13 +3,19 @@ package zip.cafe.api.profile
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import zip.cafe.api.profile.dto.ProfileCafeInfo
+import zip.cafe.api.profile.dto.ProfileFootprintInfo
 import zip.cafe.api.profile.dto.ProfileInfo
+import zip.cafe.api.profile.dto.ProfileReviewInfo
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
+import zip.cafe.config.formatAsDefault
 import zip.cafe.entity.member.Member
 import zip.cafe.service.profile.ProfileService
+import java.time.LocalDate
+import java.time.LocalDateTime.now
 
 @WebMvcTest(ProfileController::class)
 class ProfileControllerTest : WebMvcTestSpec() {
@@ -51,6 +57,108 @@ class ProfileControllerTest : WebMvcTestSpec() {
                         "numberOfFootprint" type NUMBER means "유저의 발자국 수" example 20,
                         "numberOfFollowers" type NUMBER means "유저의 팔로워 수" example "151612",
                         "numberOfFollowees" type NUMBER means "유저의 팔로잉 수" example "165",
+                    )
+                )
+            }
+        }
+
+        "유저의 프로필에 있는 리뷰 조회" {
+            val memberId = 5L
+
+            every { profileService.getReview(memberId) } returns listOf(
+                ProfileReviewInfo(
+                    id = 1,
+                    cafe = ProfileCafeInfo(id = 3, name = "북앤레스트", address = "서울시 강남구"),
+                    images = listOf(
+                        "https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg",
+                        "https://vinesoftheyarravalley.com.au/wp-content/uploads/2021/02/cafe-vines-1024x702.jpg"
+                    ),
+                    finalScore = 4.0,
+                    likeCount = 3,
+                    content = "조용하고 좋아요",
+                    commentCount = 5,
+                    createdAt = now().minusDays(3)
+                ),
+                ProfileReviewInfo(
+                    id = 2,
+                    cafe = ProfileCafeInfo(id = 4, name = "", address = "서울시 영등포구"),
+                    images = listOf(
+                        "https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg",
+                        "https://vinesoftheyarravalley.com.au/wp-content/uploads/2021/02/cafe-vines-1024x702.jpg"
+                    ),
+                    finalScore = 3.0,
+                    likeCount = 2,
+                    content = "조금 시끄러워요",
+                    commentCount = 123,
+                    createdAt = now().minusDays(1)
+                ),
+            )
+
+            val response = mockMvc.getWithPathParameter("/profiles/members/{memberId}/reviews", memberId)
+
+            response.andExpect {
+                status { isOk() }
+            }.andDo {
+                documentWithHandle(
+                    "get-profile-reviews",
+                    pathParameters(
+                        "memberId" means "프로필을 조회하려는 유저의 Id" example "5L"
+                    ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                        "id" type NUMBER means "유저의 Id" example "5L",
+                        "cafe" type OBJECT means "카페 정보",
+                        "cafe.id" type NUMBER means "카페의 Id" example "3",
+                        "cafe.name" type STRING means "카페의 이름" example "북앤레스트",
+                        "cafe.address" type STRING means "카페의 주소" example "서울시 강남구",
+                        "images" type ARRAY means "리뷰에 포함된 이미지 URL" example "[\"https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg\", \"https://vinesoftheyarravalley.com.au/wp-content/uploads/2021/02/cafe-vines-1024x702.jpg\"]",
+                        "finalScore" type NUMBER means "리뷰의 최종 점수" example "4.0",
+                        "likeCount" type NUMBER means "리뷰의 좋아요 수" example "3",
+                        "content" type STRING means "리뷰의 내용" example "조용하고 좋아요",
+                        "commentCount" type NUMBER means "리뷰의 댓글 수" example "5",
+                        "createdAt" type DATE means "리뷰의 작성 시간" example now().formatAsDefault(),
+                    )
+                )
+            }
+        }
+
+        "유저의 프로필에 있는 발자국 조회" {
+            val memberId = 5L
+
+            every { profileService.getFootprint(memberId) } returns listOf(
+                ProfileFootprintInfo(
+                    id = 1,
+                    cafe = ProfileCafeInfo(id = 3, name = "북앤레스트", address = "서울시 강남구"),
+                    visitDate = LocalDate.now().minusDays(3),
+                    reviewId = null,
+                ),
+                ProfileFootprintInfo(
+                    id = 2,
+                    cafe = ProfileCafeInfo(id = 4, name = "", address = "서울시 영등포구"),
+                    visitDate = LocalDate.now().minusDays(3),
+                    reviewId = 5,
+                ),
+            )
+
+            val response = mockMvc.getWithPathParameter("/profiles/members/{memberId}/footprints", memberId)
+
+            response.andExpect {
+                status { isOk() }
+            }.andDo {
+                documentWithHandle(
+                    "get-profile-footprints",
+                    pathParameters(
+                        "memberId" means "프로필을 조회하려는 유저의 Id" example "5L"
+                    ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                        "id" type NUMBER means "유저의 Id" example "5L",
+                        "cafe" type OBJECT means "카페 정보",
+                        "cafe.id" type NUMBER means "카페의 Id" example "3",
+                        "cafe.name" type STRING means "카페의 이름" example "북앤레스트",
+                        "cafe.address" type STRING means "카페의 주소" example "서울시 강남구",
+                        "visitDate" type DATE means "방문 날짜" example LocalDate.now().formatAsDefault(),
+                        "reviewId" type NUMBER means "리뷰의 Id" example "5" and optional,
                     )
                 )
             }

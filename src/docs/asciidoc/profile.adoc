@@ -5,3 +5,13 @@
 ==== 멤버 프로필 조회
 
 operation::get-profile[snippets='http-request,path-parameters,http-response,response-fields-body']
+
+[[get-review]]
+==== 멤버 프로필 리뷰 조회
+
+operation::get-profile-reviews[snippets='http-request,path-parameters,http-response,response-fields-body']
+
+[[get-footprints]]
+==== 멤버 프로필 발자국 조회
+
+operation::get-profile-footprints[snippets='http-request,path-parameters,http-response,response-fields-body']
