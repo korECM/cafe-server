@@ -3,6 +3,7 @@ package zip.cafe.config
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
+import zip.cafe.entity.IntScore
 import zip.cafe.entity.Point
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.auth.LocalAuth
@@ -11,6 +12,7 @@ import zip.cafe.entity.member.Member
 import zip.cafe.entity.menu.Menu
 import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.entity.review.Footprint
+import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.review.Review
 import zip.cafe.entity.toScore
 import zip.cafe.security.jwt.JwtTokenProvider
@@ -82,23 +84,23 @@ class TestInitDB(
             val reviewImage1Of1 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/1c/0d/58/75/interior.jpg")
             val reviewImage2Of1 = createReviewImage(member1, "https://images.homify.com/c_fill,f_auto,q_0,w_740/v1497622888/p/photo/image/2067284/JAY_0354.jpg")
             val footprint1 = createFootprint(member1, cafe1, now())
-            val review1 = createReview(footprint1, 3.5, "설명 1")
+            val review1 = createReview(footprint1, 3.5, Purpose.DATE, 5.toScore(), "설명 1")
             reviewImage1Of1.assignReview(review1)
             reviewImage2Of1.assignReview(review1)
             val reviewImage1Of2 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
             val footprint2 = createFootprint(member1, cafe2, now().minusDays(3))
-            val review2 = createReview(footprint2, 4.5, "설명인 것")
+            val review2 = createReview(footprint2, 4.5, Purpose.STUDY, 3.toScore(), "설명인 것")
             reviewImage1Of2.assignReview(review2)
             val footprint3 = createFootprint(member2, cafe1, now().minusDays(5).minusMonths(1))
-            val review3 = createReview(footprint3, 1.5, "또 다른 설명")
+            val review3 = createReview(footprint3, 1.5, Purpose.ETC, 2.toScore(), "또 다른 설명")
             val reviewImage1Of3 = createReviewImage(member2, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
             reviewImage1Of3.assignReview(review3)
             val footprint4 = createFootprint(member3, cafe1, now().minusDays(5).minusWeeks(1))
-            val review4 = createReview(footprint4, 1.5, "카페 리뷰1")
+            val review4 = createReview(footprint4, 1.5, Purpose.TALK, 1.toScore(), "카페 리뷰1")
             val footprint5 = createFootprint(member3, cafe2, now().plusDays(5).minusWeeks(2))
-            val review5 = createReview(footprint5, 2.5, "카페 리뷰2")
+            val review5 = createReview(footprint5, 2.5, Purpose.STUDY, 5.toScore(), "카페 리뷰2")
             val footprint6 = createFootprint(member3, cafe3, now().plusDays(3).minusWeeks(1))
-            val review6 = createReview(footprint6, 3.5, "카페 리뷰3")
+            val review6 = createReview(footprint6, 3.5, Purpose.DATE, 3.toScore(), "카페 리뷰3")
 
             createFootprint(member2, cafe2, now())
             createFootprint(member1, cafe1, now().minusWeeks(13))
@@ -191,10 +193,12 @@ class TestInitDB(
                 em.persist(this)
             }
 
-        private fun createReview(footprint: Footprint, score: Double, description: String): Review =
+        private fun createReview(footprint: Footprint, score: Double, visitPurpose: Purpose, visitPurposeScore: IntScore, description: String): Review =
             Review.from(
                 footprint = footprint,
                 finalScore = score.toScore(),
+                visitPurpose = visitPurpose,
+                visitPurposeScore = visitPurposeScore,
                 description = description
             ).apply {
                 em.persist(this)

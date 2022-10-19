@@ -54,10 +54,10 @@ class FeedControllerTest : WebMvcTestSpec() {
 
             every { feedService.getReviewFeeds(MOCK_MVC_USER_ID, 7L, limit = 3L) } returns FeedWithPagination(feeds = reviews.map {
                 FeedInfo(
-                    id = it.id,
                     member = FeedMember(createMember()),
                     cafe = FeedCafe(createCafe()),
                     review = FeedReview(
+                        id = it.id,
                         finalScore = it.finalScore.score,
                         images = it.images.map(::FeedImage),
                         keyword = it.cafeKeywords.map(::FeedKeyword),
@@ -87,7 +87,6 @@ class FeedControllerTest : WebMvcTestSpec() {
                     responseBody(
                         "body" beneathPathWithSubsectionId "body",
                         "isLastPage" type BOOLEAN means "더 조회할 피드가 없는지 여부. 마지막 페이지면 true" example "true",
-                        "feeds[].id" type NUMBER means "리뷰 id" example "5L",
                         "feeds[].member" type OBJECT means "리뷰를 쓴 유저",
                         "feeds[].member.id" type NUMBER means "유저 id" example "10L",
                         "feeds[].member.name" type STRING means "유저의 닉네임" example "한은주",
@@ -97,6 +96,7 @@ class FeedControllerTest : WebMvcTestSpec() {
                         "feeds[].cafe.name" type STRING means "카페 이름" example "북앤레스트",
                         "feeds[].cafe.address" type STRING means "카페 주소" example "서울시 어딘가",
                         "feeds[].review" type OBJECT means "리뷰 정보",
+                        "feeds[].review.id" type NUMBER means "리뷰 id" example "5L",
                         "feeds[].review.finalScore" type NUMBER means "리뷰의 점수" example "4.5",
                         "feeds[].review.images" type ARRAY means "리뷰에 올라간 사진들",
                         "feeds[].review.images[].id" type NUMBER means "리뷰 사진 id" example "15L",

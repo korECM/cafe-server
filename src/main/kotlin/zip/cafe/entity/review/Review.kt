@@ -8,6 +8,7 @@ import zip.cafe.entity.common.BaseClass
 import zip.cafe.entity.member.Member
 import javax.persistence.*
 import javax.persistence.CascadeType.ALL
+import javax.persistence.EnumType.STRING
 import javax.persistence.FetchType.LAZY
 
 @Entity
@@ -16,18 +17,30 @@ class Review protected constructor(
     val footprint: Footprint,
 
     @Embedded
-    @Column(nullable = false)
+    @AttributeOverride(name = "score", column = Column(name = "final_score", nullable = false))
     val finalScore: FloatScore,
+
+    @Enumerated(STRING)
+    val visitPurpose: Purpose,
+    @AttributeOverride(name = "score", column = Column(name = "visit_purpose_score", nullable = false))
+    val visitPurposeScore: IntScore,
 
     @Column(nullable = false)
     val description: String,
+
     _likeCount: Long = 0L,
     _commentCount: Long = 0L,
 ) : BaseClass() {
     companion object {
-        fun from(footprint: Footprint, finalScore: FloatScore, description: String): Review {
+        fun from(footprint: Footprint, finalScore: FloatScore, visitPurpose: Purpose, visitPurposeScore: IntScore, description: String): Review {
             footprint.member.reviewCount += 1
-            return Review(footprint, finalScore, description).apply {
+            return Review(
+                footprint = footprint,
+                finalScore = finalScore,
+                visitPurpose = visitPurpose,
+                visitPurposeScore = visitPurposeScore,
+                description = description
+            ).apply {
                 footprint.review = this
             }
         }
@@ -37,11 +50,6 @@ class Review protected constructor(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_id", nullable = false)
     val id: Long = 0
-
-    @OneToMany(mappedBy = "review", cascade = [ALL])
-    private val _visitPurposeInfo: MutableSet<VisitPurposeInformation> = mutableSetOf()
-    val visitPurposeInfo: Set<VisitPurposeInformation>
-        get() = _visitPurposeInfo
 
     @OneToMany(mappedBy = "review", cascade = [ALL])
     private val _foodInfos: MutableSet<ReviewFoodInfo> = mutableSetOf()
@@ -68,10 +76,6 @@ class Review protected constructor(
 
     @Column(nullable = false)
     var commentCount: Long = _commentCount
-
-    fun addVisitPurposeInfo(purpose: Purpose, score: IntScore) {
-        _visitPurposeInfo += VisitPurposeInformation(purpose, score, this)
-    }
 
     fun addFoodInfo(food: Food, score: IntScore) {
         _foodInfos += ReviewFoodInfo(food, score, this)

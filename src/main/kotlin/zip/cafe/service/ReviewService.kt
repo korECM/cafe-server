@@ -53,7 +53,13 @@ class ReviewService(
         require(reviewImages.size == dto.reviewImageIds.size) { "리뷰의 이미지 중 존재하지 않는 것이 있습니다" }
         reviewImages.forEach { it.checkIsUploadedBy(uploadMember) }
 
-        val review = Review.from(footprint = footprint, finalScore = dto.finalScore, description = dto.description)
+        val review = Review.from(
+            footprint = footprint,
+            finalScore = dto.finalScore,
+            visitPurpose = dto.visitPurpose,
+            visitPurposeScore = dto.visitPurposeScore,
+            description = dto.description
+        )
         reviewRepository.save(review)
 
         review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)

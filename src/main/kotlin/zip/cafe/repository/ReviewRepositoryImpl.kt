@@ -13,7 +13,6 @@ class ReviewRepositoryImpl(
         return queryFactory
             .select(footprint)
             .from(footprint)
-            // TODO Feed에 발자국도 내려주면 OUTER JOIN으로 변경
             .innerJoin(footprint.review).fetchJoin()
             .innerJoin(footprint.member).fetchJoin()
             .innerJoin(footprint.cafe).fetchJoin()

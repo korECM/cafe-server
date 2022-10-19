@@ -14,7 +14,6 @@ data class FeedWithPagination(
 )
 
 data class FeedInfo(
-    val id: Long,
     val member: FeedMember,
     val cafe: FeedCafe,
     val review: FeedReview,
@@ -37,6 +36,7 @@ data class FeedCafe(
 }
 
 data class FeedReview(
+    val id: Long,
     val finalScore: Double,
     val images: List<FeedImage>,
     val keyword: List<FeedKeyword>,

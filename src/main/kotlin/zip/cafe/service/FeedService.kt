@@ -20,10 +20,10 @@ class FeedService(
         val isLastPage = minReviewIdInFeed?.let { reviewRepository.isLastPage(followeeIds, minReviewIdInFeed, limit) } ?: false
         return FeedWithPagination(feeds = footprints.map { footprint ->
             FeedInfo(
-                id = footprint.id,
                 member = FeedMember(footprint.member),
                 cafe = FeedCafe(footprint.cafe),
                 review = FeedReview(
+                    id = footprint.review!!.id,
                     finalScore = footprint.review!!.finalScore.score,
                     images = footprint.review!!.images.map(::FeedImage),
                     keyword = footprint.review!!.cafeKeywords.map(::FeedKeyword),
@@ -33,6 +33,6 @@ class FeedService(
                     createdAt = footprint.createdAt
                 )
             )
-        }.sortedByDescending { it.id }, isLastPage = isLastPage)
+        }.sortedByDescending { it.review.id }, isLastPage = isLastPage)
     }
 }
