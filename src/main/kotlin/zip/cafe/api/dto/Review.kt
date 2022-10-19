@@ -35,7 +35,7 @@ data class ReviewInfo(
     val finalScore: Double,
     val description: String,
     val visitPurpose : ReviewVisitPurposeInfo,
-    val foods: List<Food>,
+    val foods: List<ReviewFoodInfo>,
     val images: List<ReviewImageInfo>,
     @JsonFormat(pattern = defaultDateFormat)
     val createdAt: LocalDateTime,
@@ -43,6 +43,11 @@ data class ReviewInfo(
 
 data class ReviewVisitPurposeInfo(
     val purpose: Purpose,
+    val score: Int,
+)
+
+data class ReviewFoodInfo(
+    val food: Food,
     val score: Int,
 )
 

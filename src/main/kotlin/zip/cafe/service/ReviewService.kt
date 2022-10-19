@@ -40,7 +40,7 @@ class ReviewService(
                     purpose = review.visitPurpose,
                     score = review.visitPurposeScore.score
                 ),
-                foods = review.foodInfos.map { it.food },
+                foods = review.foodInfos.map { ReviewFoodInfo(it.food, it.score.score) },
                 images = review.images.map { ReviewImageInfo(it.id, it.cloudFrontURL) },
                 createdAt = review.createdAt
             ),
