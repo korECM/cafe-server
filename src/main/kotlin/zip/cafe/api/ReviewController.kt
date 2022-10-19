@@ -4,10 +4,8 @@ import org.springframework.http.HttpStatus.CREATED
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
-import zip.cafe.api.dto.ApiResponse
+import zip.cafe.api.dto.*
 import zip.cafe.api.dto.ApiResponse.Companion.success
-import zip.cafe.api.dto.ReviewRegisterRequest
-import zip.cafe.api.dto.UploadedImageResponse
 import zip.cafe.api.dto.UploadedImageResponse.Companion.from
 import zip.cafe.security.LoginUserId
 import zip.cafe.service.ReviewLikeService
@@ -20,6 +18,12 @@ class ReviewController(
     private val reviewService: ReviewService,
     private val reviewLikeService: ReviewLikeService
 ) {
+
+    @GetMapping("/{reviewId}")
+    fun getReview(@LoginUserId userId: Long, @PathVariable reviewId: Long): ApiResponse<ReviewDetailInfo> {
+        val reviewInfo = reviewService.getReview(reviewId)
+        return success(reviewInfo)
+    }
 
     @ResponseStatus(CREATED)
     @PostMapping

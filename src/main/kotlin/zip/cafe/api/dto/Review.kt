@@ -8,8 +8,48 @@ import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.toScore
 import zip.cafe.service.dto.ReviewRegisterDto
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
+
+data class ReviewDetailInfo(
+    val review: ReviewInfo,
+    val member: ReviewMemberInfo,
+    val cafe: ReviewCafeInfo,
+)
+
+data class ReviewMemberInfo(
+    val id: Long,
+    val nickname: String,
+    val profileImageUrl: String,
+)
+
+data class ReviewCafeInfo(
+    val id: Long,
+    val name: String,
+    val address: String,
+)
+
+data class ReviewInfo(
+    val id: Long,
+    val finalScore: Double,
+    val description: String,
+    val visitPurpose : ReviewVisitPurposeInfo,
+    val foods: List<Food>,
+    val images: List<ReviewImageInfo>,
+    @JsonFormat(pattern = defaultDateFormat)
+    val createdAt: LocalDateTime,
+)
+
+data class ReviewVisitPurposeInfo(
+    val purpose: Purpose,
+    val score: Int,
+)
+
+data class ReviewImageInfo(
+    val id: Long,
+    val url: String,
+)
 
 data class ReviewRegisterRequest(
     @field:NotNull(message = "카페 ID가 없습니다")

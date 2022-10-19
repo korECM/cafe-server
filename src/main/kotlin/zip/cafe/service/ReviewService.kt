@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation.NEVER
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import zip.cafe.api.dto.*
 import zip.cafe.connector.S3Connector
 import zip.cafe.connector.dto.S3FileDto
 import zip.cafe.entity.ReviewImage
@@ -27,6 +28,34 @@ class ReviewService(
     @Value("\${cloud.aws.s3.review-image-bucket}")
     private val reviewImageBucket: String
 ) {
+
+    fun getReview(reviewId: Long): ReviewDetailInfo {
+        val review = reviewRepository.getReviewDetailById(reviewId) ?: throw NoSuchElementException("해당 리뷰가 존재하지 않습니다")
+        return ReviewDetailInfo(
+            review = ReviewInfo(
+                id = review.id,
+                finalScore = review.finalScore.score,
+                description = review.description,
+                visitPurpose = ReviewVisitPurposeInfo(
+                    purpose = review.visitPurpose,
+                    score = review.visitPurposeScore.score
+                ),
+                foods = review.foodInfos.map { it.food },
+                images = review.images.map { ReviewImageInfo(it.id, it.cloudFrontURL) },
+                createdAt = review.createdAt
+            ),
+            member = ReviewMemberInfo(
+                id = review.footprint.member.id,
+                nickname = review.footprint.member.nickname,
+                profileImageUrl = review.footprint.member.profileImage
+            ),
+            cafe = ReviewCafeInfo(
+                id = review.footprint.cafe.id,
+                name = review.footprint.cafe.name,
+                address = review.footprint.cafe.address
+            )
+        )
+    }
 
     @Transactional
     fun createFootprintAndReview(cafeId: Long, memberId: Long, visitDate: LocalDate, dto: ReviewRegisterDto): Long {
@@ -61,8 +90,6 @@ class ReviewService(
             description = dto.description
         )
         reviewRepository.save(review)
-
-        review.addVisitPurposeInfo(dto.visitPurpose, dto.visitPurposeScore)
 
         dto.foodInfos.forEach { review.addFoodInfo(it.food, it.score) }
 
