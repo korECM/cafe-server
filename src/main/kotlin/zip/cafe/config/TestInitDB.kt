@@ -3,9 +3,7 @@ package zip.cafe.config
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
-import zip.cafe.entity.IntScore
-import zip.cafe.entity.Point
-import zip.cafe.entity.ReviewImage
+import zip.cafe.entity.*
 import zip.cafe.entity.auth.LocalAuth
 import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Member
@@ -14,7 +12,6 @@ import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.entity.review.Footprint
 import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.review.Review
-import zip.cafe.entity.toScore
 import zip.cafe.security.jwt.JwtTokenProvider
 import zip.cafe.util.createPoint
 import zip.cafe.util.logger
@@ -87,6 +84,8 @@ class TestInitDB(
             val review1 = createReview(footprint1, 3.5, Purpose.DATE, 5.toScore(), "설명 1")
             reviewImage1Of1.assignReview(review1)
             reviewImage2Of1.assignReview(review1)
+            review1.addFoodInfo(Food.BAKERY, 3.toScore())
+            review1.addFoodInfo(Food.COFFEE, 5.toScore())
             val reviewImage1Of2 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
             val footprint2 = createFootprint(member1, cafe2, now().minusDays(3))
             val review2 = createReview(footprint2, 4.5, Purpose.STUDY, 3.toScore(), "설명인 것")
