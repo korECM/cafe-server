@@ -6,12 +6,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.post
 import zip.cafe.api.auth.dto.KakaoSignInRequest
+import zip.cafe.api.profile.dto.CheckProfileResult
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.service.auth.AuthService
 import zip.cafe.service.auth.KakaoAuthService
+import zip.cafe.service.profile.ProfileService
 
 @WebMvcTest(KakaoAuthController::class)
 class KakaoAuthControllerTest : WebMvcTestSpec() {
@@ -22,6 +24,10 @@ class KakaoAuthControllerTest : WebMvcTestSpec() {
     @MockkBean
     private lateinit var authService: AuthService
 
+    @MockkBean
+    private lateinit var profileService: ProfileService
+
+
     init {
         "카카오 로그인 / 회원가입" {
             val memberId = MOCK_MVC_USER_ID
@@ -31,6 +37,12 @@ class KakaoAuthControllerTest : WebMvcTestSpec() {
 
             every { kakaoAuthService.findMemberIdByKakaoAccessToken(accessToken) } returns memberId
             every { authService.generateToken(memberId, any()) } returns jwtToken
+            every { profileService.checkProfileInit(memberId) } returns CheckProfileResult(
+                memberId = memberId,
+                isInit = true,
+                nickname = "nickname",
+                profileImageURL = "profileImageURL"
+            )
 
             val response = mockMvc.post("/auth/kakao/signIn") {
                 contentType = MediaType.APPLICATION_JSON
@@ -48,7 +60,10 @@ class KakaoAuthControllerTest : WebMvcTestSpec() {
                         ),
                         responseBody(
                             "body" beneathPathWithSubsectionId "body",
-                            "token" type STRING means "JWT 토큰" example jwtToken
+                            "token" type STRING means "JWT 토큰" example jwtToken,
+                            "isProfileInit" type BOOLEAN means "프로필 초기화 여부" example false,
+                            "nickname" type STRING means "닉네임" example "홍길동",
+                            "profileImageURL" type STRING means "" example "https://www.google.com"
                         )
                     )
                 }

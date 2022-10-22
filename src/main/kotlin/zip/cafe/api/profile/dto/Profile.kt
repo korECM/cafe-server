@@ -10,6 +10,22 @@ import zip.cafe.entity.review.Review
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+data class CheckProfileResult(
+    val memberId: Long,
+    val isInit : Boolean,
+    val nickname: String,
+    val profileImageURL : String
+) {
+    companion object {
+        fun from(member: Member) = CheckProfileResult(
+            memberId = member.id,
+            isInit = member.isProfileInit,
+            nickname = member.nickname,
+            profileImageURL = member.profileImage
+        )
+    }
+}
+
 data class ProfileInfo(
     val id: Long,
     val nickname: String,

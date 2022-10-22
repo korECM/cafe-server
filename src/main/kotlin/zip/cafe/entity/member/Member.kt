@@ -8,9 +8,6 @@ import javax.persistence.GenerationType.IDENTITY
 
 @Entity
 class Member(
-//    @Column(nullable = true)
-//    val name: String,
-
     @Column(nullable = false)
     val nickname: String,
 
@@ -20,17 +17,13 @@ class Member(
     @Column(nullable = false)
     val description : String = "",
 
+    @Column(nullable = false)
+    val isProfileInit : Boolean = false,
+
     _followerCount: Long = 0L,
     _followeeCount: Long = 0L,
     _footprintCount: Long = 0L,
     _reviewCount: Long = 0L,
-
-//    @Column(nullable = false)
-//    var birthDay: LocalDate,
-//
-//    @Enumerated(STRING)
-//    @Column(nullable = false)
-//    var gender: Gender
 ) : BaseClass() {
     constructor(nickname: String) : this(nickname, DEFAULT_PROFILE_IMAGE_URL)
 

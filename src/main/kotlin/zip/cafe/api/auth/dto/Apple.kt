@@ -11,5 +11,8 @@ data class AppleSignInRequest(
 )
 
 data class AppleSignInResponse(
-    val token: String
+    val token: String,
+    val isProfileInit : Boolean,
+    val nickname: String,
+    val profileImageURL : String,
 )

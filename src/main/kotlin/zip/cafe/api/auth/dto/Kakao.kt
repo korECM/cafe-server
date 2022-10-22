@@ -9,5 +9,8 @@ data class KakaoSignInRequest(
 )
 
 data class KakaoSignInResponse(
-    val token: String
+    val token: String,
+    val isProfileInit : Boolean,
+    val nickname: String,
+    val profileImageURL : String,
 )

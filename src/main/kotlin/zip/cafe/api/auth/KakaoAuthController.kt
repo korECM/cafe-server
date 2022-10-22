@@ -8,6 +8,7 @@ import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.service.auth.AuthService
 import zip.cafe.service.auth.KakaoAuthService
+import zip.cafe.service.profile.ProfileService
 import java.util.*
 import javax.validation.Valid
 
@@ -15,7 +16,8 @@ import javax.validation.Valid
 @RestController
 class KakaoAuthController(
     private val kakaoAuthService: KakaoAuthService,
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val profileService: ProfileService,
 ) {
 
     @ResponseStatus(CREATED)
@@ -23,6 +25,14 @@ class KakaoAuthController(
     fun signUp(@Valid @RequestBody request: KakaoSignInRequest): ApiResponse<KakaoSignInResponse> {
         val memberId = kakaoAuthService.findMemberIdByKakaoAccessToken(request.accessToken)
         val generatedToken = authService.generateToken(memberId, Date())
-        return success(KakaoSignInResponse(generatedToken))
+        val profileInitInfo = profileService.checkProfileInit(memberId)
+        return success(
+            KakaoSignInResponse(
+                token = generatedToken,
+                isProfileInit = profileInitInfo.isInit,
+                nickname = profileInitInfo.nickname,
+                profileImageURL = profileInitInfo.profileImageURL,
+            )
+        )
     }
 }

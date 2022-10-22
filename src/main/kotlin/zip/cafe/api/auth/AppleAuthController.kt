@@ -8,6 +8,7 @@ import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.service.auth.AppleAuthService
 import zip.cafe.service.auth.AuthService
+import zip.cafe.service.profile.ProfileService
 import java.util.*
 import javax.validation.Valid
 
@@ -16,6 +17,7 @@ import javax.validation.Valid
 class AppleAuthController(
     private val appleAuthService: AppleAuthService,
     private val authService: AuthService,
+    private val profileService: ProfileService,
 ) {
 
     private fun compositeName(firstName: String?, lastName: String?): String = if (lastName == null || firstName == null) "기본 닉네임" else lastName + firstName
@@ -26,6 +28,14 @@ class AppleAuthController(
         val defaultNickname = compositeName(request.firstName, request.lastName)
         val memberId = appleAuthService.findMemberIdByAppleIdentityToken(request.identityToken, defaultNickname)
         val generatedToken = authService.generateToken(memberId, Date())
-        return success(AppleSignInResponse(generatedToken))
+        val profileInitInfo = profileService.checkProfileInit(memberId)
+        return success(
+            AppleSignInResponse(
+                token = generatedToken,
+                isProfileInit = profileInitInfo.isInit,
+                nickname = profileInitInfo.nickname,
+                profileImageURL = profileInitInfo.profileImageURL,
+            )
+        )
     }
 }
