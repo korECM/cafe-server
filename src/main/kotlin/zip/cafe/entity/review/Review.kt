@@ -22,6 +22,8 @@ class Review protected constructor(
 
     @Enumerated(STRING)
     val visitPurpose: Purpose,
+
+    @Embedded
     @AttributeOverride(name = "score", column = Column(name = "visit_purpose_score", nullable = false))
     val visitPurposeScore: IntScore,
 
