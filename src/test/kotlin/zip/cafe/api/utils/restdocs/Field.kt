@@ -30,6 +30,7 @@ class Field(
     }
 
     infix fun example(value: Number): Field = example(value.toString())
+    infix fun example(value: Boolean): Field = example(value.toString())
 
     infix fun and(x: optional): Field {
         type = type.optional()
