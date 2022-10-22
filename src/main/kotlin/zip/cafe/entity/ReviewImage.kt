@@ -1,6 +1,5 @@
 package zip.cafe.entity
 
-import zip.cafe.entity.common.BaseClass
 import zip.cafe.entity.member.Member
 import zip.cafe.entity.review.Review
 import javax.persistence.*
@@ -9,21 +8,18 @@ import javax.persistence.FetchType.LAZY
 @Table(name = "review_image")
 @Entity
 class ReviewImage(
-    @Column(name = "bucket", nullable = false)
-    val bucket: String,
-    @Column(name = "fileKey", nullable = false)
-    val fileKey: String,
-    @Column(name = "s3URL", nullable = false)
-    val s3URL: String,
-    @Column(name = "cloudFrontURL", nullable = false)
-    val cloudFrontURL: String,
+    bucket: String,
+    fileKey: String,
+    s3URL: String,
+    cloudFrontURL: String,
     @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
     val uploadedBy: Member,
     @ManyToOne(fetch = LAZY, optional = true)
     @JoinColumn(name = "review_id")
     var review: Review?
-) : BaseClass() {
+) : Image(bucket, fileKey, s3URL, cloudFrontURL) {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "review_image_id", nullable = false)
