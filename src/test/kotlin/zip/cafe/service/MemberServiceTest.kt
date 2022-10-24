@@ -7,13 +7,23 @@ import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import org.springframework.data.repository.findByIdOrNull
+import zip.cafe.connector.S3Connector
 import zip.cafe.repository.MemberRepository
+import zip.cafe.repository.ProfileImageRepository
 import zip.cafe.seeds.createMember
 
 class MemberServiceTest : FreeSpec({
 
     val memberRepository = mockk<MemberRepository>(relaxed = true)
-    val memberService = MemberService(memberRepository = memberRepository)
+    val profileImageRepository = mockk<ProfileImageRepository>(relaxed = true)
+    val s3Connector = mockk<S3Connector>(relaxed = true)
+    val reviewImageBucket = "test-bucket"
+    val memberService = MemberService(
+        memberRepository = memberRepository,
+        profileImageRepository = profileImageRepository,
+        s3Connector = s3Connector,
+        reviewImageBucket = reviewImageBucket
+    )
 
     "findMemberById" - {
         "주어진 id로 멤버를 찾아서 반환한다" {
