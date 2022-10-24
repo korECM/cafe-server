@@ -15,7 +15,7 @@ class ProfileImage(
     @JoinColumn(name = "member_id")
     var member: Member?,
     @ManyToOne(fetch = LAZY, optional = false)
-    @JoinColumn(name = "member_id", nullable = false)
+    @JoinColumn(name = "upload_member_id", nullable = false)
     val uploadedBy: Member,
 ) : Image(bucket, fileKey, s3URL, cloudFrontURL) {
 
