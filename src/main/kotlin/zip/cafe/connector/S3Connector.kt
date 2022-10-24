@@ -16,8 +16,8 @@ import java.util.UUID.randomUUID
 @Component
 class S3Connector(
     private val amazonS3Client: AmazonS3Client,
-    @Value("\${cloud.aws.cloud-front.image-domain}")
-    private val cloudFrontUrl: String
+    @Value("\${cloud.aws.cloud-front.bucket-domain-map}")
+    private val s3CloudFrontMap: Map<String, String>,
 ) {
     companion object {
         const val FILE_EXTENSION_SEPARATOR = "."
@@ -47,7 +47,7 @@ class S3Connector(
                 bucket = bucketName,
                 fileKey = fileKey,
                 s3URL = createS3URL(bucketName, fileKey),
-                cloudFrontURL = createCloudFrontURL(fileKey)
+                cloudFrontURL = createCloudFrontURL(bucketName, fileKey)
             )
         } catch (e: IOException) {
             throw RuntimeException()
@@ -65,7 +65,8 @@ class S3Connector(
         return "https://$bucketName.s3.ap-northeast-2.amazonaws.com/$fileKey"
     }
 
-    private fun createCloudFrontURL(fileKey: String): String {
-        return "$cloudFrontUrl/$fileKey"
+    private fun createCloudFrontURL(bucketName: String, fileKey: String): String {
+        val cloudFrontURL = s3CloudFrontMap[bucketName] ?: throw RuntimeException("S3 bucket[$bucketName]과 일치하는 Cloud Front 주소가 없습니다")
+        return "$cloudFrontURL/$fileKey"
     }
 }
