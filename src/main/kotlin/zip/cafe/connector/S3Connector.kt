@@ -4,7 +4,8 @@ import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.model.CannedAccessControlList.PublicRead
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.boot.context.properties.ConstructorBinding
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
 import zip.cafe.connector.dto.S3FileDto
@@ -13,11 +14,16 @@ import java.io.IOException
 import java.lang.System.currentTimeMillis
 import java.util.UUID.randomUUID
 
+@ConstructorBinding
+@ConfigurationProperties(prefix = "cloud.aws.cloud-front")
+data class S3ConnectorConfig(
+    val bucketDomainMap: Map<String, String>,
+)
+
 @Component
 class S3Connector(
     private val amazonS3Client: AmazonS3Client,
-    @Value("\${cloud.aws.cloud-front.bucket-domain-map}")
-    private val s3CloudFrontMap: Map<String, String>,
+    private val s3ConnectorConfig: S3ConnectorConfig,
 ) {
     companion object {
         const val FILE_EXTENSION_SEPARATOR = "."
@@ -66,7 +72,7 @@ class S3Connector(
     }
 
     private fun createCloudFrontURL(bucketName: String, fileKey: String): String {
-        val cloudFrontURL = s3CloudFrontMap[bucketName] ?: throw RuntimeException("S3 bucket[$bucketName]과 일치하는 Cloud Front 주소가 없습니다")
+        val cloudFrontURL = s3ConnectorConfig.bucketDomainMap[bucketName] ?: throw RuntimeException("S3 bucket[$bucketName]과 일치하는 Cloud Front 주소가 없습니다")
         return "$cloudFrontURL/$fileKey"
     }
 }
