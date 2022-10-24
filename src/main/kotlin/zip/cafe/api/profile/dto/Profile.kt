@@ -3,6 +3,7 @@ package zip.cafe.api.profile.dto
 import com.fasterxml.jackson.annotation.JsonFormat
 import zip.cafe.config.defaultDateFormat
 import zip.cafe.config.defaultDateTimeFormat
+import zip.cafe.entity.ProfileImage
 import zip.cafe.entity.cafe.Cafe
 import zip.cafe.entity.member.Member
 import zip.cafe.entity.review.Footprint
@@ -12,9 +13,9 @@ import java.time.LocalDateTime
 
 data class CheckProfileResult(
     val memberId: Long,
-    val isInit : Boolean,
+    val isInit: Boolean,
     val nickname: String,
-    val profileImageURL : String
+    val profileImageURL: String
 ) {
     companion object {
         fun from(member: Member) = CheckProfileResult(
@@ -104,5 +105,19 @@ data class ProfileCafeInfo(
             name = cafe.name,
             address = cafe.address
         )
+    }
+}
+
+data class UploadedProfileImageResponse(
+    val id: Long,
+    val url: String
+) {
+    companion object {
+        fun from(image: ProfileImage): UploadedProfileImageResponse {
+            return UploadedProfileImageResponse(
+                id = image.id,
+                url = image.cloudFrontURL
+            )
+        }
     }
 }
