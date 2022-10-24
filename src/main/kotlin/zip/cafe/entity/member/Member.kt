@@ -9,16 +9,16 @@ import javax.persistence.GenerationType.IDENTITY
 @Entity
 class Member(
     @Column(nullable = false)
-    val nickname: String,
+    var nickname: String,
 
     @Column(nullable = false)
-    val profileImage: String,
+    var profileImage: String,
 
     @Column(nullable = false)
     val description : String = "",
 
     @Column(nullable = false)
-    val isProfileInit : Boolean = false,
+    var isProfileInit : Boolean = false,
 
     _followerCount: Long = 0L,
     _followeeCount: Long = 0L,

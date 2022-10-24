@@ -11,6 +11,9 @@ class ProfileImage(
     fileKey: String,
     s3URL: String,
     cloudFrontURL: String,
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "member_id")
+    var member: Member?,
     @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
     val member: Member,
