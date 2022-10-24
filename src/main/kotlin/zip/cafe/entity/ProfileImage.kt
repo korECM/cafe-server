@@ -16,7 +16,7 @@ class ProfileImage(
     var member: Member?,
     @ManyToOne(fetch = LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
-    val member: Member,
+    val uploadedBy: Member,
 ) : Image(bucket, fileKey, s3URL, cloudFrontURL) {
 
     @Id
@@ -25,13 +25,25 @@ class ProfileImage(
     val id: Long = 0
 
     companion object {
-        fun from(bucket: String, fileKey: String, s3URL: String, cloudFrontURL: String, uploadedBy: Member): ProfileImage {
+        fun from(bucket: String, fileKey: String, s3URL: String, cloudFrontURL: String, uploadedBy: Member, member : Member): ProfileImage {
             return ProfileImage(
                 bucket = bucket,
                 fileKey = fileKey,
                 s3URL = s3URL,
                 cloudFrontURL = cloudFrontURL,
+                uploadedBy = uploadedBy,
                 member = uploadedBy,
+            )
+        }
+
+        fun withoutMember(bucket: String, fileKey: String, s3URL: String, cloudFrontURL: String, uploadedBy: Member): ProfileImage {
+            return ProfileImage(
+                bucket = bucket,
+                fileKey = fileKey,
+                s3URL = s3URL,
+                cloudFrontURL = cloudFrontURL,
+                uploadedBy = uploadedBy,
+                member = null
             )
         }
     }
