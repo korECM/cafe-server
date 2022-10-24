@@ -1,6 +1,11 @@
 [[Review-API]]
 === Review API
 
+[[get-review]]
+==== 단일 리뷰 조회
+operation::get-single-review[snippets='http-request,path-parameters,http-response,response-fields-body']
+
+
 [[writeFoorprint]]
 ==== 발자국 작성
 operation::write-footprint[snippets='http-request,request-fields,http-response,response-fields-body']

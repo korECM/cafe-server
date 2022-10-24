@@ -11,8 +11,9 @@ import org.springframework.restdocs.request.RequestDocumentation.partWithName
 import org.springframework.restdocs.request.RequestDocumentation.requestParts
 import org.springframework.test.web.servlet.multipart
 import org.springframework.test.web.servlet.post
-import zip.cafe.api.dto.ReviewRegisterRequest
+import zip.cafe.api.dto.*
 import zip.cafe.api.utils.mockmvc.documentWithHandle
+import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.config.formatAsDefault
@@ -24,6 +25,7 @@ import zip.cafe.seeds.createReviewImage
 import zip.cafe.service.ReviewLikeService
 import zip.cafe.service.ReviewService
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 @WebMvcTest(ReviewController::class)
 class ReviewControllerTest : WebMvcTestSpec() {
@@ -35,6 +37,60 @@ class ReviewControllerTest : WebMvcTestSpec() {
     private lateinit var reviewLikeService: ReviewLikeService
 
     init {
+        "단일 리뷰 조회" {
+            val reviewId = 3L
+            val memberId = 123L
+            val cafeId = 512L
+            val reviewDetailInfo = ReviewDetailInfo(
+                review = ReviewInfo(
+                    id = reviewId,
+                    finalScore = 4.5,
+                    description = "좋은 카페이고 조용해서 좋아요",
+                    visitPurpose = ReviewVisitPurposeInfo(purpose = Purpose.DATE, score = 3),
+                    foods = listOf(ReviewFoodInfo(Food.BAKERY, 3), ReviewFoodInfo(Food.COFFEE, 4)),
+                    images = listOf(ReviewImageInfo(1L, "https://image.com/1"), ReviewImageInfo(2L, "https://image.com/2")),
+                    createdAt = LocalDateTime.now(),
+                ),
+                member = ReviewMemberInfo(id = memberId, nickname = "길동길동홍길동", profileImageUrl = "https://image.com/123"),
+                cafe = ReviewCafeInfo(id = cafeId, name = "삼성 스타벅스", address = "송파구 어딘가 좋은 곳")
+            )
+
+            every { reviewService.getReview(reviewId) } returns reviewDetailInfo
+
+            val response = mockMvc.getWithPathParameter("/reviews/{reviewId}", reviewId)
+
+            response.andExpect {
+                status { isOk() }
+            }.andDo {
+                documentWithHandle(
+                    "get-single-review",
+                    pathParameters(
+                        "reviewId" means "리뷰 id" example reviewId
+                    ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                        "review.id" type NUMBER means "리뷰 id" example reviewId,
+                        "review.finalScore" type NUMBER means "최종 점수" example reviewDetailInfo.review.finalScore,
+                        "review.description" type STRING means "리뷰 내용" example reviewDetailInfo.review.description,
+                        "review.visitPurpose.purpose" type STRING means "방문 목적 및 점수" example reviewDetailInfo.review.visitPurpose.purpose.toString(),
+                        "review.visitPurpose.score" type NUMBER means "방문 목적 점수" example reviewDetailInfo.review.visitPurpose.score,
+                        "review.foods" type ARRAY means "음식 종류 및 점수" example reviewDetailInfo.review.foods.toString(),
+                        "review.foods[].food" type STRING means "음식 종류" example reviewDetailInfo.review.foods[0].food.toString(),
+                        "review.foods[].score" type NUMBER means "음식 점수" example reviewDetailInfo.review.foods[0].score,
+                        "review.images" type ARRAY means "리뷰에 올라온 이미지 목록",
+                        "review.images[].id" type NUMBER means "리뷰 이미지 id" example reviewDetailInfo.review.images[0].id,
+                        "review.images[].url" type STRING means "리뷰 이미지 url" example reviewDetailInfo.review.images[0].url,
+                        "review.createdAt" type STRING means "리뷰 작성 시간" example reviewDetailInfo.review.createdAt.formatAsDefault(),
+                        "member.id" type NUMBER means "작성자 id" example reviewDetailInfo.member.id,
+                        "member.nickname" type STRING means "작성자 닉네임" example reviewDetailInfo.member.nickname,
+                        "member.profileImageUrl" type STRING means "작성자 프로필 이미지 url" example reviewDetailInfo.member.profileImageUrl,
+                        "cafe.id" type NUMBER means "카페 id" example reviewDetailInfo.cafe.id,
+                        "cafe.name" type STRING means "카페 이름" example reviewDetailInfo.cafe.name,
+                        "cafe.address" type STRING means "카페 주소" example reviewDetailInfo.cafe.address,
+                    )
+                )
+            }
+        }
 
         "리뷰 업로드" {
             val cafeId = 1L
