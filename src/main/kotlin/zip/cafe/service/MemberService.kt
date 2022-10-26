@@ -39,13 +39,13 @@ class MemberService(
     }
 
     @Transactional(propagation = Propagation.NEVER)
-    fun uploadReviewImage(image: MultipartFile): S3FileDto {
+    fun uploadProfileImage(image: MultipartFile): S3FileDto {
         // TODO MaxUploadSizeExceededException 예외처리
         return s3Connector.uploadFile(bucketName = reviewImageBucket, dirName = "org", multipartFile = image)
     }
 
     @Transactional
-    fun saveUploadedReviewImage(uploadUserId: Long, file: S3FileDto): ProfileImage {
+    fun saveUploadedProfileImage(uploadUserId: Long, file: S3FileDto): ProfileImage {
         val uploadUser = memberRepository.findOneById(uploadUserId)
         val profileImage = ProfileImage.withoutMember(
             bucket = file.bucket,

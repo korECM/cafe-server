@@ -22,6 +22,7 @@ include::kakao-auth.adoc[]
 == 기타
 
 include::profile.adoc[]
+include::member.adoc[]
 
 include::follow.adoc[]
 include::keyword.adoc[]

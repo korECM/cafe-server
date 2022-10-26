@@ -32,8 +32,8 @@ class MemberController(
         @RequestPart("image") image: MultipartFile,
     ): ApiResponse<UploadedProfileImageResponse> {
         val savedProfileImage = memberService.run {
-            val uploadReviewImages = uploadReviewImage(image)
-            saveUploadedReviewImage(userId, uploadReviewImages)
+            val uploadReviewImages = uploadProfileImage(image)
+            saveUploadedProfileImage(userId, uploadReviewImages)
         }
         return success(UploadedProfileImageResponse.from(savedProfileImage))
     }
