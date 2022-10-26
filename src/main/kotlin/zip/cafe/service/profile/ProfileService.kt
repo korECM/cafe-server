@@ -10,12 +10,14 @@ import zip.cafe.api.profile.dto.ProfileInfo
 import zip.cafe.api.profile.dto.ProfileReviewInfo
 import zip.cafe.api.profile.dto.ProfileReviewInfo.Companion.from
 import zip.cafe.repository.FootprintRepository
+import zip.cafe.repository.MemberFollowRepository
 import zip.cafe.repository.MemberRepository
 import zip.cafe.repository.ReviewRepository
 
 @Service
 class ProfileService(
     private val memberRepository: MemberRepository,
+    private val memberFollowRepository: MemberFollowRepository,
     private val reviewRepository: ReviewRepository,
     private val footprintRepository: FootprintRepository,
 ) {
@@ -26,9 +28,10 @@ class ProfileService(
     }
 
     @Transactional(readOnly = true)
-    fun getProfile(memberId: Long): ProfileInfo {
-        val member = requireNotNull(memberRepository.findByIdOrNull(memberId)) { "사용자를 찾을 수 없습니다" }
-        return ProfileInfo.from(member)
+    fun getProfile(loginMemberId: Long, targetMemberId: Long): ProfileInfo {
+        val member = requireNotNull(memberRepository.findByIdOrNull(targetMemberId)) { "사용자를 찾을 수 없습니다" }
+        val isFollowing = memberFollowRepository.checkForFollowing(loginMemberId, targetMemberId)
+        return ProfileInfo.from(member, isFollowing)
     }
 
     @Transactional(readOnly = true)

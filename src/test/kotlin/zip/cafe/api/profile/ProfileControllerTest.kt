@@ -13,6 +13,7 @@ import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.config.formatAsDefault
 import zip.cafe.entity.member.Member
+import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.service.profile.ProfileService
 import java.time.LocalDate
 import java.time.LocalDateTime.now
@@ -24,10 +25,11 @@ class ProfileControllerTest : WebMvcTestSpec() {
 
     init {
         "유저의 프로필 조회" {
-            val memberId = 5L
+            val loginMemberId = MOCK_MVC_USER_ID
+            val targetMemberId = 5L
 
-            every { profileService.getProfile(memberId) } returns ProfileInfo(
-                id = memberId,
+            every { profileService.getProfile(loginMemberId, targetMemberId) } returns ProfileInfo(
+                id = targetMemberId,
                 nickname = "홍길동",
                 profileImageURL = Member.DEFAULT_PROFILE_IMAGE_URL,
                 description = "적당한 설명",
@@ -35,9 +37,10 @@ class ProfileControllerTest : WebMvcTestSpec() {
                 numberOfFootprint = 20,
                 numberOfFollowers = 151612,
                 numberOfFollowees = 165,
+                following = true
             )
 
-            val response = mockMvc.getWithPathParameter("/profiles/members/{memberId}", memberId)
+            val response = mockMvc.getWithPathParameter("/profiles/members/{targetMemberId}", targetMemberId)
 
             response.andExpect {
                 status { isOk() }
@@ -45,7 +48,7 @@ class ProfileControllerTest : WebMvcTestSpec() {
                 documentWithHandle(
                     "get-profile",
                     pathParameters(
-                        "memberId" means "프로필을 조회하려는 유저의 Id" example "5L"
+                        "targetMemberId" means "프로필을 조회하려는 유저의 Id" example "5L"
                     ),
                     responseBody(
                         "body" beneathPathWithSubsectionId "body",
@@ -57,6 +60,7 @@ class ProfileControllerTest : WebMvcTestSpec() {
                         "numberOfFootprint" type NUMBER means "유저의 발자국 수" example 20,
                         "numberOfFollowers" type NUMBER means "유저의 팔로워 수" example "151612",
                         "numberOfFollowees" type NUMBER means "유저의 팔로잉 수" example "165",
+                        "following" type BOOLEAN means "로그인한 유저가 해당 유저를 팔로우하고 있는지 여부" example true
                     )
                 )
             }

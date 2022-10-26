@@ -35,10 +35,11 @@ data class ProfileInfo(
     val numberOfFootprint: Long,
     val numberOfReview: Long,
     val numberOfFollowers: Long,
-    val numberOfFollowees: Long
+    val numberOfFollowees: Long,
+    val following: Boolean,
 ) {
     companion object {
-        fun from(member: Member) = ProfileInfo(
+        fun from(member: Member, isFollowing: Boolean) = ProfileInfo(
             id = member.id,
             nickname = member.nickname,
             profileImageURL = member.profileImage,
@@ -46,7 +47,8 @@ data class ProfileInfo(
             numberOfFootprint = member.footprintCount,
             numberOfReview = member.reviewCount,
             numberOfFollowers = member.followeeCount,
-            numberOfFollowees = member.followerCount
+            numberOfFollowees = member.followerCount,
+            following = isFollowing,
         )
     }
 }

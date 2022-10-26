@@ -18,9 +18,9 @@ class ProfileController(
     private val profileService: ProfileService
 ) {
 
-    @GetMapping("/members/{memberId}")
-    fun getProfile(@LoginUserId loginMemberId: Long, @PathVariable memberId: Long): ApiResponse<ProfileInfo> {
-        val profile = profileService.getProfile(memberId)
+    @GetMapping("/members/{targetMemberId}")
+    fun getProfile(@LoginUserId loginMemberId: Long, @PathVariable targetMemberId: Long): ApiResponse<ProfileInfo> {
+        val profile = profileService.getProfile(loginMemberId, targetMemberId)
         return success(profile)
     }
 
