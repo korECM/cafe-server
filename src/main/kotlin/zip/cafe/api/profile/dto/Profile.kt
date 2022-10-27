@@ -73,7 +73,7 @@ data class ProfileFootprintInfo(
 data class ProfileReviewInfo(
     val id: Long,
     val cafe: ProfileCafeInfo,
-    val images: List<String>,
+    val images: List<ProfileReviewImageInfo>,
     val finalScore: Double,
     val likeCount: Long,
     val content: String,
@@ -86,7 +86,7 @@ data class ProfileReviewInfo(
         fun from(review: Review) = ProfileReviewInfo(
             id = review.id,
             cafe = ProfileCafeInfo.from(review.footprint.cafe),
-            images = review.images.map { it.cloudFrontURL },
+            images = review.images.map { ProfileReviewImageInfo(it.id, it.cloudFrontURL) },
             finalScore = review.finalScore.score,
             likeCount = review.likeCount,
             content = review.description,
@@ -95,6 +95,11 @@ data class ProfileReviewInfo(
         )
     }
 }
+
+data class ProfileReviewImageInfo(
+    val id: Long,
+    val url: String
+)
 
 data class ProfileCafeInfo(
     val id: Long,

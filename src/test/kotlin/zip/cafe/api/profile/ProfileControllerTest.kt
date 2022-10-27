@@ -3,10 +3,7 @@ package zip.cafe.api.profile
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import zip.cafe.api.profile.dto.ProfileCafeInfo
-import zip.cafe.api.profile.dto.ProfileFootprintInfo
-import zip.cafe.api.profile.dto.ProfileInfo
-import zip.cafe.api.profile.dto.ProfileReviewInfo
+import zip.cafe.api.profile.dto.*
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
@@ -74,8 +71,8 @@ class ProfileControllerTest : WebMvcTestSpec() {
                     id = 1,
                     cafe = ProfileCafeInfo(id = 3, name = "북앤레스트", address = "서울시 강남구"),
                     images = listOf(
-                        "https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg",
-                        "https://vinesoftheyarravalley.com.au/wp-content/uploads/2021/02/cafe-vines-1024x702.jpg"
+                        ProfileReviewImageInfo(id = 1L, url = "https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg"),
+                        ProfileReviewImageInfo(id = 2L, url = "https://vinesoftheyarravalley.com.au/wp-content/uploads/2021/02/cafe-vines-1024x702.jpg"),
                     ),
                     finalScore = 4.0,
                     likeCount = 3,
@@ -87,8 +84,8 @@ class ProfileControllerTest : WebMvcTestSpec() {
                     id = 2,
                     cafe = ProfileCafeInfo(id = 4, name = "", address = "서울시 영등포구"),
                     images = listOf(
-                        "https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg",
-                        "https://vinesoftheyarravalley.com.au/wp-content/uploads/2021/02/cafe-vines-1024x702.jpg"
+                        ProfileReviewImageInfo(id = 3L, url = "https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg"),
+                        ProfileReviewImageInfo(id = 4L, url = "https://vinesoftheyarravalley.com.au/wp-content/uploads/2021/02/cafe-vines-1024x702.jpg"),
                     ),
                     finalScore = 3.0,
                     likeCount = 2,
@@ -115,7 +112,9 @@ class ProfileControllerTest : WebMvcTestSpec() {
                         "cafe.id" type NUMBER means "카페의 Id" example "3",
                         "cafe.name" type STRING means "카페의 이름" example "북앤레스트",
                         "cafe.address" type STRING means "카페의 주소" example "서울시 강남구",
-                        "images" type ARRAY means "리뷰에 포함된 이미지 URL" example "[\"https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg\", \"https://vinesoftheyarravalley.com.au/wp-content/uploads/2021/02/cafe-vines-1024x702.jpg\"]",
+                        "images" type ARRAY means "리뷰에 포함된 이미지 정보",
+                        "images[].id" type NUMBER means "이미지의 Id" example "1",
+                        "images[].url" type STRING means "이미지의 URL" example "https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg",
                         "finalScore" type NUMBER means "리뷰의 최종 점수" example "4.0",
                         "likeCount" type NUMBER means "리뷰의 좋아요 수" example "3",
                         "content" type STRING means "리뷰의 내용" example "조용하고 좋아요",
