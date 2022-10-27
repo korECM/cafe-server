@@ -36,13 +36,13 @@ class ProfileService(
 
     @Transactional(readOnly = true)
     fun getReview(memberId: Long): List<ProfileReviewInfo> {
-        val reviews = reviewRepository.findAllByMemberId(memberId)
+        val reviews = reviewRepository.findAllNewestReviewByMemberId(memberId)
         return reviews.map(::from)
     }
 
     @Transactional(readOnly = true)
     fun getFootprint(memberId: Long): List<ProfileFootprintInfo> {
-        val footprints = footprintRepository.findAllByMemberId(memberId)
+        val footprints = footprintRepository.findAllNewestFootprintByMemberId(memberId)
         return footprints.map(::from)
     }
 }
