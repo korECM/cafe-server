@@ -128,3 +128,10 @@ data class UploadedProfileImageResponse(
         }
     }
 }
+
+data class InitProfileRequest(
+    val nickname: String,
+    val imageId: Long,
+)
+
+class InitProfileResponse

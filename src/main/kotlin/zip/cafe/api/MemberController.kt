@@ -6,6 +6,8 @@ import org.springframework.web.multipart.MultipartFile
 import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.api.dto.CheckNicknameDuplicationResponse
+import zip.cafe.api.profile.dto.InitProfileRequest
+import zip.cafe.api.profile.dto.InitProfileResponse
 import zip.cafe.api.profile.dto.UploadedProfileImageResponse
 import zip.cafe.security.LoginUserId
 import zip.cafe.service.MemberService
@@ -36,5 +38,15 @@ class MemberController(
             saveUploadedProfileImage(userId, uploadReviewImages)
         }
         return success(UploadedProfileImageResponse.from(savedProfileImage))
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/profile/init")
+    fun initProfile(
+        @LoginUserId userId: Long,
+        @RequestBody request: InitProfileRequest,
+    ): ApiResponse<InitProfileResponse> {
+        memberService.initMemberProfile(userId, request.nickname, request.imageId)
+        return success(InitProfileResponse())
     }
 }

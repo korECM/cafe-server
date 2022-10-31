@@ -29,9 +29,10 @@ class MemberService(
     fun initMemberProfile(memberId: Long, nickname: String, profileImageId: Long) {
         require(!checkNicknameDuplication(nickname)) { "중복되는 닉네임입니다" }
         val profileImage = profileImageRepository.findByIdOrNull(profileImageId) ?: throw IllegalArgumentException("존재하지 않는 프로필 이미지입니다")
-        require(profileImage.uploadedBy.id != memberId) { "본인의 프로필 이미지만 사용할 수 있습니다" }
+        require(profileImage.uploadedBy.id == memberId) { "본인의 프로필 이미지만 사용할 수 있습니다" }
 
         val member = memberRepository.findByIdOrNull(memberId) ?: throw IllegalArgumentException("존재하지 않는 회원입니다")
+        require(!member.isProfileInit) { "이미 프로필을 초기 설정한 회원입니다" }
         member.profileImage = profileImage.cloudFrontURL
         member.nickname = nickname
         member.isProfileInit = true

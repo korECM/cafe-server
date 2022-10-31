@@ -1,12 +1,16 @@
 package zip.cafe.api
 
 import com.ninjasquad.springmockk.MockkBean
+import io.mockk.Runs
 import io.mockk.every
+import io.mockk.just
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.test.web.servlet.multipart
 import org.springframework.test.web.servlet.post
+import zip.cafe.api.profile.dto.InitProfileRequest
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.api.utils.spec.WebMvcTestSpec
@@ -84,6 +88,34 @@ class MemberControllerTest : WebMvcTestSpec() {
                     )
                 }
         }
-    }
 
+        "프로필 초기 설정" {
+            val userId = MOCK_MVC_USER_ID
+            val nickname = "닉네임"
+            val imageId = 5L
+            val request = InitProfileRequest(nickname = nickname, imageId = imageId)
+
+            every { memberService.initMemberProfile(userId, nickname, imageId) } just Runs
+
+            val response = mockMvc.post("/members/profile/init") {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(request)
+            }
+
+            response.andExpect {
+                status { isCreated() }
+            }.andDo {
+                documentWithHandle(
+                    "init-profile",
+                    requestFields(
+                        "nickname" type STRING means "닉네임" example nickname,
+                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId,
+                    ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                    )
+                )
+            }
+        }
+    }
 }
