@@ -135,3 +135,10 @@ data class InitProfileRequest(
 )
 
 class InitProfileResponse
+
+data class EditProfileRequest(
+    val nickname: String,
+    val imageId: Long,
+)
+
+class EditProfileResponse

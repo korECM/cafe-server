@@ -15,3 +15,8 @@ operation::upload-profile-image[snippets='http-request,request-parts,http-respon
 ==== 초기 프로필 설정
 
 operation::init-profile[snippets='http-request,request-fields,http-response,response-fields-body']
+
+[[edit-member-profile]]
+==== 프로필 수정
+
+operation::edit-profile[snippets='http-request,request-fields,http-response,response-fields-body']

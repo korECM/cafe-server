@@ -117,5 +117,34 @@ class MemberControllerTest : WebMvcTestSpec() {
                 )
             }
         }
+
+        "프로필 수정" {
+            val userId = MOCK_MVC_USER_ID
+            val nickname = "닉네임"
+            val imageId = 5L
+            val request = InitProfileRequest(nickname = nickname, imageId = imageId)
+
+            every { memberService.editMemberProfile(userId, nickname, imageId) } just Runs
+
+            val response = mockMvc.post("/members/profile/edit") {
+                contentType = MediaType.APPLICATION_JSON
+                content = objectMapper.writeValueAsString(request)
+            }
+
+            response.andExpect {
+                status { isCreated() }
+            }.andDo {
+                documentWithHandle(
+                    "edit-profile",
+                    requestFields(
+                        "nickname" type STRING means "닉네임" example nickname,
+                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId,
+                    ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                    )
+                )
+            }
+        }
     }
 }
