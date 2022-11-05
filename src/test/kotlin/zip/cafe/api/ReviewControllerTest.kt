@@ -42,7 +42,7 @@ class ReviewControllerTest : WebMvcTestAdapter() {
                     createdAt = LocalDateTime.now()
                 ),
                 member = ReviewMemberInfo(id = memberId, nickname = "길동길동홍길동", profileImageUrl = "https://image.com/123"),
-                cafe = ReviewCafeInfo(id = cafeId, name = "삼성 스타벅스", address = "송파구 어딘가 좋은 곳")
+                cafe = ReviewCafeInfo(id = cafeId, name = "삼성 스타벅스", address = "송파구 어딘가 좋은 곳", cafeImage = "https://picsum.photos/200")
             )
 
             every { reviewService.getReview(reviewId) } returns reviewDetailInfo
@@ -81,7 +81,8 @@ class ReviewControllerTest : WebMvcTestAdapter() {
                         "member.profileImageUrl" type STRING means "작성자 프로필 이미지 url" example reviewDetailInfo.member.profileImageUrl,
                         "cafe.id" type NUMBER means "카페 id" example reviewDetailInfo.cafe.id,
                         "cafe.name" type STRING means "카페 이름" example reviewDetailInfo.cafe.name,
-                        "cafe.address" type STRING means "카페 주소" example reviewDetailInfo.cafe.address
+                        "cafe.address" type STRING means "카페 주소" example reviewDetailInfo.cafe.address,
+                        "cafe.cafeImage" type STRING means "카페 대표 이미지 url" example reviewDetailInfo.cafe.cafeImage
                     )
                 )
             }

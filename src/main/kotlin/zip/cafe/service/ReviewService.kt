@@ -55,7 +55,8 @@ class ReviewService(
             cafe = ReviewCafeInfo(
                 id = review.footprint.cafe.id,
                 name = review.footprint.cafe.name,
-                address = review.footprint.cafe.address
+                address = review.footprint.cafe.address,
+                cafeImage = "https://picsum.photos/200"
             )
         )
     }

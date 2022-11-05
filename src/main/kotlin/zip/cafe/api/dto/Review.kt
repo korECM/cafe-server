@@ -28,6 +28,7 @@ data class ReviewCafeInfo(
     val id: Long,
     val name: String,
     val address: String,
+    val cafeImage: String,
 )
 
 data class ReviewInfo(
