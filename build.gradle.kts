@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.7.4"
-    id("io.spring.dependency-management") version "1.0.14.RELEASE"
+    id("org.springframework.boot") version "2.7.5"
+    id("io.spring.dependency-management") version "1.0.15.RELEASE"
     id("org.asciidoctor.jvm.convert") version "3.3.2"
     kotlin("jvm") version "1.7.10"
     kotlin("plugin.spring") version "1.7.10"
@@ -15,7 +15,7 @@ plugins {
 group = "zip"
 version = "0.0.15-SNAPSHOT"
 val qeurydslVersion = "5.0.0"
-val kotestVersion = "5.4.2"
+val kotestVersion = "5.5.3"
 
 allOpen {
     annotation("javax.persistence.Entity")
@@ -98,7 +98,7 @@ dependencies {
     testImplementation("nl.jqno.equalsverifier:equalsverifier:3.10.1")
 
     implementation("io.kotest.extensions:kotest-extensions-spring:1.1.2")
-    implementation("io.github.serpro69:kotlin-faker:1.11.0")
+    implementation("io.github.serpro69:kotlin-faker:1.12.0")
 }
 
 tasks.withType<KotlinCompile> {
