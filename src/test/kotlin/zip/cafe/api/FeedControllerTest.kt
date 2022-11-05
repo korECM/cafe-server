@@ -62,7 +62,7 @@ class FeedControllerTest : WebMvcTestSpec() {
                         images = it.images.map(::FeedImage),
                         keyword = it.cafeKeywords.map(::FeedKeyword),
                         likeCount = it.likeCount,
-                        content = "친절한 카페",
+                        description = "친절한 카페",
                         commentCount = 0,
                         createdAt = it.createdAt
                     )
@@ -103,7 +103,7 @@ class FeedControllerTest : WebMvcTestSpec() {
                         "feeds[].review.images[].url" type STRING means "리뷰 사진 url" example "naver.com/some.png",
                         "feeds[].review.likeCount" type NUMBER means "리뷰 좋아요 개수" example "5L",
                         "feeds[].review.keyword" type ARRAY means "리뷰에 있는 키워드 목록" example "친절한 카페네요~ 커피도 맛있어요!",
-                        "feeds[].review.content" type STRING means "리뷰 내용",
+                        "feeds[].review.description" type STRING means "리뷰 내용",
                         "feeds[].review.commentCount" type NUMBER means "리뷰 댓글 개수" example "3L",
                         "feeds[].review.createdAt" type DATETIME means "리뷰가 작성된 시간" formattedAs "yyyy-MM-dd HH:mm:ss" example "2022-02-12 13:52:12",
                     )

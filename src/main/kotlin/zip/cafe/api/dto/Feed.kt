@@ -41,7 +41,7 @@ data class FeedReview(
     val images: List<FeedImage>,
     val keyword: List<FeedKeyword>,
     val likeCount: Long,
-    val content: String,
+    val description: String,
     val commentCount: Long,
     @JsonFormat(pattern = defaultDateTimeFormat)
     val createdAt: LocalDateTime
