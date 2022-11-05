@@ -34,11 +34,19 @@ data class ReviewInfo(
     val id: Long,
     val finalScore: Double,
     val description: String,
-    val visitPurpose : ReviewVisitPurposeInfo,
+    val visitPurpose: ReviewVisitPurposeInfo,
     val foods: List<ReviewFoodInfo>,
     val images: List<ReviewImageInfo>,
+    val keywords: List<ReviewKeywordInfo>,
+    val likeCount: Long,
+    val commentCount: Long,
     @JsonFormat(pattern = defaultDateFormat)
     val createdAt: LocalDateTime,
+)
+
+data class ReviewKeywordInfo(
+    val id: Long,
+    val keyword: String,
 )
 
 data class ReviewVisitPurposeInfo(

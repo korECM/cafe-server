@@ -42,6 +42,9 @@ class ReviewService(
                 ),
                 foods = review.foodInfos.map { ReviewFoodInfo(it.food, it.score.score) },
                 images = review.images.map { ReviewImageInfo(it.id, it.cloudFrontURL) },
+                keywords = review.cafeKeywords.map { ReviewKeywordInfo(it.id, it.keyword) },
+                likeCount = review.likeCount,
+                commentCount = review.commentCount,
                 createdAt = review.createdAt
             ),
             member = ReviewMemberInfo(
