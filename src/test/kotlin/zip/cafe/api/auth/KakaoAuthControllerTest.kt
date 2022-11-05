@@ -1,33 +1,16 @@
 package zip.cafe.api.auth
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.post
+import zip.cafe.api.WebMvcTestAdapter
 import zip.cafe.api.auth.dto.KakaoSignInRequest
 import zip.cafe.api.profile.dto.CheckProfileResult
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.seeds.MOCK_MVC_USER_ID
-import zip.cafe.service.auth.AuthService
-import zip.cafe.service.auth.KakaoAuthService
-import zip.cafe.service.profile.ProfileService
 
-@WebMvcTest(KakaoAuthController::class)
-class KakaoAuthControllerTest : WebMvcTestSpec() {
-
-    @MockkBean
-    private lateinit var kakaoAuthService: KakaoAuthService
-
-    @MockkBean
-    private lateinit var authService: AuthService
-
-    @MockkBean
-    private lateinit var profileService: ProfileService
-
-
+class KakaoAuthControllerTest : WebMvcTestAdapter() {
     init {
         "카카오 로그인 / 회원가입" {
             val memberId = MOCK_MVC_USER_ID

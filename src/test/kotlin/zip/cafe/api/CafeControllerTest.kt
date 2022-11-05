@@ -1,27 +1,19 @@
 package zip.cafe.api
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createCafe
 import zip.cafe.seeds.createMenu
 import zip.cafe.seeds.createReviewImage
-import zip.cafe.service.CafeService
 import zip.cafe.service.dto.FollowerWhoLikeCafe
 import zip.cafe.service.dto.FollowerWhoWriteReview
 import zip.cafe.service.dto.ReviewSummary
 
-@WebMvcTest(CafeController::class)
-class CafeControllerTest : WebMvcTestSpec() {
-
-    @MockkBean
-    private lateinit var cafeService: CafeService
+class CafeControllerTest : WebMvcTestAdapter() {
 
     init {
         "카페 id를 가지고 카페 기본 정보를 가져온다" {
@@ -68,7 +60,7 @@ class CafeControllerTest : WebMvcTestSpec() {
                         "menus" type ARRAY means "카페 메뉴",
                         "menus[].id" type NUMBER means "카페 메뉴 id" example "1L",
                         "menus[].name" type STRING means "카페 메뉴 이름" example "아이스 아메리카노",
-                        "menus[].price" type NUMBER means "카페 메뉴 가격" example "5000L",
+                        "menus[].price" type NUMBER means "카페 메뉴 가격" example "5000L"
                     )
                 )
             }
@@ -95,12 +87,11 @@ class CafeControllerTest : WebMvcTestSpec() {
                         "body" beneathPathWithSubsectionId "body",
                         "followersWhoWriteReview" type ARRAY means "유저가 팔로우한 사람들의 리뷰 정보",
                         "followersWhoWriteReview[].id" type NUMBER means "그 사람의 id" example "1L",
-                        "followersWhoWriteReview[].name" type STRING means "그 사람의 닉네임" example "홍길동",
+                        "followersWhoWriteReview[].name" type STRING means "그 사람의 닉네임" example "홍길동"
                     )
                 )
             }
         }
-
 
         "카페 id를 가지고 로그인한 유저의 팔로워 중 카페를 좋아요 한 유저만 반환한다" {
             val cafe = createCafe(id = 5L)
@@ -123,7 +114,7 @@ class CafeControllerTest : WebMvcTestSpec() {
                         "body" beneathPathWithSubsectionId "body",
                         "followersWhoLikeCafe" type ARRAY means "유저가 팔로우한 사람들의 카페 좋아요 정보",
                         "followersWhoLikeCafe[].id" type NUMBER means "그 사람의 id" example "3L",
-                        "followersWhoLikeCafe[].name" type STRING means "그 사람의 닉네임" example "고길동",
+                        "followersWhoLikeCafe[].name" type STRING means "그 사람의 닉네임" example "고길동"
                     )
                 )
             }

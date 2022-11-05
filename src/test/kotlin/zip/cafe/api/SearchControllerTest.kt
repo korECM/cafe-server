@@ -1,23 +1,16 @@
 package zip.cafe.api
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
-import zip.cafe.seeds.*
-import zip.cafe.service.SearchService
+import zip.cafe.seeds.createCafe
+import zip.cafe.seeds.createCafeKeyword
+import zip.cafe.seeds.createMember
+import zip.cafe.seeds.createReviewCafeKeyword
 
-@WebMvcTest(SearchController::class)
-class SearchControllerTest : WebMvcTestSpec() {
-
-    @MockkBean
-    private lateinit var searchService: SearchService
-
+class SearchControllerTest : WebMvcTestAdapter() {
     init {
-
         "멤버 이름 검색" {
             val memberName = "홍"
 
@@ -38,7 +31,7 @@ class SearchControllerTest : WebMvcTestSpec() {
                         ".id" type NUMBER means "유저 id" example "3",
                         ".name" type STRING means "유저 닉네임" example "홍길동",
                         ".image" type STRING means "유저 이미지 URL" example "https://awsome.image.png",
-                        ".description" type STRING means "유저 설명" example "어쩌구 팬카페",
+                        ".description" type STRING means "유저 설명" example "어쩌구 팬카페"
                     )
                 )
             )
@@ -64,12 +57,11 @@ class SearchControllerTest : WebMvcTestSpec() {
                         ".id" type NUMBER means "카페 id" example "5",
                         ".name" type STRING means "카페 네임" example "멋진 북카페",
                         ".image" type STRING means "카페 이미지 URL" example "https://awsome.image.png",
-                        ".address" type STRING means "카페 주소" example "서울 강남구 봉은사로 123 5번지 3층",
+                        ".address" type STRING means "카페 주소" example "서울 강남구 봉은사로 123 5번지 3층"
                     )
                 )
             )
         }
-
 
         "키워드 검색" {
             val keyword = "은"
@@ -96,7 +88,7 @@ class SearchControllerTest : WebMvcTestSpec() {
                         "body" beneathPathWithSubsectionId "body",
                         ".id" type NUMBER means "키워드 id" example "5",
                         ".keyword" type STRING means "키워드" example "은은한",
-                        ".numberOfReviews" type NUMBER means "키워드가 포함된 리뷰의 수" example "10",
+                        ".numberOfReviews" type NUMBER means "키워드가 포함된 리뷰의 수" example "10"
                     )
                 )
             )

@@ -1,21 +1,13 @@
 package zip.cafe.api
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import zip.cafe.api.dto.*
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.seeds.*
-import zip.cafe.service.FeedService
 
-@WebMvcTest(FeedController::class)
-class FeedControllerTest : WebMvcTestSpec() {
-
-    @MockkBean
-    private lateinit var feedService: FeedService
+class FeedControllerTest : WebMvcTestAdapter() {
 
     init {
         "팔로워들의 최신 리뷰들을 가져온다" {
@@ -52,22 +44,25 @@ class FeedControllerTest : WebMvcTestSpec() {
             review9.addImage(reviewImage9Of1)
             val reviews = listOf(review1, review2, review3, review4, review5, review6, review7, review8, review9)
 
-            every { feedService.getReviewFeeds(MOCK_MVC_USER_ID, 7L, limit = 3L) } returns FeedWithPagination(feeds = reviews.map {
-                FeedInfo(
-                    member = FeedMember(createMember()),
-                    cafe = FeedCafe(createCafe()),
-                    review = FeedReview(
-                        id = it.id,
-                        finalScore = it.finalScore.score,
-                        images = it.images.map(::FeedImage),
-                        keyword = it.cafeKeywords.map(::FeedKeyword),
-                        likeCount = it.likeCount,
-                        description = "친절한 카페",
-                        commentCount = 0,
-                        createdAt = it.createdAt
+            every { feedService.getReviewFeeds(MOCK_MVC_USER_ID, 7L, limit = 3L) } returns FeedWithPagination(
+                feeds = reviews.map {
+                    FeedInfo(
+                        member = FeedMember(createMember()),
+                        cafe = FeedCafe(createCafe()),
+                        review = FeedReview(
+                            id = it.id,
+                            finalScore = it.finalScore.score,
+                            images = it.images.map(::FeedImage),
+                            keyword = it.cafeKeywords.map(::FeedKeyword),
+                            likeCount = it.likeCount,
+                            description = "친절한 카페",
+                            commentCount = 0,
+                            createdAt = it.createdAt
+                        )
                     )
-                )
-            }, isLastPage = true)
+                },
+                isLastPage = true
+            )
 
             val response = mockMvc.perform(
                 get("/feeds/review")
@@ -105,7 +100,7 @@ class FeedControllerTest : WebMvcTestSpec() {
                         "feeds[].review.keyword" type ARRAY means "리뷰에 있는 키워드 목록" example "친절한 카페네요~ 커피도 맛있어요!",
                         "feeds[].review.description" type STRING means "리뷰 내용",
                         "feeds[].review.commentCount" type NUMBER means "리뷰 댓글 개수" example "3L",
-                        "feeds[].review.createdAt" type DATETIME means "리뷰가 작성된 시간" formattedAs "yyyy-MM-dd HH:mm:ss" example "2022-02-12 13:52:12",
+                        "feeds[].review.createdAt" type DATETIME means "리뷰가 작성된 시간" formattedAs "yyyy-MM-dd HH:mm:ss" example "2022-02-12 13:52:12"
                     )
                 )
             )

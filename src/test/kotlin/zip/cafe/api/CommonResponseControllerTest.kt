@@ -1,14 +1,10 @@
 package zip.cafe.api
 
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.get
-import zip.cafe.api.controller.CommonResponseController
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 
-@WebMvcTest(CommonResponseController::class)
-class CommonResponseControllerTest : WebMvcTestSpec() {
+class CommonResponseControllerTest : WebMvcTestAdapter() {
     init {
         "공통 응답 null" {
             val response = mockMvc.get("/common/null")
@@ -21,7 +17,7 @@ class CommonResponseControllerTest : WebMvcTestSpec() {
                         "common-response-null",
                         responseBody(
                             "message" type STRING means "응답 메시지" example "",
-                            "body" type NULL means "데이터" example "null",
+                            "body" type NULL means "데이터" example "null"
                         )
                     )
                 }
@@ -75,7 +71,7 @@ class CommonResponseControllerTest : WebMvcTestSpec() {
                         "common-response-error",
                         responseBody(
                             "message" type STRING means "에러 메시지" example "해당 유저가 존재하지 않습니다",
-                            "body" type NULL means "데이터" example "null",
+                            "body" type NULL means "데이터" example "null"
                         )
                     )
                 }

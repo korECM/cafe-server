@@ -1,19 +1,12 @@
 package zip.cafe.api
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.get
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.entity.review.CafeKeyword
-import zip.cafe.service.KeywordService
 
-@WebMvcTest(KeywordController::class)
-class KeywordControllerTest : WebMvcTestSpec() {
-    @MockkBean
-    private lateinit var keywordService: KeywordService
+class KeywordControllerTest : WebMvcTestAdapter() {
 
     init {
         "GET 키워드 목록" {
@@ -34,7 +27,7 @@ class KeywordControllerTest : WebMvcTestSpec() {
                             "body" beneathPathWithSubsectionId "body",
                             "id" type NUMBER means "키워드 id",
                             "keyword" type STRING means "키워드 이름" example "아늑한",
-                            "emoji" type STRING means "키워드 이모지" example "🤷‍♂️",
+                            "emoji" type STRING means "키워드 이모지" example "🤷‍♂️"
                         )
                     )
                 }

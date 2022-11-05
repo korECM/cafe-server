@@ -1,32 +1,16 @@
 package zip.cafe.api.auth
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.post
+import zip.cafe.api.WebMvcTestAdapter
 import zip.cafe.api.auth.dto.AppleSignInRequest
 import zip.cafe.api.profile.dto.CheckProfileResult
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.seeds.MOCK_MVC_USER_ID
-import zip.cafe.service.auth.AppleAuthService
-import zip.cafe.service.auth.AuthService
-import zip.cafe.service.profile.ProfileService
 
-@WebMvcTest(AppleAuthController::class)
-class AppleAuthControllerTest : WebMvcTestSpec() {
-
-    @MockkBean
-    private lateinit var appleAuthService: AppleAuthService
-
-    @MockkBean
-    private lateinit var authService: AuthService
-
-    @MockkBean
-    private lateinit var profileService: ProfileService
-
+class AppleAuthControllerTest : WebMvcTestAdapter() {
     init {
         "애플 로그인 / 회원가입" {
             val identityToken = "JWjHXiVIlkxciAy_fTiEft3wDaAdHvOVcV_D6wwpCinI2gAAAYMNQf1c"
@@ -59,7 +43,7 @@ class AppleAuthControllerTest : WebMvcTestSpec() {
                         requestFields(
                             "identityToken" type STRING means "Identity 토큰" example identityToken,
                             "firstName" type STRING means "firstName" example firstName,
-                            "lastName" type STRING means "lastName" example lastName,
+                            "lastName" type STRING means "lastName" example lastName
                         ),
                         responseBody(
                             "body" beneathPathWithSubsectionId "body",

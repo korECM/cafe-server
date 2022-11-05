@@ -1,8 +1,6 @@
 package zip.cafe.api
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.test.web.servlet.post
 import zip.cafe.api.dto.FootPrintRegisterRequest
@@ -11,18 +9,13 @@ import zip.cafe.api.dto.ReviewRegisterFromFootprintRequest.FoodInfo
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.postWithPathParameter
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.config.formatAsDefault
 import zip.cafe.entity.Food
 import zip.cafe.entity.review.Purpose
 import zip.cafe.seeds.MOCK_MVC_USER_ID
-import zip.cafe.service.ReviewService
 import java.time.LocalDate
 
-@WebMvcTest(FootPrintController::class)
-class FootPrintControllerTest : WebMvcTestSpec() {
-    @MockkBean
-    private lateinit var reviewService: ReviewService
+class FootPrintControllerTest : WebMvcTestAdapter() {
 
     init {
         "발자국 등록" {
@@ -85,7 +78,7 @@ class FootPrintControllerTest : WebMvcTestSpec() {
                 keywords = keywords,
                 reviewImageIds = reviewImageIds,
                 description = description,
-                finalScore = finalScore,
+                finalScore = finalScore
             )
 
             every { reviewService.createReview(footprintId, memberId, request.toDto()) } returns reviewId
@@ -112,7 +105,7 @@ class FootPrintControllerTest : WebMvcTestSpec() {
                         "keywords" type ARRAY means "키워드 API에서 내려준 키워드 Id 리스트" example "[1, 2]",
                         "reviewImageIds" type ARRAY means "업로드한 리뷰 이미지 Id 리스트" example "[3, 5, 6]",
                         "description" type STRING means "리뷰 내용" example "커피도 맛있고 친절한 카페",
-                        "finalScore" type NUMBER means "최종 리뷰 점수" example "4",
+                        "finalScore" type NUMBER means "최종 리뷰 점수" example "4"
                     )
                 )
             }

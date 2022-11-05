@@ -1,10 +1,8 @@
 package zip.cafe.api
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType.APPLICATION_JSON
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.request.RequestDocumentation.partWithName
@@ -15,27 +13,16 @@ import zip.cafe.api.dto.*
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.config.formatAsDefault
 import zip.cafe.connector.dto.S3FileDto
 import zip.cafe.entity.Food
 import zip.cafe.entity.review.Purpose
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createReviewImage
-import zip.cafe.service.ReviewLikeService
-import zip.cafe.service.ReviewService
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@WebMvcTest(ReviewController::class)
-class ReviewControllerTest : WebMvcTestSpec() {
-
-    @MockkBean
-    private lateinit var reviewService: ReviewService
-
-    @MockkBean
-    private lateinit var reviewLikeService: ReviewLikeService
-
+class ReviewControllerTest : WebMvcTestAdapter() {
     init {
         "단일 리뷰 조회" {
             val reviewId = 3L
@@ -49,7 +36,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
                     visitPurpose = ReviewVisitPurposeInfo(purpose = Purpose.DATE, score = 3),
                     foods = listOf(ReviewFoodInfo(Food.BAKERY, 3), ReviewFoodInfo(Food.COFFEE, 4)),
                     images = listOf(ReviewImageInfo(1L, "https://image.com/1"), ReviewImageInfo(2L, "https://image.com/2")),
-                    createdAt = LocalDateTime.now(),
+                    createdAt = LocalDateTime.now()
                 ),
                 member = ReviewMemberInfo(id = memberId, nickname = "길동길동홍길동", profileImageUrl = "https://image.com/123"),
                 cafe = ReviewCafeInfo(id = cafeId, name = "삼성 스타벅스", address = "송파구 어딘가 좋은 곳")
@@ -86,7 +73,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
                         "member.profileImageUrl" type STRING means "작성자 프로필 이미지 url" example reviewDetailInfo.member.profileImageUrl,
                         "cafe.id" type NUMBER means "카페 id" example reviewDetailInfo.cafe.id,
                         "cafe.name" type STRING means "카페 이름" example reviewDetailInfo.cafe.name,
-                        "cafe.address" type STRING means "카페 주소" example reviewDetailInfo.cafe.address,
+                        "cafe.address" type STRING means "카페 주소" example reviewDetailInfo.cafe.address
                     )
                 )
             }
@@ -148,7 +135,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
                         "keywords" type ARRAY means "키워드 API에서 내려준 키워드 Id 리스트" example "[1, 2]",
                         "reviewImageIds" type ARRAY means "업로드한 리뷰 이미지 Id 리스트" example "[3, 5, 6]",
                         "description" type STRING means "리뷰 내용" example "커피도 맛있고 친절한 카페",
-                        "finalScore" type NUMBER means "최종 리뷰 점수" example "4",
+                        "finalScore" type NUMBER means "최종 리뷰 점수" example "4"
                     )
                 )
             }
@@ -192,7 +179,7 @@ class ReviewControllerTest : WebMvcTestSpec() {
                         responseBody(
                             "body" beneathPathWithSubsectionId "body",
                             "id" type NUMBER means "이미지 id" example "3",
-                            "url" type STRING means "이미지 주소" example "https://techblog.woowahan.com/wp-content/uploads/img/2020-05-13/rest-docs-09.png",
+                            "url" type STRING means "이미지 주소" example "https://techblog.woowahan.com/wp-content/uploads/img/2020-05-13/rest-docs-09.png"
                         )
                     )
                 }

@@ -1,10 +1,8 @@
 package zip.cafe.api
 
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.request.RequestDocumentation
@@ -13,17 +11,11 @@ import org.springframework.test.web.servlet.post
 import zip.cafe.api.profile.dto.InitProfileRequest
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
-import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.connector.dto.S3FileDto
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createProfileImage
-import zip.cafe.service.MemberService
 
-@WebMvcTest(MemberController::class)
-class MemberControllerTest : WebMvcTestSpec() {
-
-    @MockkBean
-    private lateinit var memberService: MemberService
+class MemberControllerTest : WebMvcTestAdapter() {
 
     init {
         "닉네임 중복 체크" {
@@ -41,7 +33,7 @@ class MemberControllerTest : WebMvcTestSpec() {
                 documentWithHandle(
                     "nickname-duplicate-check",
                     requestParameters(
-                        "nickname" means "닉네임" example nickname,
+                        "nickname" means "닉네임" example nickname
                     ),
                     responseBody(
                         "body" beneathPathWithSubsectionId "body",
@@ -83,7 +75,7 @@ class MemberControllerTest : WebMvcTestSpec() {
                         responseBody(
                             "body" beneathPathWithSubsectionId "body",
                             "id" type NUMBER means "이미지 id" example "3",
-                            "url" type STRING means "이미지 주소" example "https://techblog.woowahan.com/wp-content/uploads/img/2020-05-13/rest-docs-09.png",
+                            "url" type STRING means "이미지 주소" example "https://techblog.woowahan.com/wp-content/uploads/img/2020-05-13/rest-docs-09.png"
                         )
                     )
                 }
@@ -109,10 +101,10 @@ class MemberControllerTest : WebMvcTestSpec() {
                     "init-profile",
                     requestFields(
                         "nickname" type STRING means "닉네임" example nickname,
-                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId,
+                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId
                     ),
                     responseBody(
-                        "body" beneathPathWithSubsectionId "body",
+                        "body" beneathPathWithSubsectionId "body"
                     )
                 )
             }
@@ -138,10 +130,10 @@ class MemberControllerTest : WebMvcTestSpec() {
                     "edit-profile",
                     requestFields(
                         "nickname" type STRING means "닉네임" example nickname,
-                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId,
+                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId
                     ),
                     responseBody(
-                        "body" beneathPathWithSubsectionId "body",
+                        "body" beneathPathWithSubsectionId "body"
                     )
                 )
             }
