@@ -59,6 +59,7 @@ class FeedControllerTest : WebMvcTestAdapter() {
                             likeCount = it.likeCount,
                             description = "친절한 카페",
                             commentCount = 0,
+                            isLiked = false,
                             createdAt = it.createdAt
                         )
                     )
@@ -99,11 +100,12 @@ class FeedControllerTest : WebMvcTestAdapter() {
                         "feeds[].review.images[].id" type NUMBER means "리뷰 사진 id" example "15L",
                         "feeds[].review.images[].url" type STRING means "리뷰 사진 url" example "naver.com/some.png",
                         "feeds[].review.likeCount" type NUMBER means "리뷰 좋아요 개수" example "5L",
-                        "feeds[].review.keyword" type ARRAY means "리뷰에 있는 키워드 목록" example "친절한 카페네요~ 커피도 맛있어요!",
+                        "feeds[].review.keyword" type ARRAY means "리뷰에 있는 키워드 목록",
                         "feeds[].review.keyword[].id" type NUMBER means "키워드 id" example "5L",
                         "feeds[].review.keyword[].name" type STRING means "키워드 이름" example "친절한",
                         "feeds[].review.keyword[].emoji" type STRING means "키워드 이모지" example "✨",
-                        "feeds[].review.description" type STRING means "리뷰 내용",
+                        "feeds[].review.description" type STRING means "리뷰 내용" example "조용하고 좋아요",
+                        "feeds[].review.isLiked" type BOOLEAN means "좋아요 여부" example false,
                         "feeds[].review.commentCount" type NUMBER means "리뷰 댓글 개수" example "3L",
                         "feeds[].review.createdAt" type DATETIME means "리뷰가 작성된 시간" formattedAs "yyyy-MM-dd HH:mm:ss" example "2022-02-12 13:52:12"
                     )

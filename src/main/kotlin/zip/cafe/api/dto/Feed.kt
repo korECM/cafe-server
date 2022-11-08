@@ -43,6 +43,7 @@ data class FeedReview(
     val likeCount: Long,
     val description: String,
     val commentCount: Long,
+    val isLiked: Boolean,
     @JsonFormat(pattern = defaultDateTimeFormat)
     val createdAt: LocalDateTime
 )

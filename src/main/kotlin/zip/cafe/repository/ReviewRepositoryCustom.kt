@@ -5,4 +5,6 @@ import zip.cafe.entity.review.Footprint
 interface ReviewRepositoryCustom {
     fun findByAuthorIdIn(authorIds: List<Long>, minReviewIdInFeed: Long?, limit: Long): List<Footprint>
     fun isLastPage(authorIds: List<Long>, minReviewIdInFeed: Long, limit: Long): Boolean
+
+    fun findReviewsAndLikesOnThoseReviews(authorId: Long, reviewIds: List<Long>): Map<Long, Boolean>
 }

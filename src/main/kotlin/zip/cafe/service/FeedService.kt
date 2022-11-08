@@ -17,6 +17,7 @@ class FeedService(
         val followeeIds = memberFollowRepository.getFolloweeIds(loginMemberId)
         val footprints = reviewRepository.findByAuthorIdIn(followeeIds + loginMemberId, minReviewIdInFeed, limit)
         val isLastPage = minReviewIdInFeed?.let { reviewRepository.isLastPage(followeeIds, minReviewIdInFeed, limit) } ?: false
+        val reviewAndLikes = reviewRepository.findReviewsAndLikesOnThoseReviews(loginMemberId, footprints.mapNotNull { it.review?.id })
         return FeedWithPagination(
             feeds = footprints.map { footprint ->
                 FeedInfo(
@@ -29,6 +30,7 @@ class FeedService(
                         keyword = footprint.review!!.cafeKeywords.map(::FeedKeyword),
                         likeCount = footprint.review!!.likeCount,
                         description = footprint.review!!.description,
+                        isLiked = reviewAndLikes.getOrDefault(footprint.review!!.id, false),
                         commentCount = footprint.review!!.commentCount,
                         createdAt = footprint.createdAt
                     )

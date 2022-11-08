@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import zip.cafe.entity.review.Footprint
 import zip.cafe.entity.review.QFootprint.footprint
 import zip.cafe.entity.review.QReview.review
+import zip.cafe.entity.review.QReviewLike.reviewLike
 
 class ReviewRepositoryImpl(
     private val queryFactory: JPAQueryFactory
@@ -34,5 +35,14 @@ class ReviewRepositoryImpl(
             .orderBy(review.id.desc())
             .limit(limit + 1)
             .fetchOne()?.let { it <= limit } ?: true
+    }
+
+    override fun findReviewsAndLikesOnThoseReviews(authorId: Long, reviewIds: List<Long>): Map<Long, Boolean> {
+        val reviewLikes = queryFactory
+            .select(reviewLike.id)
+            .from(reviewLike)
+            .where(reviewLike.review.id.`in`(reviewIds).and(reviewLike.member.id.eq(authorId)))
+            .fetch()
+        return reviewIds.associateWith { reviewLikes.contains(it) }
     }
 }
