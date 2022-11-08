@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation.NEVER
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import zip.cafe.api.dto.*
+import zip.cafe.api.dto.ReviewKeywordInfo.Companion.from
 import zip.cafe.connector.S3Connector
 import zip.cafe.connector.dto.S3FileDto
 import zip.cafe.entity.ReviewImage
@@ -42,7 +43,7 @@ class ReviewService(
                 ),
                 foods = review.foodInfos.map { ReviewFoodInfo(it.food, it.score.score) },
                 images = review.images.map { ReviewImageInfo(it.id, it.cloudFrontURL) },
-                keywords = review.cafeKeywords.map { ReviewKeywordInfo(it.id, it.keyword) },
+                keywords = review.cafeKeywords.map(::from),
                 likeCount = review.likeCount,
                 commentCount = review.commentCount,
                 createdAt = review.createdAt

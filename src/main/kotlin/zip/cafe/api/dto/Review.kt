@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import zip.cafe.config.defaultDateFormat
 import zip.cafe.entity.Food
 import zip.cafe.entity.ReviewImage
+import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.toScore
 import zip.cafe.service.dto.ReviewRegisterDto
@@ -47,8 +48,13 @@ data class ReviewInfo(
 
 data class ReviewKeywordInfo(
     val id: Long,
-    val keyword: String,
-)
+    val name: String,
+    val emoji: String,
+) {
+    companion object {
+        fun from(cafeKeyword: CafeKeyword) = ReviewKeywordInfo(cafeKeyword.id, cafeKeyword.keyword, cafeKeyword.emoji)
+    }
+}
 
 data class ReviewVisitPurposeInfo(
     val purpose: Purpose,
