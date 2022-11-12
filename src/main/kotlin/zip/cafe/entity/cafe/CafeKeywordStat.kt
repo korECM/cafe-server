@@ -12,6 +12,7 @@ class CafeKeywordStat(
     @JoinColumn(name = "cafe_id")
     val cafe: Cafe,
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "cafe_keyword_id")
     val keyword: CafeKeyword,
 
     _count: Long,
@@ -25,7 +26,7 @@ class CafeKeywordStat(
     var count: Long = _count
         protected set
 
-    @Column(nullable = false)
+    @Column(name = "rank_number", nullable = false)
     var rank: Long = 1
 
     fun incCount() {
