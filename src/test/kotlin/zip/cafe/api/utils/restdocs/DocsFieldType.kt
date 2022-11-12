@@ -21,3 +21,7 @@ object VARIES : DocsFieldType(JsonFieldType.VARIES)
 data class ENUM<T : Enum<T>>(val enums: Collection<T>) : DocsFieldType(JsonFieldType.STRING) {
     constructor(clazz: KClass<T>) : this(clazz.java.enumConstants.asList()) // (1)
 }
+
+data class ENUM_ARRAY<T : Enum<T>>(val enums: Collection<T>) : DocsFieldType(JsonFieldType.ARRAY) {
+    constructor(clazz: KClass<T>) : this(clazz.java.enumConstants.asList()) // (1)
+}

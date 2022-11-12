@@ -9,8 +9,13 @@ import zip.cafe.api.dto.*
 import zip.cafe.api.dto.ReviewKeywordInfo.Companion.from
 import zip.cafe.connector.S3Connector
 import zip.cafe.connector.dto.S3FileDto
+import zip.cafe.entity.Food
+import zip.cafe.entity.IntScore
 import zip.cafe.entity.ReviewImage
+import zip.cafe.entity.cafe.Cafe
+import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.entity.review.Footprint
+import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.review.Review
 import zip.cafe.repository.*
 import zip.cafe.service.dto.ReviewRegisterDto
@@ -25,6 +30,7 @@ class ReviewService(
     private val reviewRepository: ReviewRepository,
     private val reviewImageRepository: ReviewImageRepository,
     private val footprintRepository: FootprintRepository,
+    private val cafeKeywordStatRepository: CafeKeywordStatRepository,
     private val s3Connector: S3Connector,
     @Value("\${cloud.aws.s3.review-image-bucket}")
     private val reviewImageBucket: String
@@ -75,12 +81,14 @@ class ReviewService(
         val cafe = cafeRepository.findOneById(cafeId)
         val footprint = Footprint.from(cafe = cafe, member = member, visitDate)
         footprintRepository.save(footprint)
+        cafe.incFootPrintCount()
         return footprint.id
     }
 
     @Transactional
     fun createReview(footprintId: Long, memberId: Long, dto: ReviewRegisterDto): Long {
         val footprint = footprintRepository.findOneById(footprintId)
+        val cafe = footprint.cafe
 
         val uploadMember = memberRepository.findOneById(memberId)
         val reviewImages = reviewImageRepository.findByIdIn(dto.reviewImageIds)
@@ -96,13 +104,53 @@ class ReviewService(
         )
         reviewRepository.save(review)
 
-        dto.foodInfos.forEach { review.addFoodInfo(it.food, it.score) }
+        cafe.incReviewCountAndCalculateAverageScore(review)
 
-        cafeKeywordRepository.findByIdIn(dto.keywords).forEach(review::addCafeKeyword)
+        calculatePurposeStat(cafe, dto.visitPurpose, dto.visitPurposeScore)
+        dto.foodInfos.forEach {
+            calculateFoodStat(cafe, it.food, it.score)
+            review.addFoodInfo(it.food, it.score)
+        }
+
+        val cafeKeywords = cafeKeywordRepository.findByIdIn(dto.keywords)
+        cafeKeywords.forEach {
+            review.addCafeKeyword(it)
+            calculateKeywordStat(cafe, it)
+        }
 
         reviewImages.forEach { it.assignReview(review) }
-
         return review.id
+    }
+
+    private fun calculatePurposeStat(cafe: Cafe, purpose: Purpose, score: IntScore) {
+        val purposeStat = cafe.purposeStat.find { it.purpose == purpose }
+        if (purposeStat == null) {
+            cafe.addPurposeStat(purpose, score)
+        } else {
+            purposeStat.addScore(score)
+        }
+    }
+
+    private fun calculateFoodStat(cafe: Cafe, food: Food, score: IntScore) {
+        val foodStat = cafe.foodStat.find { it.food == food }
+        if (foodStat == null) {
+            cafe.addFoodStat(food, score)
+        } else {
+            foodStat.addScore(score)
+        }
+    }
+
+    private fun calculateKeywordStat(cafe: Cafe, keyword: CafeKeyword) {
+        val findKeywordStat = cafe.keywordStat.find { it.keyword == keyword }
+        if (findKeywordStat == null) {
+            cafe.addKeywordStat(keyword)
+        } else {
+            findKeywordStat.incCount()
+        }
+        val keywordStats = cafeKeywordStatRepository.findAllByCafeId(cafe.id)
+        keywordStats.forEach { keywordStat ->
+            keywordStat.rank = (keywordStats.count { keywordStat.count < it.count } + 1).toLong()
+        }
     }
 
     @Transactional(propagation = NEVER)

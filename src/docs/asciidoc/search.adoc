@@ -4,14 +4,14 @@
 [[Search-Member-By-Name]]
 ==== 멤버 이름 검색
 
-operation::search-member-name[snippets='http-request,request-parameters,http-response,response-fields-body']
+operation::search-member-name[snippets='http-request,request-fields,http-response,response-fields-body']
 
 [[Search-Cafe-By-Name]]
 ==== 카페 이름 검색
 
-operation::search-cafe-name[snippets='http-request,request-parameters,http-response,response-fields-body']
+operation::search-cafe-name[snippets='http-request,request-fields,http-response,response-fields-body']
 
 [[Search-Keyword]]
 ==== 키워드 검색
 
-operation::search-keyword[snippets='http-request,request-parameters,http-response,response-fields-body']
+operation::search-keyword[snippets='http-request,request-fields,http-response,response-fields-body']

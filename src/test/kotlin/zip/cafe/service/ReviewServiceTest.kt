@@ -33,12 +33,14 @@ class ReviewServiceTest : FreeSpec({
     val reviewRepository: ReviewRepository = mockk(relaxed = true)
     val reviewImageRepository: ReviewImageRepository = mockk(relaxed = true)
     val footprintRepository: FootprintRepository = mockk(relaxed = true)
+    val cafeKeywordStatRepository: CafeKeywordStatRepository = mockk(relaxed = true)
     val s3Connector: S3Connector = mockk(relaxed = true)
     val reviewImageBucket = "test-bucket"
     val reviewService = ReviewService(
         memberRepository = memberRepository,
         cafeRepository = cafeRepository,
         cafeKeywordRepository = cafeKeywordRepository,
+        cafeKeywordStatRepository = cafeKeywordStatRepository,
         reviewRepository = reviewRepository,
         reviewImageRepository = reviewImageRepository,
         footprintRepository = footprintRepository,
@@ -72,6 +74,7 @@ class ReviewServiceTest : FreeSpec({
             // mock
             every { memberRepository.findByIdOrNull(uploaderMemberId) } returns uploader
             every { cafeRepository.findByIdOrNull(cafeId) } returns cafe
+            every { cafeKeywordStatRepository.findAllByCafeId(cafeId) } returns emptyList()
             every { footprintRepository.save(any()) } answersWithEntityId footprintId
             every { footprintRepository.findOneById(footprintId) } returns footprint
             every { reviewImageRepository.findByIdIn(reviewImageIds) } returns reviewImages
@@ -137,6 +140,7 @@ class ReviewServiceTest : FreeSpec({
             memberRepository,
             cafeRepository,
             cafeKeywordRepository,
+            cafeKeywordStatRepository,
             reviewRepository,
             reviewImageRepository,
             footprintRepository,
@@ -159,13 +163,12 @@ private fun compareReviewImageAndS3File(
     s3File: S3FileDto,
     uploader: Member
 ) = reviewImage.review == null &&
-        reviewImage.id != 0L &&
-        reviewImage.bucket == reviewImageBucket &&
-        reviewImage.cloudFrontURL == s3File.cloudFrontURL &&
-        reviewImage.fileKey == s3File.fileKey &&
-        reviewImage.s3URL == s3File.s3URL &&
-        reviewImage.uploadedBy == uploader
-
+    reviewImage.id != 0L &&
+    reviewImage.bucket == reviewImageBucket &&
+    reviewImage.cloudFrontURL == s3File.cloudFrontURL &&
+    reviewImage.fileKey == s3File.fileKey &&
+    reviewImage.s3URL == s3File.s3URL &&
+    reviewImage.uploadedBy == uploader
 
 val randomFoodList = Food.values()
     get() {

@@ -31,6 +31,7 @@ class Field(
 
     infix fun example(value: Number): Field = example(value.toString())
     infix fun example(value: Boolean): Field = example(value.toString())
+    infix fun example(value: List<Number>): Field = example(value.joinToString(", ", "[", "]"))
 
     infix fun and(x: optional): Field {
         type = type.optional()
@@ -52,6 +53,7 @@ class Field(
 
 infix fun String.type(fieldType: DocsFieldType): Field = when (fieldType) {
     is ENUM<*> -> Field(fieldWithPath(this).type(fieldType.type)).example(fieldType.enums.joinToString(" or "))
+    is ENUM_ARRAY<*> -> Field(fieldWithPath(this).type(fieldType.type)).example(fieldType.enums.joinToString(" or ", "an Array of Enum[", "]"))
     is DATETIME -> Field(fieldWithPath(this).type(fieldType.type)).formattedAs(defaultDateTimeFormat)
     is DATE -> Field(fieldWithPath(this).type(fieldType.type)).formattedAs(defaultDateFormat)
     else -> Field(fieldWithPath(this).type(fieldType.type))

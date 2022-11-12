@@ -13,6 +13,9 @@ import zip.cafe.entity.review.Footprint
 import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.review.Review
 import zip.cafe.security.jwt.JwtTokenProvider
+import zip.cafe.service.ReviewLikeService
+import zip.cafe.service.ReviewService
+import zip.cafe.service.dto.ReviewRegisterDto
 import zip.cafe.util.createPoint
 import zip.cafe.util.logger
 import java.time.LocalDate
@@ -36,7 +39,9 @@ class TestInitDB(
     @Transactional
     class InitService(
         private val em: EntityManager,
-        private val jwtTokenProvider: JwtTokenProvider
+        private val jwtTokenProvider: JwtTokenProvider,
+        private val reviewService: ReviewService,
+        private val reviewLikeService: ReviewLikeService,
     ) {
         fun dbInit() {
             val member1 = createMember("기르동이")
@@ -80,46 +85,107 @@ class TestInitDB(
 
             val reviewImage1Of1 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/1c/0d/58/75/interior.jpg")
             val reviewImage2Of1 = createReviewImage(member1, "https://images.homify.com/c_fill,f_auto,q_0,w_740/v1497622888/p/photo/image/2067284/JAY_0354.jpg")
-            val footprint1 = createFootprint(member1, cafe1, now())
-            val review1 = createReview(footprint1, 3.5, Purpose.DATE, 5.toScore(), "설명 1")
-            reviewImage1Of1.assignReview(review1)
-            reviewImage2Of1.assignReview(review1)
-            review1.addFoodInfo(Food.BAKERY, 3.toScore())
-            review1.addFoodInfo(Food.COFFEE, 5.toScore())
+            val footprint1Id = reviewService.createFootprint(cafe1.id, member1.id, now())
+
+            val review1Id = reviewService.createReview(
+                footprint1Id,
+                member1.id,
+                ReviewRegisterDto(
+                    visitPurpose = Purpose.DATE,
+                    visitPurposeScore = 5.toScore(),
+                    foodInfos = listOf(ReviewRegisterDto.FoodInfo(Food.BAKERY, 3.toScore()), ReviewRegisterDto.FoodInfo(Food.COFFEE, 5.toScore())),
+                    keywords = listOf(keywords[0].id, keywords[1].id),
+                    reviewImageIds = listOf(reviewImage1Of1.id, reviewImage2Of1.id),
+                    description = "조용하고 좋아요!",
+                    finalScore = 3.5.toScore(),
+                )
+            )
+
             val reviewImage1Of2 = createReviewImage(member1, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
-            val footprint2 = createFootprint(member1, cafe2, now().minusDays(3))
-            val review2 = createReview(footprint2, 4.5, Purpose.STUDY, 3.toScore(), "설명인 것")
-            reviewImage1Of2.assignReview(review2)
-            val footprint3 = createFootprint(member2, cafe1, now().minusDays(5).minusMonths(1))
-            val review3 = createReview(footprint3, 1.5, Purpose.ETC, 2.toScore(), "또 다른 설명")
+            val footprint2Id = reviewService.createFootprint(cafe2.id, member1.id, now().minusDays(3))
+            val review2Id = reviewService.createReview(
+                footprint2Id,
+                memberId = member1.id,
+                dto = ReviewRegisterDto(
+                    visitPurpose = Purpose.STUDY,
+                    visitPurposeScore = 3.toScore(),
+                    foodInfos = listOf(),
+                    keywords = listOf(keywords[3].id, keywords[4].id),
+                    reviewImageIds = listOf(reviewImage1Of2.id),
+                    description = "사장님이 친절하셔서 애정하는 카페",
+                    finalScore = 4.5.toScore()
+                ),
+            )
+
             val reviewImage1Of3 = createReviewImage(member2, "https://media-cdn.tripadvisor.com/media/photo-s/19/15/a7/68/gazzi-cafe.jpg")
-            reviewImage1Of3.assignReview(review3)
-            val footprint4 = createFootprint(member3, cafe1, now().minusDays(5).minusWeeks(1))
-            val review4 = createReview(footprint4, 1.5, Purpose.TALK, 1.toScore(), "카페 리뷰1")
-            val footprint5 = createFootprint(member3, cafe2, now().plusDays(5).minusWeeks(2))
-            val review5 = createReview(footprint5, 2.5, Purpose.STUDY, 5.toScore(), "카페 리뷰2")
-            val footprint6 = createFootprint(member3, cafe3, now().plusDays(3).minusWeeks(1))
-            val review6 = createReview(footprint6, 3.5, Purpose.DATE, 3.toScore(), "카페 리뷰3")
+            val footprint3Id = reviewService.createFootprint(cafe1.id, member2.id, now().minusDays(5).minusMonths(1))
+            val review3Id = reviewService.createReview(
+                footprint3Id,
+                memberId = member2.id,
+                dto = ReviewRegisterDto(
+                    visitPurpose = Purpose.ETC,
+                    visitPurposeScore = 2.toScore(),
+                    foodInfos = listOf(),
+                    keywords = listOf(keywords[0].id, keywords[3].id, keywords[4].id),
+                    reviewImageIds = listOf(reviewImage1Of3.id),
+                    description = "그럭저럭인 카페",
+                    finalScore = 1.5.toScore()
+                ),
+            )
 
-            createFootprint(member2, cafe2, now())
-            createFootprint(member1, cafe1, now().minusWeeks(13))
-            createFootprint(member1, cafe3, now().plusDays(2))
-            createFootprint(member3, cafe3, now().minusWeeks(2))
+            val footprint4Id = reviewService.createFootprint(cafe1.id, member3.id, now().minusDays(5).minusWeeks(1))
+            val review4Id = reviewService.createReview(
+                footprint4Id,
+                memberId = member3.id,
+                dto = ReviewRegisterDto(
+                    visitPurpose = Purpose.TALK,
+                    visitPurposeScore = 1.toScore(),
+                    foodInfos = listOf(),
+                    keywords = listOf(keywords[0].id, keywords[1].id, keywords[3].id, keywords[5].id),
+                    reviewImageIds = listOf(),
+                    description = "너무 시끄러워요",
+                    finalScore = 1.5.toScore()
+                ),
+            )
 
-            review1.addCafeKeyword(keywords[0])
-            review1.addCafeKeyword(keywords[1])
-            review2.addCafeKeyword(keywords[3])
-            review2.addCafeKeyword(keywords[4])
-            review4.addCafeKeyword(keywords[5])
-            review5.addCafeKeyword(keywords[6])
-            review5.addCafeKeyword(keywords[7])
-            review6.addCafeKeyword(keywords[0])
-            review6.addCafeKeyword(keywords[1])
-            review6.addCafeKeyword(keywords[2])
+            val footprint5Id = reviewService.createFootprint(cafe2.id, member3.id, now().plusDays(5).minusWeeks(2))
+            val review5Id = reviewService.createReview(
+                footprint5Id,
+                memberId = member3.id,
+                dto = ReviewRegisterDto(
+                    visitPurpose = Purpose.STUDY,
+                    visitPurposeScore = 5.toScore(),
+                    foodInfos = listOf(),
+                    keywords = listOf(keywords[6].id, keywords[7].id),
+                    reviewImageIds = listOf(),
+                    description = "조용해서 공부하긴 좋아요 근데 커피는 노맛",
+                    finalScore = 2.5.toScore()
+                ),
+            )
 
-            review2.addLiker(member2)
-            review2.addLiker(member3)
-            review3.addLiker(member1)
+            val footprint6Id = reviewService.createFootprint(cafe3.id, member3.id, now().plusDays(3).minusWeeks(1))
+            val review6Id = reviewService.createReview(
+                footprint6Id,
+                memberId = member3.id,
+                dto = ReviewRegisterDto(
+                    visitPurpose = Purpose.DATE,
+                    visitPurposeScore = 3.toScore(),
+                    foodInfos = listOf(),
+                    keywords = listOf(keywords[0].id, keywords[1].id, keywords[2].id),
+                    reviewImageIds = listOf(),
+                    description = "인테리어 나쁘지 않아요",
+                    finalScore = 3.5.toScore()
+                ),
+            )
+
+            reviewService.createFootprint(cafe2.id, member2.id, now())
+            reviewService.createFootprint(cafe1.id, member1.id, now().minusWeeks(13))
+            reviewService.createFootprint(cafe3.id, member1.id, now().minusDays(2))
+            reviewService.createFootprint(cafe3.id, member3.id, now().minusWeeks(2).minusDays(3))
+
+            reviewLikeService.likeReview(member2.id, review2Id)
+            reviewLikeService.likeReview(member3.id, review2Id)
+            reviewLikeService.likeReview(member1.id, review3Id)
         }
 
         private fun createMember(nickName: String, profileImageURL: String = Member.DEFAULT_PROFILE_IMAGE_URL): Member {

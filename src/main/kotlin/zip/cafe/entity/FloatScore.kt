@@ -13,6 +13,8 @@ data class FloatScore(
             throw IllegalArgumentException("점수는 0.5 ~ 5.0 사이의 숫자여야 합니다.")
         }
     }
+
+    operator fun plus(other: FloatScore): FloatScore = (score + other.score).toScore()
 }
 
 fun Float.toScore() = FloatScore(this.toDouble())
