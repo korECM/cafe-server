@@ -10,7 +10,7 @@ import zip.cafe.service.dto.ReviewSummary
 fun ReviewRepository.findOneById(id: Long) = this.findByIdOrNull(id) ?: throw NoSuchElementException()
 
 interface ReviewRepository : JpaRepository<Review, Long>, ReviewRepositoryCustom {
-    @Query("select distinct r from Review r left join fetch r._foodInfos left join fetch r._images left join fetch r._cafeKeywords join fetch r.footprint where r.id = :reviewId")
+    @Query("select distinct r from Review r left join fetch r._images join fetch r.footprint where r.id = :reviewId")
     fun getReviewDetailById(@Param("reviewId") reviewId: Long): Review?
 
     @Query("select new zip.cafe.service.dto.ReviewSummary(COUNT(r), COALESCE(AVG(r.finalScore), 0)) from Review r join r.footprint f where f.cafe.id = :cafeId")
