@@ -27,7 +27,7 @@ class FeedService(
                         id = footprint.review!!.id,
                         finalScore = footprint.review!!.finalScore.score,
                         images = footprint.review!!.images.map(::FeedImage),
-                        keyword = footprint.review!!.cafeKeywords.map(::FeedKeyword),
+                        keywords = footprint.review!!.cafeKeywords.map(::FeedKeyword),
                         likeCount = footprint.review!!.likeCount,
                         description = footprint.review!!.description,
                         isLiked = reviewAndLikes.getOrDefault(footprint.review!!.id, false),

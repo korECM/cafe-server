@@ -39,7 +39,7 @@ data class FeedReview(
     val id: Long,
     val finalScore: Double,
     val images: List<FeedImage>,
-    val keyword: List<FeedKeyword>,
+    val keywords: List<FeedKeyword>,
     val likeCount: Long,
     val description: String,
     val commentCount: Long,
