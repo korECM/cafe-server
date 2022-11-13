@@ -41,6 +41,7 @@ data class ReviewInfo(
     val images: List<ReviewImageInfo>,
     val keywords: List<ReviewKeywordInfo>,
     val likeCount: Long,
+    val isLiked: Boolean,
     val commentCount: Long,
     @JsonFormat(pattern = defaultDateFormat)
     val createdAt: LocalDateTime,

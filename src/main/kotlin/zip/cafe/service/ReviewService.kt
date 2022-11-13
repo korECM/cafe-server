@@ -36,8 +36,9 @@ class ReviewService(
     private val reviewImageBucket: String
 ) {
 
-    fun getReview(reviewId: Long): ReviewDetailInfo {
+    fun getReview(loginMemberId: Long, reviewId: Long): ReviewDetailInfo {
         val review = reviewRepository.getReviewDetailById(reviewId) ?: throw NoSuchElementException("해당 리뷰가 존재하지 않습니다")
+        val reviewAndLikes = reviewRepository.findReviewsAndLikesOnThoseReviews(loginMemberId, listOf(reviewId))
         return ReviewDetailInfo(
             review = ReviewInfo(
                 id = review.id,
@@ -51,6 +52,7 @@ class ReviewService(
                 images = review.images.map { ReviewImageInfo(it.id, it.cloudFrontURL) },
                 keywords = review.cafeKeywords.map(::from),
                 likeCount = review.likeCount,
+                isLiked = reviewAndLikes.getOrDefault(reviewId, false),
                 commentCount = review.commentCount,
                 createdAt = review.createdAt
             ),

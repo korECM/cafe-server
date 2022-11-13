@@ -21,7 +21,7 @@ class ReviewController(
 
     @GetMapping("/{reviewId}")
     fun getReview(@LoginUserId userId: Long, @PathVariable reviewId: Long): ApiResponse<ReviewDetailInfo> {
-        val reviewInfo = reviewService.getReview(reviewId)
+        val reviewInfo = reviewService.getReview(userId, reviewId)
         return success(reviewInfo)
     }
 

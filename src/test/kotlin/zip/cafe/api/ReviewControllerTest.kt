@@ -26,7 +26,7 @@ class ReviewControllerTest : WebMvcTestAdapter() {
     init {
         "단일 리뷰 조회" {
             val reviewId = 3L
-            val memberId = 123L
+            val memberId = MOCK_MVC_USER_ID
             val cafeId = 512L
             val reviewDetailInfo = ReviewDetailInfo(
                 review = ReviewInfo(
@@ -38,6 +38,7 @@ class ReviewControllerTest : WebMvcTestAdapter() {
                     images = listOf(ReviewImageInfo(1L, "https://image.com/1"), ReviewImageInfo(2L, "https://image.com/2")),
                     keywords = listOf(ReviewKeywordInfo(1L, "좋은", "🌏"), ReviewKeywordInfo(2L, "카페", "🚚")),
                     likeCount = 3,
+                    isLiked = true,
                     commentCount = 2,
                     createdAt = LocalDateTime.now()
                 ),
@@ -45,7 +46,7 @@ class ReviewControllerTest : WebMvcTestAdapter() {
                 cafe = ReviewCafeInfo(id = cafeId, name = "삼성 스타벅스", address = "송파구 어딘가 좋은 곳", cafeImage = "https://picsum.photos/200")
             )
 
-            every { reviewService.getReview(reviewId) } returns reviewDetailInfo
+            every { reviewService.getReview(memberId, reviewId) } returns reviewDetailInfo
 
             val response = mockMvc.getWithPathParameter("/reviews/{reviewId}", reviewId)
 
@@ -74,6 +75,7 @@ class ReviewControllerTest : WebMvcTestAdapter() {
                         "review.keywords[].id" type NUMBER means "키워드 id" example "5L",
                         "review.keywords[].name" type STRING means "키워드 이름" example "친절한",
                         "review.keywords[].emoji" type STRING means "키워드 이모지" example "✨",
+                        "review.isLiked" type BOOLEAN means "좋아요 여부" example reviewDetailInfo.review.isLiked,
                         "review.likeCount" type NUMBER means "좋아요 수" example reviewDetailInfo.review.likeCount,
                         "review.commentCount" type NUMBER means "댓글 수" example reviewDetailInfo.review.commentCount,
                         "review.createdAt" type STRING means "리뷰 작성 시간" example reviewDetailInfo.review.createdAt.formatAsDefault(),
