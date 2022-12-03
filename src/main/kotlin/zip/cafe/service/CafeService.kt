@@ -24,7 +24,7 @@ class CafeService(
 
     fun getReviewSummaryById(cafeId: Long) = reviewRepository.getReviewSummaryByCafeId(cafeId)
 
-    fun getImageSummaryById(cafeId: Long) = cafeRepository.getImageSummaryByCafeId(cafeId)
+    fun getReviewImageSummaryById(cafeId: Long) = reviewRepository.getImageSummaryByCafeId(cafeId)
 
     fun getKeywordSummaryById(cafeId: Long): List<CafeKeywordStat> = cafeRepository.getKeywordSummaryByCafeId(cafeId)
 
@@ -36,5 +36,10 @@ class CafeService(
     fun findFollowerWhoLikeCafe(memberId: Long, cafeId: Long): List<FollowerWhoLikeCafe> {
         val followeeIds = memberFollowRepository.getFolloweeIds(memberId)
         return cafeRepository.findWhoLikeCafe(followeeIds, cafeId)
+    }
+
+    fun getFriendReviewCountByCafeId(cafeId: Long, userId: Long): Long {
+        val followeeIds = memberFollowRepository.getFolloweeIds(userId)
+        return reviewRepository.getReviewCountByCafeIdAndUserId(cafeId, followeeIds)
     }
 }

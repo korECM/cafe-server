@@ -21,10 +21,7 @@ data class ReviewRegisterDto(
     )
 }
 
-data class ReviewSummary(
-    val numberOfReviews: Long,
-    val averageOfFinalScores: Double
-)
+data class ReviewSummary(val score: FloatScore, val count: Long)
 
 data class FollowerWhoWriteReview(
     val id: Long,

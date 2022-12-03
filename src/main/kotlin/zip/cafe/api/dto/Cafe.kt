@@ -1,5 +1,6 @@
 package zip.cafe.api.dto
 
+import zip.cafe.entity.Point
 import zip.cafe.entity.ReviewImage
 import zip.cafe.entity.cafe.CafeKeywordStat
 import zip.cafe.entity.menu.Menu
@@ -10,12 +11,14 @@ data class SingleCafeInfo(
     val id: Long,
     val name: String,
     val address: String,
+    val location: Point,
     val openingHours: String,
     val menus: List<InnerMenu>,
-    val averageOfFinalScores: Double,
-    val reviewCount: Long,
+    val countOfReviewByFollowee : Long,
+    val reviewScoreStat: Map<Double, Long>,
     val keywords: List<Keyword>,
     val cafeImages: List<Image>,
+    val reviewImages: List<Image>
 ) {
 
     data class Keyword(
