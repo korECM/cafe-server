@@ -1,8 +1,8 @@
 package zip.cafe.api.dto
 
 import zip.cafe.entity.ReviewImage
+import zip.cafe.entity.cafe.CafeKeywordStat
 import zip.cafe.entity.menu.Menu
-import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.service.dto.FollowerWhoLikeCafe
 import zip.cafe.service.dto.FollowerWhoWriteReview
 
@@ -24,7 +24,7 @@ data class SingleCafeInfo(
         val emoji: String,
     ) {
         companion object {
-            fun from(cafeKeyword: CafeKeyword) = Keyword(cafeKeyword.id, cafeKeyword.keyword, cafeKeyword.emoji)
+            fun from(cafeKeywordStat: CafeKeywordStat) = with(cafeKeywordStat.keyword) { Keyword(id, keyword, emoji) }
         }
     }
 
@@ -33,7 +33,7 @@ data class SingleCafeInfo(
         val url: String
     ) {
         companion object {
-            fun from(image: ReviewImage) = Image(image.id, image.cloudFrontURL)
+            fun from(image: ReviewImage) = with(image) { Image(id, cloudFrontURL) }
         }
     }
 
@@ -43,7 +43,7 @@ data class SingleCafeInfo(
         val price: Long
     ) {
         companion object {
-            fun from(menu: Menu) = InnerMenu(id = menu.id, name = menu.name, price = menu.price)
+            fun from(menu: Menu) = with(menu) { InnerMenu(id = id, name = name, price = price) }
         }
     }
 }

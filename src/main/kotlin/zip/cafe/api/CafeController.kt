@@ -28,7 +28,7 @@ class CafeController(
         val cafe = requireNotNull(cafeService.findByIdForDetailPage(cafeId)) { "$cafeId 카페를 찾을 수 없습니다" }
         val reviewSummary = cafeService.getReviewSummaryById(cafeId)
         val imageSummary = cafeService.getImageSummaryById(cafeId)
-        val keywordSummary = cafeService.getKeywordSummaryById(cafeId)
+        val keywordSummaryOrderByRank = cafeService.getKeywordSummaryById(cafeId).sortedByDescending { it.rank }
 
         return success(
             SingleCafeInfo(
@@ -38,7 +38,7 @@ class CafeController(
                 openingHours = cafe.openingHours,
                 averageOfFinalScores = reviewSummary.averageOfFinalScores,
                 reviewCount = reviewSummary.numberOfReviews,
-                keywords = keywordSummary.map(::from),
+                keywords = keywordSummaryOrderByRank.map(::from),
                 cafeImages = imageSummary.map(::from),
                 menus = cafe.menus.map(::from),
             )
