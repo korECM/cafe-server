@@ -51,12 +51,7 @@ class CafeController(
             return success(null)
         }
         val followersWhoWriteReview = userId.let { cafeService.findFollowerWhoWriteReview(it, cafeId) }
-
-        return success(
-            FollowersWhoWriteReview(
-                followersWhoWriteReview.map(::from)
-            )
-        )
+        return success(FollowersWhoWriteReview(followersWhoWriteReview.map(::from)))
     }
 
     @GetMapping("/{cafeId}/followers/like/cafe")
@@ -65,12 +60,6 @@ class CafeController(
             return success(null)
         }
         val followersWhoLikeCafe = userId.let { cafeService.findFollowerWhoLikeCafe(it, cafeId) }
-
-        return success(
-            FollowersWhoLikeCafe(
-                followersWhoLikeCafe.map(::from)
-            )
-        )
-
+        return success(FollowersWhoLikeCafe(followersWhoLikeCafe.map(::from)))
     }
 }
