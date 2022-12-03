@@ -22,9 +22,10 @@ data class SingleCafeInfo(
         val id: Long,
         val keyword: String,
         val emoji: String,
+        val count: Long,
     ) {
         companion object {
-            fun from(cafeKeywordStat: CafeKeywordStat) = with(cafeKeywordStat.keyword) { Keyword(id, keyword, emoji) }
+            fun from(cafeKeywordStat: CafeKeywordStat) = with(cafeKeywordStat.keyword) { Keyword(id, keyword, emoji, cafeKeywordStat.count) }
         }
     }
 

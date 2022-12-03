@@ -4,6 +4,7 @@ import io.mockk.every
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
+import zip.cafe.entity.cafe.CafeKeywordStat
 import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.seeds.MOCK_MVC_USER_ID
 import zip.cafe.seeds.createCafe
@@ -19,7 +20,11 @@ class CafeControllerTest : WebMvcTestAdapter() {
         "카페 id를 가지고 카페 기본 정보를 가져온다" {
             val cafe = createCafe(id = 5L)
             val reviewSummary = ReviewSummary(5L, 2.5)
-            val cafeKeywords = listOf(CafeKeyword("아늑한", "🕊"), CafeKeyword("편안한", "🤔"))
+            val cafeKeywordStats = listOf(
+                CafeKeywordStat(cafe, CafeKeyword("아늑한", "🕊"), 2L),
+                CafeKeywordStat(cafe, CafeKeyword( "편안한", "🤔"), 1L),
+                CafeKeywordStat(cafe, CafeKeyword( "조용한", "🤫"), 5L),
+            )
             val reviewImages = listOf(createReviewImage(), createReviewImage())
 
             val menu1 = createMenu()
@@ -29,7 +34,7 @@ class CafeControllerTest : WebMvcTestAdapter() {
 
             every { cafeService.findByIdForDetailPage(cafe.id) } returns cafe
             every { cafeService.getReviewSummaryById(cafe.id) } returns reviewSummary
-            every { cafeService.getKeywordSummaryById(cafe.id) } returns cafeKeywords
+            every { cafeService.getKeywordSummaryById(cafe.id) } returns cafeKeywordStats
             every { cafeService.getImageSummaryById(cafe.id) } returns reviewImages
 
             val response = mockMvc.getWithPathParameter("/cafes/{cafeId}", cafe.id)
@@ -54,6 +59,7 @@ class CafeControllerTest : WebMvcTestAdapter() {
                         "keywords[].id" type NUMBER means "키워드 id" example "1L",
                         "keywords[].keyword" type STRING means "키워드 이름" example "아늑한",
                         "keywords[].emoji" type STRING means "키워드 이모지" example "🎁",
+                        "keywords[].count" type NUMBER means "키워드 수" example 5L,
                         "cafeImages" type ARRAY means "카페 이미지",
                         "cafeImages[].id" type NUMBER means "카페 이미지 id" example "1234L",
                         "cafeImages[].url" type STRING means "이미지 주소" example "https://naver.com/logo.png",
