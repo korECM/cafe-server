@@ -210,9 +210,15 @@ tasks.named("jib") {
 jib {
     from {
         image = "gcr.io/distroless/java17-debian11"
+        platforms {
+            platform {
+                architecture = "arm64"
+                os = "linux"
+            }
+        }
     }
     to {
-        image = "183624387110.dkr.ecr.ap-northeast-2.amazonaws.com/cafe"
+        image = "786604280410.dkr.ecr.ap-northeast-2.amazonaws.com/cafe"
         credHelper.helper = "ecr-login"
     }
     container {
