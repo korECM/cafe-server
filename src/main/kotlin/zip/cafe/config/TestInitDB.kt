@@ -97,7 +97,7 @@ class TestInitDB(
                     keywords = listOf(keywords[0].id, keywords[1].id),
                     reviewImageIds = listOf(reviewImage1Of1.id, reviewImage2Of1.id),
                     description = "조용하고 좋아요!",
-                    finalScore = 3.5.toScore(),
+                    finalScore = 3.0.toScore(),
                 )
             )
 
@@ -113,7 +113,7 @@ class TestInitDB(
                     keywords = listOf(keywords[3].id, keywords[4].id),
                     reviewImageIds = listOf(reviewImage1Of2.id),
                     description = "사장님이 친절하셔서 애정하는 카페",
-                    finalScore = 4.5.toScore()
+                    finalScore = 4.0.toScore()
                 ),
             )
 
@@ -129,7 +129,7 @@ class TestInitDB(
                     keywords = listOf(keywords[0].id, keywords[3].id, keywords[4].id),
                     reviewImageIds = listOf(reviewImage1Of3.id),
                     description = "그럭저럭인 카페",
-                    finalScore = 1.5.toScore()
+                    finalScore = 1.0.toScore()
                 ),
             )
 
@@ -144,7 +144,7 @@ class TestInitDB(
                     keywords = listOf(keywords[0].id, keywords[1].id, keywords[3].id, keywords[5].id),
                     reviewImageIds = listOf(),
                     description = "너무 시끄러워요",
-                    finalScore = 1.5.toScore()
+                    finalScore = 1.0.toScore()
                 ),
             )
 
@@ -159,7 +159,7 @@ class TestInitDB(
                     keywords = listOf(keywords[6].id, keywords[7].id),
                     reviewImageIds = listOf(),
                     description = "조용해서 공부하긴 좋아요 근데 커피는 노맛",
-                    finalScore = 2.5.toScore()
+                    finalScore = 2.0.toScore()
                 ),
             )
 
@@ -174,7 +174,7 @@ class TestInitDB(
                     keywords = listOf(keywords[0].id, keywords[1].id, keywords[2].id),
                     reviewImageIds = listOf(),
                     description = "인테리어 나쁘지 않아요",
-                    finalScore = 3.5.toScore()
+                    finalScore = 3.0.toScore()
                 ),
             )
 
