@@ -34,8 +34,8 @@ cloud:
       profile-image-bucket: cafe-profile-image-2
     cloud-front:
       bucket-domain-map:
-        cafe-review-image: https://d2vjg25bkvwc4e.cloudfront.net
-        cafe-profile-image: https://d125lzs083ehp3.cloudfront.net
+        cafe-review-image-2: https://d2vjg25bkvwc4e.cloudfront.net
+        cafe-profile-image-2: https://d125lzs083ehp3.cloudfront.net
     region:
       static: ap-northeast-2
     stack:
