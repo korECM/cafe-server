@@ -30,12 +30,12 @@ cloud:
       access-key: ${ACCESS_KEY:SHOULD_BE_REPLACED}
       secret-key: ${SECRET_KEY:SHOULD_BE_REPLACED}
     s3:
-      review-image-bucket: cafe-review-image
-      profile-image-bucket: cafe-profile-image
+      review-image-bucket: cafe-review-image-2
+      profile-image-bucket: cafe-profile-image-2
     cloud-front:
       bucket-domain-map:
-        cafe-review-image: https://d3eeqguzuj75s4.cloudfront.net
-        cafe-profile-image: https://d1k4dssso006h0.cloudfront.net
+        cafe-review-image: https://d2vjg25bkvwc4e.cloudfront.net
+        cafe-profile-image: https://d125lzs083ehp3.cloudfront.net
     region:
       static: ap-northeast-2
     stack:
