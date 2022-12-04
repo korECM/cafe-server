@@ -220,6 +220,32 @@ class CafeControllerTest : WebMvcTestAdapter() {
                         "minReviewId" means "조회한 리뷰 목록 중 가장 작은 id 값" isOptional true example "5L",
                         "limit" means "한번에 조회하려는 리뷰 개수" isOptional true default "10L" example "10L"
                     ),
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body",
+                        "isLastPage" type BOOLEAN means "마지막 페이지 여부" example "true",
+                        "reviews" type ARRAY means "리뷰 목록",
+                        "reviews[].id" type NUMBER means "리뷰 id" example "5L",
+                        "reviews[].member" type OBJECT means "리뷰 작성자 정보",
+                        "reviews[].member.id" type NUMBER means "리뷰 작성자 id" example "1L",
+                        "reviews[].member.name" type STRING means "리뷰 작성자 닉네임" example "고길동",
+                        "reviews[].member.profileImage" type STRING means "리뷰 작성자 프로필 이미지" example "https://picsum.photos/200",
+                        "reviews[].review" type OBJECT means "리뷰 정보",
+                        "reviews[].review.id" type NUMBER means "리뷰 id" example "1L",
+                        "reviews[].review.finalScore" type NUMBER means "리뷰 최종 점수" example "4.0",
+                        "reviews[].review.images" type ARRAY means "리뷰 이미지 목록",
+                        "reviews[].review.images[].id" type NUMBER means "리뷰 이미지 id" example "1L",
+                        "reviews[].review.images[].url" type STRING means "리뷰 이미지 url" example "https://picsum.photos/200",
+                        "reviews[].review.keywords" type ARRAY means "리뷰 키워드 목록",
+                        "reviews[].review.keywords[].id" type NUMBER means "리뷰 키워드 id" example "1L",
+                        "reviews[].review.keywords[].keyword" type STRING means "리뷰 키워드 이름" example "조용한",
+                        "reviews[].review.keywords[].emoji" type STRING means "리뷰 키워드 이모지" example "😵‍💫",
+                        "reviews[].review.isLiked" type BOOLEAN means "리뷰 좋아요 여부" example "true",
+                        "reviews[].review.isFolloweeReview" type BOOLEAN means "리뷰 작성자 팔로우 여부" example "false",
+                        "reviews[].review.likeCount" type NUMBER means "리뷰 좋아요 개수" example "5",
+                        "reviews[].review.description" type STRING means "리뷰 내용" example "조용하고 좋은 카페",
+                        "reviews[].review.commentCount" type NUMBER means "리뷰에 달린 댓글 수",
+                        "reviews[].review.createdAt" type STRING means "리뷰 작성 시간" formattedAs "yyyy-MM-dd HH:mm:ss" example "2021-08-01T00:00:00",
+                    )
                 )
             )
         }
