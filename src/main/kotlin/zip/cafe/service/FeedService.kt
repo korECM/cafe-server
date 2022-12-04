@@ -16,7 +16,7 @@ class FeedService(
     fun getReviewFeeds(loginMemberId: Long, minReviewIdInFeed: Long?, limit: Long): FeedWithPagination {
         val followeeIds = memberFollowRepository.getFolloweeIds(loginMemberId)
         val footprints = reviewRepository.findByAuthorIdIn(followeeIds + loginMemberId, minReviewIdInFeed, limit)
-        val isLastPage = minReviewIdInFeed?.let { reviewRepository.isLastPage(followeeIds, minReviewIdInFeed, limit) } ?: false
+        val isLastPage = minReviewIdInFeed?.let { reviewRepository.isLastPageByAuthorIds(followeeIds, minReviewIdInFeed, limit) } ?: false
         val reviewAndLikes = reviewRepository.findReviewsAndLikesOnThoseReviews(loginMemberId, footprints.mapNotNull { it.review?.id })
         return FeedWithPagination(
             feeds = footprints.map { footprint ->

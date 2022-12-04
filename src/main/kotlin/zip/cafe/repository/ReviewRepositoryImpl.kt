@@ -14,7 +14,7 @@ class ReviewRepositoryImpl(
         return queryFactory
             .select(footprint)
             .from(footprint)
-            .innerJoin(footprint.review).fetchJoin()
+            .innerJoin(footprint.review, review).fetchJoin()
             .innerJoin(footprint.member).fetchJoin()
             .innerJoin(footprint.cafe).fetchJoin()
             .where(footprint.member.id.`in`(authorIds).and(olderThanHasEverSeen(minReviewIdInFeed)))
@@ -25,16 +25,41 @@ class ReviewRepositoryImpl(
 
     private fun olderThanHasEverSeen(minReviewIdInFeed: Long?): BooleanExpression? = minReviewIdInFeed?.let { review.id.lt(it) }
 
-    override fun isLastPage(authorIds: List<Long>, minReviewIdInFeed: Long, limit: Long): Boolean {
+    override fun isLastPageByAuthorIds(authorIds: List<Long>, minReviewIdInFeed: Long, limit: Long): Boolean {
         // limit보다 1 크게 조회해서 조회되는 게시글 개수 비교
         return queryFactory
-            .select(review.id.count())
+            .select(review)
             .from(review)
             .innerJoin(review.footprint, footprint)
             .where(footprint.member.id.`in`(authorIds).and(olderThanHasEverSeen(minReviewIdInFeed)))
             .orderBy(review.id.desc())
             .limit(limit + 1)
-            .fetchOne()?.let { it <= limit } ?: true
+            .fetch().size <= limit
+    }
+
+    override fun findByCafeId(cafeId: Long, minReviewIdInCafeDetail: Long?, limit: Long): List<Footprint> {
+        return queryFactory
+            .select(footprint)
+            .from(footprint)
+            .innerJoin(footprint.review, review).fetchJoin()
+            .innerJoin(footprint.member).fetchJoin()
+            .innerJoin(footprint.cafe).fetchJoin()
+            .where(footprint.cafe.id.eq(cafeId).and(olderThanHasEverSeen(minReviewIdInCafeDetail)))
+            .orderBy(footprint.id.desc())
+            .limit(limit)
+            .fetch()
+    }
+
+    override fun isLastPageByCafeId(cafeId: Long, minReviewIdInFeed: Long, limit: Long): Boolean {
+        // limit보다 1 크게 조회해서 조회되는 게시글 개수 비교
+        return queryFactory
+            .select(review)
+            .from(review)
+            .innerJoin(review.footprint, footprint)
+            .where(footprint.cafe.id.eq(cafeId).and(olderThanHasEverSeen(minReviewIdInFeed)))
+            .orderBy(review.id.desc())
+            .limit(limit + 1)
+            .fetch().size <= limit
     }
 
     override fun findReviewsAndLikesOnThoseReviews(authorId: Long, reviewIds: List<Long>): Map<Long, Boolean> {

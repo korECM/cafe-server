@@ -1,19 +1,21 @@
 package zip.cafe.api
 
 import io.mockk.every
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import zip.cafe.api.dto.ReviewForCafeInfo
+import zip.cafe.api.dto.ReviewWithPagination
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.mockmvc.getWithPathParameter
 import zip.cafe.api.utils.restdocs.*
 import zip.cafe.entity.cafe.CafeKeywordStat
 import zip.cafe.entity.review.CafeKeyword
 import zip.cafe.entity.toScore
-import zip.cafe.seeds.MOCK_MVC_USER_ID
-import zip.cafe.seeds.createCafe
-import zip.cafe.seeds.createMenu
-import zip.cafe.seeds.createReviewImage
+import zip.cafe.seeds.*
 import zip.cafe.service.dto.FollowerWhoLikeCafe
 import zip.cafe.service.dto.FollowerWhoWriteReview
 import zip.cafe.service.dto.ReviewSummary
+import java.time.LocalDateTime
 
 class CafeControllerTest : WebMvcTestAdapter() {
 
@@ -30,8 +32,8 @@ class CafeControllerTest : WebMvcTestAdapter() {
             )
             val cafeKeywordStats = listOf(
                 CafeKeywordStat(cafe, CafeKeyword("아늑한", "🕊"), 2L),
-                CafeKeywordStat(cafe, CafeKeyword( "편안한", "🤔"), 1L),
-                CafeKeywordStat(cafe, CafeKeyword( "조용한", "🤫"), 5L),
+                CafeKeywordStat(cafe, CafeKeyword("편안한", "🤔"), 1L),
+                CafeKeywordStat(cafe, CafeKeyword("조용한", "🤫"), 5L),
             )
             val reviewImages = listOf(createReviewImage(), createReviewImage())
 
@@ -143,6 +145,83 @@ class CafeControllerTest : WebMvcTestAdapter() {
                     )
                 )
             }
+        }
+
+        "카페의 id를 가지고 그 카페의 리뷰를 반환한다" {
+            val userId = MOCK_MVC_USER_ID
+            val cafe = createCafe(id = 5L)
+            val minReviewId = 7L
+            val limit = 2L
+            every {
+                cafeService.getDetailReviewsByCafeIdAndUserId(cafe.id, userId, minReviewId, limit)
+            } returns ReviewWithPagination(
+                reviews = listOf(
+                    ReviewForCafeInfo(
+                        id = 5L,
+                        member = ReviewForCafeInfo.ReviewMemberInfo(createMember()),
+                        review = ReviewForCafeInfo.ReviewInfo(
+                            id = 1L,
+                            finalScore = 4.0,
+                            images = listOf(
+                                ReviewForCafeInfo.ReviewImageInfo(1L, "https://picsum.photos/200"),
+                                ReviewForCafeInfo.ReviewImageInfo(2L, "https://picsum.photos/200")
+                            ),
+                            keywords = listOf(
+                                ReviewForCafeInfo.ReviewKeywordInfo(1L, "조용한", "😵‍💫"),
+                                ReviewForCafeInfo.ReviewKeywordInfo(2L, "아늑한", "😯"),
+                            ),
+                            likeCount = 5,
+                            description = "조용하고 좋은 카페",
+                            commentCount = 3,
+                            isLiked = true,
+                            isFolloweeReview = false,
+                            createdAt = LocalDateTime.now().minusDays(3)
+                        )
+                    ),
+                    ReviewForCafeInfo(
+                        id = 7L,
+                        member = ReviewForCafeInfo.ReviewMemberInfo(createMember()),
+                        review = ReviewForCafeInfo.ReviewInfo(
+                            id = 2L,
+                            finalScore = 3.0,
+                            images = listOf(
+                                ReviewForCafeInfo.ReviewImageInfo(3L, "https://picsum.photos/200"),
+                                ReviewForCafeInfo.ReviewImageInfo(4L, "https://picsum.photos/200")
+                            ),
+                            keywords = listOf(
+                                ReviewForCafeInfo.ReviewKeywordInfo(1L, "조용한", "😵‍💫"),
+                                ReviewForCafeInfo.ReviewKeywordInfo(3L, "뷰가 좋은", "👻"),
+                            ),
+                            likeCount = 2,
+                            description = "사진 찍기 좋아요",
+                            commentCount = 0,
+                            isLiked = false,
+                            isFolloweeReview = true,
+                            createdAt = LocalDateTime.now().minusDays(5).minusHours(3)
+                        )
+                    )
+                ),
+                isLastPage = true
+            )
+
+            val response = mockMvc.perform(
+                RestDocumentationRequestBuilders.get("/cafes/{cafeId}/reviews", cafe.id)
+                    .param("minReviewId", minReviewId.toString())
+                    .param("limit", limit.toString())
+            )
+
+            response.andExpect(
+                MockMvcResultMatchers.status().isOk
+            ).andDo(
+                document(
+                    "get-cafe-reviews",
+                    pathParameters(
+                        "cafeId" means "카페 id" example "5L",
+                        "minReviewId" means "조회한 리뷰 목록 중 가장 작은 id 값" isOptional true example "5L",
+                        "limit" means "한번에 조회하려는 리뷰 개수" isOptional true default "10L" example "10L"
+                    ),
+                )
+            )
         }
     }
 }

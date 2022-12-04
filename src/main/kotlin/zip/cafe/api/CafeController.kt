@@ -1,9 +1,6 @@
 package zip.cafe.api
 
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import zip.cafe.api.dto.*
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.api.dto.FollowersWhoLikeCafe.InnerFollowersWhoLikeCafe.Companion.from
@@ -24,7 +21,7 @@ class CafeController(private val cafeService: CafeService) {
         val reviewSummary = cafeService.getReviewSummaryById(cafeId)
         val reviewImageSummary = cafeService.getReviewImageSummaryById(cafeId)
         val countOfReviewByFollowee = userId?.let { cafeService.getFriendReviewCountByCafeId(cafeId, userId) } ?: 0L
-        val keywordSummaryOrderByRank = cafeService.getKeywordSummaryById(cafeId).sortedByDescending { it.rank }
+        val keywordSummaryOrderByRank = cafeService.getKeywordSummaryById(cafeId).sortedBy { it.rank }
 
         return success(
             SingleCafeInfo(
@@ -45,6 +42,17 @@ class CafeController(private val cafeService: CafeService) {
                 menus = cafe.menus.map(::from),
             )
         )
+    }
+
+    @GetMapping("/{cafeId}/reviews")
+    fun findReviewByCafeIdForCafeDetail(
+        @LoginUserId(optional = true) userId: Long?,
+        @PathVariable("cafeId") cafeId: Long,
+        @RequestParam(required = false) minReviewId: Long?,
+        @RequestParam(required = false, defaultValue = "10") limit: Long
+    ): ApiResponse<ReviewWithPagination> {
+        val reviews = cafeService.getDetailReviewsByCafeIdAndUserId(cafeId, userId, minReviewId, limit)
+        return success(reviews)
     }
 
     @GetMapping("/{cafeId}/followers/write/review")

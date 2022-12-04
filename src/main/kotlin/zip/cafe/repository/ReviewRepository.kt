@@ -14,11 +14,11 @@ interface ReviewRepository : JpaRepository<Review, Long>, ReviewRepositoryCustom
     @Query("select distinct r from Review r left join fetch r._images join fetch r.footprint where r.id = :reviewId")
     fun getReviewDetailById(@Param("reviewId") reviewId: Long): Review?
 
-    @Query("select new zip.cafe.service.dto.ReviewSummary2(r.finalScore, COUNT(r)) from Review r join r.footprint f where f.cafe.id = :cafeId group by r.finalScore")
+    @Query("select new zip.cafe.service.dto.ReviewSummary(r.finalScore, COUNT(r)) from Review r join r.footprint f where f.cafe.id = :cafeId group by r.finalScore")
     fun getReviewSummaryByCafeId(@Param("cafeId") cafeId: Long): List<ReviewSummary>
 
     @Query("select Count(r) from Review r join r.footprint f where f.cafe.id = :cafeId and f.member.id in :userIds")
-    fun getReviewCountByCafeIdAndUserId(@Param("cafeId") cafeId: Long, @Param("userId") userIds: List<Long>): Long
+    fun getReviewCountByCafeIdAndUserId(@Param("cafeId") cafeId: Long, @Param("userIds") userIds: List<Long>): Long
 
     @Query("select distinct i from ReviewImage i join i.review r join r.footprint f where f.cafe.id = :cafeId")
     fun getImageSummaryByCafeId(@Param("cafeId") cafeId: Long): List<ReviewImage>
