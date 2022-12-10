@@ -57,7 +57,7 @@ data class FeedImage(
 
 data class FeedKeyword(
     val id: Long,
-    val name: String,
+    val keyword: String,
     val emoji: String
 ) {
     constructor(cafeKeyword: CafeKeyword) : this(cafeKeyword.id, cafeKeyword.keyword, cafeKeyword.emoji)

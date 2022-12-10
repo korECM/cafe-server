@@ -102,7 +102,7 @@ class FeedControllerTest : WebMvcTestAdapter() {
                         "feeds[].review.likeCount" type NUMBER means "리뷰 좋아요 개수" example "5L",
                         "feeds[].review.keywords" type ARRAY means "리뷰에 있는 키워드 목록",
                         "feeds[].review.keywords[].id" type NUMBER means "키워드 id" example "5L",
-                        "feeds[].review.keywords[].name" type STRING means "키워드 이름" example "친절한",
+                        "feeds[].review.keywords[].keyword" type STRING means "키워드 이름" example "친절한",
                         "feeds[].review.keywords[].emoji" type STRING means "키워드 이모지" example "✨",
                         "feeds[].review.description" type STRING means "리뷰 내용" example "조용하고 좋아요",
                         "feeds[].review.isLiked" type BOOLEAN means "좋아요 여부" example false,
