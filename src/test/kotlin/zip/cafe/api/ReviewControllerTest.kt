@@ -73,7 +73,7 @@ class ReviewControllerTest : WebMvcTestAdapter() {
                         "review.images[].url" type STRING means "리뷰 이미지 url" example reviewDetailInfo.review.images[0].url,
                         "review.keywords" type ARRAY means "리뷰에 올라온 키워드 목록",
                         "review.keywords[].id" type NUMBER means "키워드 id" example "5L",
-                        "review.keywords[].name" type STRING means "키워드 이름" example "친절한",
+                        "review.keywords[].keyword" type STRING means "키워드 이름" example "친절한",
                         "review.keywords[].emoji" type STRING means "키워드 이모지" example "✨",
                         "review.isLiked" type BOOLEAN means "좋아요 여부" example reviewDetailInfo.review.isLiked,
                         "review.likeCount" type NUMBER means "좋아요 수" example reviewDetailInfo.review.likeCount,

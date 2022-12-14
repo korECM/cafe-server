@@ -49,7 +49,7 @@ data class ReviewInfo(
 
 data class ReviewKeywordInfo(
     val id: Long,
-    val name: String,
+    val keyword: String,
     val emoji: String,
 ) {
     companion object {
