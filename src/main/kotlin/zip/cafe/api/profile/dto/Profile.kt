@@ -76,7 +76,7 @@ data class ProfileReviewInfo(
     val images: List<ProfileReviewImageInfo>,
     val finalScore: Double,
     val likeCount: Long,
-    val content: String,
+    val description: String,
     val commentCount: Long,
     @JsonFormat(pattern = defaultDateTimeFormat)
     val createdAt: LocalDateTime
@@ -89,7 +89,7 @@ data class ProfileReviewInfo(
             images = review.images.map { ProfileReviewImageInfo(it.id, it.cloudFrontURL) },
             finalScore = review.finalScore.score,
             likeCount = review.likeCount,
-            content = review.description,
+            description = review.description,
             commentCount = review.commentCount,
             createdAt = review.createdAt,
         )

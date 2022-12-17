@@ -69,7 +69,7 @@ class ProfileControllerTest : WebMvcTestAdapter() {
                     ),
                     finalScore = 4.0,
                     likeCount = 3,
-                    content = "조용하고 좋아요",
+                    description = "조용하고 좋아요",
                     commentCount = 5,
                     createdAt = now().minusDays(3)
                 ),
@@ -82,7 +82,7 @@ class ProfileControllerTest : WebMvcTestAdapter() {
                     ),
                     finalScore = 3.0,
                     likeCount = 2,
-                    content = "조금 시끄러워요",
+                    description = "조금 시끄러워요",
                     commentCount = 123,
                     createdAt = now().minusDays(1)
                 )
@@ -110,7 +110,7 @@ class ProfileControllerTest : WebMvcTestAdapter() {
                         "images[].url" type STRING means "이미지의 URL" example "https://media-cdn.tripadvisor.com/media/photo-s/10/e5/73/92/photo1jpg.jpg",
                         "finalScore" type NUMBER means "리뷰의 최종 점수" example "4.0",
                         "likeCount" type NUMBER means "리뷰의 좋아요 수" example "3",
-                        "content" type STRING means "리뷰의 내용" example "조용하고 좋아요",
+                        "description" type STRING means "리뷰의 내용" example "조용하고 좋아요",
                         "commentCount" type NUMBER means "리뷰의 댓글 수" example "5",
                         "createdAt" type DATE means "리뷰의 작성 시간" example now().formatAsDefault()
                     )
