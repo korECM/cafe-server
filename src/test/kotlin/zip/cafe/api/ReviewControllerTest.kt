@@ -42,7 +42,7 @@ class ReviewControllerTest : WebMvcTestAdapter() {
                     commentCount = 2,
                     createdAt = LocalDateTime.now()
                 ),
-                member = ReviewMemberInfo(id = memberId, nickname = "길동길동홍길동", profileImageUrl = "https://image.com/123"),
+                member = ReviewMemberInfo(id = memberId, nickname = "길동길동홍길동", profileImageUrl = "https://image.com/123", isFollowed = true),
                 cafe = ReviewCafeInfo(id = cafeId, name = "삼성 스타벅스", address = "송파구 어딘가 좋은 곳", cafeImage = "https://picsum.photos/200")
             )
 
@@ -82,6 +82,7 @@ class ReviewControllerTest : WebMvcTestAdapter() {
                         "member.id" type NUMBER means "작성자 id" example reviewDetailInfo.member.id,
                         "member.nickname" type STRING means "작성자 닉네임" example reviewDetailInfo.member.nickname,
                         "member.profileImageUrl" type STRING means "작성자 프로필 이미지 url" example reviewDetailInfo.member.profileImageUrl,
+                        "member.isFollowed" type BOOLEAN means "팔로우 여부" example false,
                         "cafe.id" type NUMBER means "카페 id" example reviewDetailInfo.cafe.id,
                         "cafe.name" type STRING means "카페 이름" example reviewDetailInfo.cafe.name,
                         "cafe.address" type STRING means "카페 주소" example reviewDetailInfo.cafe.address,

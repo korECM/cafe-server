@@ -25,6 +25,7 @@ import java.time.LocalDate
 @Service
 class ReviewService(
     private val memberRepository: MemberRepository,
+    private val memberFollowRepository: MemberFollowRepository,
     private val cafeRepository: CafeRepository,
     private val cafeKeywordRepository: CafeKeywordRepository,
     private val reviewRepository: ReviewRepository,
@@ -39,6 +40,7 @@ class ReviewService(
     fun getReview(loginMemberId: Long, reviewId: Long): ReviewDetailInfo {
         val review = reviewRepository.getReviewDetailById(reviewId) ?: throw NoSuchElementException("해당 리뷰가 존재하지 않습니다")
         val reviewAndLikes = reviewRepository.findReviewsAndLikesOnThoseReviews(loginMemberId, listOf(reviewId))
+        val followeeIds = memberFollowRepository.getFolloweeIds(loginMemberId)
         return ReviewDetailInfo(
             review = ReviewInfo(
                 id = review.id,
@@ -59,7 +61,8 @@ class ReviewService(
             member = ReviewMemberInfo(
                 id = review.footprint.member.id,
                 nickname = review.footprint.member.nickname,
-                profileImageUrl = review.footprint.member.profileImage
+                profileImageUrl = review.footprint.member.profileImage,
+                isFollowed = followeeIds.contains(review.footprint.member.id)
             ),
             cafe = ReviewCafeInfo(
                 id = review.footprint.cafe.id,

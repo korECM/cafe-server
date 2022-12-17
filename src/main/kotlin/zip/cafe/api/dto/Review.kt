@@ -23,6 +23,7 @@ data class ReviewMemberInfo(
     val id: Long,
     val nickname: String,
     val profileImageUrl: String,
+    val isFollowed: Boolean,
 )
 
 data class ReviewCafeInfo(
