@@ -63,11 +63,11 @@ class ReviewRepositoryImpl(
     }
 
     override fun findReviewsAndLikesOnThoseReviews(authorId: Long, reviewIds: List<Long>): Map<Long, Boolean> {
-        val reviewLikes = queryFactory
-            .select(reviewLike.id)
+        val likedReviewId = queryFactory
+            .select(reviewLike.review.id)
             .from(reviewLike)
             .where(reviewLike.review.id.`in`(reviewIds).and(reviewLike.member.id.eq(authorId)))
             .fetch()
-        return reviewIds.associateWith { reviewLikes.contains(it) }
+        return reviewIds.associateWith { likedReviewId.contains(it) }
     }
 }
