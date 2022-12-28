@@ -10,6 +10,7 @@ import zip.cafe.api.dto.ApiResponse
 import zip.cafe.api.dto.ApiResponse.Companion.success
 import zip.cafe.security.LoginUserId
 import zip.cafe.service.MemberFollowService
+import zip.cafe.util.logger
 
 @RestController
 class MemberFollowController(
@@ -19,6 +20,7 @@ class MemberFollowController(
     @ResponseStatus(CREATED)
     @PostMapping("/members/{targetMemberId}/follow")
     fun follow(@LoginUserId loginMemberId: Long, @PathVariable targetMemberId: Long): ApiResponse<Nothing> {
+        logger().info("$loginMemberId follow $targetMemberId")
         memberFollowService.follow(loginMemberId, targetMemberId)
         return success(null)
     }
@@ -26,6 +28,7 @@ class MemberFollowController(
     @ResponseStatus(ACCEPTED)
     @PostMapping("/members/{targetMemberId}/unfollow")
     fun unfollow(@LoginUserId loginMemberId: Long, @PathVariable targetMemberId: Long): ApiResponse<Nothing> {
+        logger().info("$loginMemberId unfollow $targetMemberId")
         memberFollowService.unfollow(loginMemberId, targetMemberId)
         return success(null)
     }
