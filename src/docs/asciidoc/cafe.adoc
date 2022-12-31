@@ -11,6 +11,11 @@ operation::get-cafe[snippets='http-request,path-parameters,http-response,respons
 
 operation::get-cafe-reviews[snippets='http-request,path-parameters,http-response,response-fields-body']
 
+[[Get-Cafe-Review-Follower]]
+==== 팔로워들의 카페의 리뷰 조회
+
+operation::get-cafe-reviews-follower[snippets='http-request,path-parameters,http-response,response-fields-body']
+
 
 [[Get-Cafe-Followers-Who-Write-Review]]
 ==== 해당 카페에 리뷰를 작성한 팔로워 조회

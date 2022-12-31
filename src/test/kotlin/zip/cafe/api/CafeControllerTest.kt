@@ -307,11 +307,7 @@ class CafeControllerTest : WebMvcTestAdapter() {
                 )
             )
 
-            val response = mockMvc.perform(
-                RestDocumentationRequestBuilders.get("/cafes/{cafeId}/reviews/follower", cafe.id)
-                    .param("minReviewId", minReviewId.toString())
-                    .param("limit", limit.toString())
-            )
+            val response = mockMvc.perform(RestDocumentationRequestBuilders.get("/cafes/{cafeId}/reviews/follower", cafe.id))
 
             response.andExpect(
                 MockMvcResultMatchers.status().isOk
