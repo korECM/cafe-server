@@ -55,6 +55,15 @@ class CafeController(private val cafeService: CafeService) {
         return success(reviews)
     }
 
+    @GetMapping("/{cafeId}/reviews/follower")
+    fun findFollowerReviewByCafeIdForCafeDetail(
+        @LoginUserId(optional = true) userId: Long?,
+        @PathVariable("cafeId") cafeId: Long,
+    ): ApiResponse<ReviewWithoutPagination> {
+        val reviews = cafeService.getFollowerReviewByCafeIdAndUserId(cafeId, userId)
+        return success(reviews)
+    }
+
     @GetMapping("/{cafeId}/followers/write/review")
     fun findFollowersWhoWriteReview(@LoginUserId(optional = true) userId: Long?, @PathVariable("cafeId") cafeId: Long): ApiResponse<FollowersWhoWriteReview> {
         if (userId == null) {

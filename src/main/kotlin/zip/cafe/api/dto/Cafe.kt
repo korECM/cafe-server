@@ -57,6 +57,10 @@ data class SingleCafeInfo(
     }
 }
 
+data class ReviewWithoutPagination(
+    val reviews: List<ReviewForCafeInfo>,
+)
+
 data class ReviewWithPagination(
     val reviews: List<ReviewForCafeInfo>,
     val isLastPage: Boolean,

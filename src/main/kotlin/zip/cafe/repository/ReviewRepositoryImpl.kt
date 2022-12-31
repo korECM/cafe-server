@@ -50,6 +50,18 @@ class ReviewRepositoryImpl(
             .fetch()
     }
 
+    override fun findByCafeIdAndAuthorIdIn(cafeId: Long, authorIds: List<Long>): List<Footprint> {
+        return queryFactory
+            .select(footprint)
+            .from(footprint)
+            .innerJoin(footprint.review, review).fetchJoin()
+            .innerJoin(footprint.member).fetchJoin()
+            .innerJoin(footprint.cafe).fetchJoin()
+            .where(footprint.cafe.id.eq(cafeId).and(footprint.member.id.`in`(authorIds)))
+            .orderBy(footprint.id.desc())
+            .fetch()
+    }
+
     override fun isLastPageByCafeId(cafeId: Long, minReviewIdInFeed: Long, limit: Long): Boolean {
         // limit보다 1 크게 조회해서 조회되는 게시글 개수 비교
         return queryFactory
