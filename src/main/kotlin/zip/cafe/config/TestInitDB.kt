@@ -13,6 +13,7 @@ import zip.cafe.entity.review.Footprint
 import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.review.Review
 import zip.cafe.security.jwt.JwtTokenProvider
+import zip.cafe.service.MemberFollowService
 import zip.cafe.service.ReviewLikeService
 import zip.cafe.service.ReviewService
 import zip.cafe.service.dto.ReviewRegisterDto
@@ -42,6 +43,7 @@ class TestInitDB(
         private val jwtTokenProvider: JwtTokenProvider,
         private val reviewService: ReviewService,
         private val reviewLikeService: ReviewLikeService,
+        private val memberFollowService: MemberFollowService
     ) {
         fun dbInit() {
             val member1 = createMember("기르동이")
@@ -52,8 +54,8 @@ class TestInitDB(
             val member3 = createMember("커피")
             createLocalAuth(member3, "asdf", "asdf")
 
-            member1.follow(member2)
-            member1.follow(member3)
+            memberFollowService.follow(member1.id, member2.id)
+            memberFollowService.follow(member1.id, member3.id)
 
             val keywords = createKeywords()
 
