@@ -131,14 +131,14 @@ data class UploadedProfileImageResponse(
 
 data class InitProfileRequest(
     val nickname: String,
-    val imageId: Long,
+    val imageId: Long?,
 )
 
 class InitProfileResponse
 
 data class EditProfileRequest(
     val nickname: String,
-    val imageId: Long,
+    val imageId: Long?,
 )
 
 class EditProfileResponse

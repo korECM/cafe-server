@@ -101,7 +101,7 @@ class MemberControllerTest : WebMvcTestAdapter() {
                     "init-profile",
                     requestFields(
                         "nickname" type STRING means "닉네임" example nickname,
-                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId
+                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId and optional
                     ),
                     responseBody(
                         "body" beneathPathWithSubsectionId "body"
@@ -130,7 +130,7 @@ class MemberControllerTest : WebMvcTestAdapter() {
                     "edit-profile",
                     requestFields(
                         "nickname" type STRING means "닉네임" example nickname,
-                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId
+                        "imageId" type NUMBER means "프로필 이미지 Id" example imageId and optional
                     ),
                     responseBody(
                         "body" beneathPathWithSubsectionId "body"
