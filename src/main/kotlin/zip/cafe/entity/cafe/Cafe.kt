@@ -21,7 +21,7 @@ class Cafe(
     @Column(name = "location", nullable = false)
     @Embedded
     val location: Point,
-    @Column(name = "opening_hours", nullable = false)
+    @Column(name = "opening_hours", nullable = false, length = 500)
     val openingHours: String,
 
     _totalScore: Double = 0.0,
