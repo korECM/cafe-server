@@ -12,7 +12,7 @@ fun CafeRepository.findOneById(id: Long) = this.findByIdOrNull(id) ?: throw NoSu
 
 interface CafeRepository : JpaRepository<Cafe, Long> {
 
-    @Query("select c from Cafe c left join fetch c._menus m join fetch m.menu where c.id = :id")
+    @Query("select c from Cafe c left join fetch c._menus m left join fetch m.menu where c.id = :id")
     fun findOneByIdForDetail(@Param("id") id: Long): Cafe?
 
     @Query("select cs from CafeKeywordStat cs join fetch cs.keyword where cs.cafe.id = :cafeId")
