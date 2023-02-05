@@ -131,6 +131,7 @@ data class UploadedProfileImageResponse(
 
 data class InitProfileRequest(
     val nickname: String,
+    val description: String,
     val imageId: Long?,
 )
 
@@ -138,6 +139,7 @@ class InitProfileResponse
 
 data class EditProfileRequest(
     val nickname: String,
+    val description: String,
     val imageId: Long?,
 )
 

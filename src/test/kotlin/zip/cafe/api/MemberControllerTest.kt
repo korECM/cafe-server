@@ -8,6 +8,7 @@ import org.springframework.mock.web.MockMultipartFile
 import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.test.web.servlet.multipart
 import org.springframework.test.web.servlet.post
+import zip.cafe.api.profile.dto.EditProfileRequest
 import zip.cafe.api.profile.dto.InitProfileRequest
 import zip.cafe.api.utils.mockmvc.documentWithHandle
 import zip.cafe.api.utils.restdocs.*
@@ -84,10 +85,11 @@ class MemberControllerTest : WebMvcTestAdapter() {
         "프로필 초기 설정" {
             val userId = MOCK_MVC_USER_ID
             val nickname = "닉네임"
+            val description = "적당한 계정 소개"
             val imageId = 5L
-            val request = InitProfileRequest(nickname = nickname, imageId = imageId)
+            val request = InitProfileRequest(nickname = nickname, description = description, imageId = imageId)
 
-            every { memberService.initMemberProfile(userId, nickname, imageId) } just Runs
+            every { memberService.initMemberProfile(userId, nickname, description, imageId) } just Runs
 
             val response = mockMvc.post("/members/profile/init") {
                 contentType = MediaType.APPLICATION_JSON
@@ -101,6 +103,7 @@ class MemberControllerTest : WebMvcTestAdapter() {
                     "init-profile",
                     requestFields(
                         "nickname" type STRING means "닉네임" example nickname,
+                        "description" type STRING means "한 줄 소개" example description,
                         "imageId" type NUMBER means "프로필 이미지 Id" example imageId and optional
                     ),
                     responseBody(
@@ -113,10 +116,11 @@ class MemberControllerTest : WebMvcTestAdapter() {
         "프로필 수정" {
             val userId = MOCK_MVC_USER_ID
             val nickname = "닉네임"
+            val description = "적당한 계정 소개"
             val imageId = 5L
-            val request = InitProfileRequest(nickname = nickname, imageId = imageId)
+            val request = EditProfileRequest(nickname = nickname, description = description, imageId = imageId)
 
-            every { memberService.editMemberProfile(userId, nickname, imageId) } just Runs
+            every { memberService.editMemberProfile(userId, nickname, description, imageId) } just Runs
 
             val response = mockMvc.post("/members/profile/edit") {
                 contentType = MediaType.APPLICATION_JSON
@@ -130,6 +134,7 @@ class MemberControllerTest : WebMvcTestAdapter() {
                     "edit-profile",
                     requestFields(
                         "nickname" type STRING means "닉네임" example nickname,
+                        "description" type STRING means "한 줄 소개" example description,
                         "imageId" type NUMBER means "프로필 이미지 Id" example imageId and optional
                     ),
                     responseBody(

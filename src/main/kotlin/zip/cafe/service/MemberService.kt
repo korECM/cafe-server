@@ -29,20 +29,20 @@ class MemberService(
     fun findMemberById(memberId: Long) = memberRepository.findOneById(memberId)
 
     @Transactional
-    fun initMemberProfile(memberId: Long, nickname: String, profileImageId: Long?) {
+    fun initMemberProfile(memberId: Long, nickname: String, description: String, profileImageId: Long?) {
         val member = memberRepository.findByIdOrNull(memberId) ?: throw IllegalArgumentException("존재하지 않는 회원입니다")
         require(!member.isProfileInit) { "이미 프로필을 초기 설정한 회원입니다" }
-        applyProfile(member, nickname, profileImageId)
+        applyProfile(member, nickname, description, profileImageId)
         member.isProfileInit = true
     }
 
     @Transactional
-    fun editMemberProfile(memberId: Long, nickname: String, profileImageId: Long?) {
+    fun editMemberProfile(memberId: Long, nickname: String, description: String, profileImageId: Long?) {
         val member = memberRepository.findByIdOrNull(memberId) ?: throw IllegalArgumentException("존재하지 않는 회원입니다")
-        applyProfile(member, nickname, profileImageId)
+        applyProfile(member, nickname, description, profileImageId)
     }
 
-    private fun applyProfile(member: Member, nickname: String, profileImageId: Long?) {
+    private fun applyProfile(member: Member, nickname: String, description: String, profileImageId: Long?) {
         require(!checkNicknameDuplication(nickname)) { "중복되는 닉네임입니다" }
 
         val profileImageURL = if (profileImageId != null) {
@@ -54,6 +54,7 @@ class MemberService(
 
         member.profileImage = profileImageURL
         member.nickname = nickname
+        member.description = description
     }
 
     @Transactional(propagation = Propagation.NEVER)

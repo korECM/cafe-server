@@ -44,7 +44,7 @@ class MemberController(
         @LoginUserId userId: Long,
         @RequestBody request: InitProfileRequest,
     ): ApiResponse<InitProfileResponse> {
-        memberService.initMemberProfile(userId, request.nickname, request.imageId)
+        memberService.initMemberProfile(userId, request.nickname, request.description, request.imageId)
         return success(InitProfileResponse())
     }
 
@@ -54,7 +54,7 @@ class MemberController(
         @LoginUserId userId: Long,
         @RequestBody request: EditProfileRequest,
     ): ApiResponse<EditProfileResponse> {
-        memberService.editMemberProfile(userId, request.nickname, request.imageId)
+        memberService.editMemberProfile(userId, request.nickname, request.description, request.imageId)
         return success(EditProfileResponse())
     }
 }
