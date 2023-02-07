@@ -10,6 +10,8 @@ fun MemberRepository.findOneById(id: Long) = this.findByIdOrNull(id) ?: throw No
 interface MemberRepository : JpaRepository<Member, Long> {
     fun existsByNicknameIs(nickname: String): Boolean
 
+    fun findByNickname(nickname: String): Member?
+
     @Query("select m from Member m join fetch m._followees join fetch m._followers where m.id = :id")
     fun findOneByIdWithFollower(id: Long): Member?
 }

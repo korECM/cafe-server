@@ -24,7 +24,10 @@ class MemberService(
     @Value("\${cloud.aws.s3.review-image-bucket}")
     private val reviewImageBucket: String,
 ) {
-    fun checkNicknameDuplication(nickname: String) = memberRepository.existsByNicknameIs(nickname)
+    fun checkNicknameDuplication(memberId: Long, nickname: String): Boolean {
+        val nicknameOwner = memberRepository.findByNickname(nickname) ?: return false
+        return nicknameOwner.id != memberId
+    }
 
     fun findMemberById(memberId: Long) = memberRepository.findOneById(memberId)
 
@@ -43,7 +46,7 @@ class MemberService(
     }
 
     private fun applyProfile(member: Member, nickname: String, description: String, profileImageId: Long?) {
-        require(!checkNicknameDuplication(nickname)) { "중복되는 닉네임입니다" }
+        require(!checkNicknameDuplication(member.id, nickname)) { "중복되는 닉네임입니다" }
 
         val profileImageURL = if (profileImageId != null) {
             val profileImage = profileImageRepository.findByIdOrNull(profileImageId) ?: throw IllegalArgumentException("존재하지 않는 프로필 이미지입니다")

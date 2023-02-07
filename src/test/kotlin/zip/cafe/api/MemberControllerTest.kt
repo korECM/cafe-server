@@ -20,9 +20,10 @@ class MemberControllerTest : WebMvcTestAdapter() {
 
     init {
         "닉네임 중복 체크" {
+            val memberId = MOCK_MVC_USER_ID
             val nickname = "닉네임"
 
-            every { memberService.checkNicknameDuplication(nickname) } returns false
+            every { memberService.checkNicknameDuplication(memberId, nickname) } returns false
 
             val response = mockMvc.post("/members/nickname/duplicate") {
                 param("nickname", nickname)
