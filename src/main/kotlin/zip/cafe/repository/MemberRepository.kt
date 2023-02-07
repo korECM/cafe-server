@@ -11,5 +11,5 @@ interface MemberRepository : JpaRepository<Member, Long> {
     fun existsByNicknameIs(nickname: String): Boolean
 
     @Query("select m from Member m join fetch m._followees join fetch m._followers where m.id = :id")
-    fun findOneByIdWithFollower(id : Long) : Member?
+    fun findOneByIdWithFollower(id: Long): Member?
 }

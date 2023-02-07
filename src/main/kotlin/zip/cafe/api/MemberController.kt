@@ -18,7 +18,7 @@ class MemberController(
 
     @PostMapping("/nickname/duplicate")
     fun nicknameDuplicationCheck(
-        @RequestParam nickname: String
+        @RequestParam nickname: String,
     ): ApiResponse<CheckNicknameDuplicationResponse> {
         val isDuplicated = memberService.checkNicknameDuplication(nickname)
         val response = CheckNicknameDuplicationResponse(isDuplicated)

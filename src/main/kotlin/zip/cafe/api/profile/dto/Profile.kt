@@ -15,7 +15,7 @@ data class CheckProfileResult(
     val memberId: Long,
     val isInit: Boolean,
     val nickname: String,
-    val profileImageURL: String
+    val profileImageURL: String,
 ) {
     companion object {
         fun from(member: Member) = CheckProfileResult(
@@ -79,7 +79,7 @@ data class ProfileReviewInfo(
     val description: String,
     val commentCount: Long,
     @JsonFormat(pattern = defaultDateTimeFormat)
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
 ) {
 
     companion object {
@@ -98,7 +98,7 @@ data class ProfileReviewInfo(
 
 data class ProfileReviewImageInfo(
     val id: Long,
-    val url: String
+    val url: String,
 )
 
 data class ProfileCafeInfo(
@@ -117,7 +117,7 @@ data class ProfileCafeInfo(
 
 data class UploadedProfileImageResponse(
     val id: Long,
-    val url: String
+    val url: String,
 ) {
     companion object {
         fun from(image: ProfileImage): UploadedProfileImageResponse {

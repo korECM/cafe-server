@@ -50,7 +50,9 @@ class MemberService(
             require(profileImage.uploadedBy.id == member.id) { "본인의 프로필 이미지만 사용할 수 있습니다" }
             profileImage.member = member
             profileImage.cloudFrontURL
-        } else DEFAULT_PROFILE_IMAGE_URL
+        } else {
+            DEFAULT_PROFILE_IMAGE_URL
+        }
 
         member.profileImage = profileImageURL
         member.nickname = nickname
@@ -71,7 +73,7 @@ class MemberService(
             fileKey = file.fileKey,
             cloudFrontURL = file.cloudFrontURL,
             s3URL = file.s3URL,
-            uploadedBy = uploadUser
+            uploadedBy = uploadUser,
         )
         return profileImageRepository.save(profileImage)
     }
