@@ -52,7 +52,7 @@ class CafeService(
         // TODO 검색 필터링 기능 추가, 정렬 기능 추가
         val followeeIds = loginMemberId?.let { memberFollowRepository.getFolloweeIds(loginMemberId) } ?: emptyList()
         val footprints = reviewRepository.findByCafeId(cafeId, minReviewIdInCafeDetail, limit)
-        val isLastPage = minReviewIdInCafeDetail?.let { reviewRepository.isLastPageByCafeId(cafeId, minReviewIdInCafeDetail, limit) } ?: false
+        val isLastPage = minReviewIdInCafeDetail?.let { reviewRepository.isLastPageByCafeId(cafeId, minReviewIdInCafeDetail, limit) } ?: true
         val reviewAndLikes =
             loginMemberId?.let { reviewRepository.findReviewsAndLikesOnThoseReviews(loginMemberId, footprints.mapNotNull { it.review?.id }) } ?: emptyMap()
         return ReviewWithPagination(
