@@ -23,6 +23,7 @@ include::kakao-auth.adoc[]
 
 include::profile.adoc[]
 include::member.adoc[]
+include::recommendation.adoc[]
 
 include::follow.adoc[]
 include::keyword.adoc[]

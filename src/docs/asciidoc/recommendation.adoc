@@ -1,0 +1,7 @@
+[[recommendation-API]]
+=== 추천 API
+
+[[get]]
+==== 추천 친구 조회
+
+operation::get-recommendation-friends[snippets='http-request,http-response,response-fields-body']

@@ -10,12 +10,14 @@ import zip.cafe.api.auth.AppleAuthController
 import zip.cafe.api.auth.KakaoAuthController
 import zip.cafe.api.controller.CommonResponseController
 import zip.cafe.api.profile.ProfileController
+import zip.cafe.api.recommandation.FriendController
 import zip.cafe.api.utils.spec.WebMvcTestSpec
 import zip.cafe.service.*
 import zip.cafe.service.auth.AppleAuthService
 import zip.cafe.service.auth.AuthService
 import zip.cafe.service.auth.KakaoAuthService
 import zip.cafe.service.profile.ProfileService
+import zip.cafe.service.recommendation.RecommendationService
 
 @WebMvcTest(
     controllers = [
@@ -30,7 +32,8 @@ import zip.cafe.service.profile.ProfileService
         SearchController::class,
         ProfileController::class,
         AppleAuthController::class,
-        KakaoAuthController::class
+        KakaoAuthController::class,
+        FriendController::class,
     ]
 )
 open class WebMvcTestAdapter(body: FreeSpec.() -> Unit = {}) : WebMvcTestSpec(body) {
@@ -69,6 +72,9 @@ open class WebMvcTestAdapter(body: FreeSpec.() -> Unit = {}) : WebMvcTestSpec(bo
     protected lateinit var authService: AuthService
 
     @MockkBean
+    protected lateinit var recommendationService: RecommendationService
+
+    @MockkBean
     protected lateinit var kakaoAuthService: KakaoAuthService
 
     override suspend fun afterTest(testCase: TestCase, result: TestResult) {
@@ -85,7 +91,8 @@ open class WebMvcTestAdapter(body: FreeSpec.() -> Unit = {}) : WebMvcTestSpec(bo
             profileService,
             appleAuthService,
             authService,
-            kakaoAuthService
+            kakaoAuthService,
+            recommendationService
         )
     }
 }
