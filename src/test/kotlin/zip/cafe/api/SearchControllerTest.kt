@@ -14,6 +14,8 @@ import zip.cafe.seeds.createCafe
 import zip.cafe.seeds.createCafeKeyword
 import zip.cafe.seeds.createMember
 import zip.cafe.seeds.createReviewCafeKeyword
+import zip.cafe.util.Point
+import zip.cafe.util.Rectangle
 
 class SearchControllerTest : WebMvcTestAdapter() {
     init {
@@ -52,14 +54,26 @@ class SearchControllerTest : WebMvcTestAdapter() {
             val visitPurposeList = listOf(Purpose.STUDY, Purpose.DATE)
             val foodList = listOf(Food.BEVERAGE, Food.BAKERY)
             val keywordIdList = listOf(1L, 5L, 3L, 6L)
+            val boundary = Rectangle(
+                leftTop = Point(latitude = 37.0, longitude = 127.0),
+                rightBottom = Point(latitude = 36.0, longitude = 126.0)
+            )
+            val minCafeId = 1L
+            val limit: Long = 30
             val request = CafeSearchRequest(
                 name = cafeName,
                 visitPurposeList = visitPurposeList,
                 foodList = foodList,
                 keywordIdList = keywordIdList,
+                leftTopLatitude = boundary.leftTop.latitude,
+                leftTopLongitude = boundary.leftTop.longitude,
+                rightBottomLatitude = boundary.rightBottom.latitude,
+                rightBottomLongitude = boundary.rightBottom.longitude,
+                minCafeId = minCafeId,
+                limit = limit
             )
 
-            every { searchService.searchCafe(cafeName, visitPurposeList, foodList, keywordIdList) } returns listOf(
+            every { searchService.searchCafe(cafeName, visitPurposeList, foodList, keywordIdList, boundary, minCafeId, limit) } returns listOf(
                 createCafe(name = "멋진 북카페", totalScore = 13.0, reviewCount = 3, footPrintCount = 5),
                 createCafe(name = "별로인 북카페", totalScore = 17.0, reviewCount = 5, footPrintCount = 8)
             )
@@ -79,6 +93,12 @@ class SearchControllerTest : WebMvcTestAdapter() {
                         "visitPurposeList" type ENUM_ARRAY(Purpose::class) means "방문 목적 리스트",
                         "foodList" type ENUM_ARRAY(Food::class) means "음식 종류 리스트",
                         "keywordIdList" type ARRAY means "키워드 id 리스트" example keywordIdList,
+                        "leftTopLatitude" type NUMBER means "좌측 상단 위도" example boundary.leftTop.latitude,
+                        "leftTopLongitude" type NUMBER means "좌측 상단 경도" example boundary.leftTop.longitude,
+                        "rightBottomLatitude" type NUMBER means "우측 하단 위도" example boundary.rightBottom.latitude,
+                        "rightBottomLongitude" type NUMBER means "우측 하단 경도" example boundary.rightBottom.longitude,
+                        "minCafeId" type NUMBER means "최소 카페 id" and optional example minCafeId,
+                        "limit" type NUMBER means "최대 카페 개수" example limit
                     ),
                     responseBody(
                         "body" beneathPathWithSubsectionId "body",

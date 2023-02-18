@@ -254,8 +254,6 @@ class CafeControllerTest : WebMvcTestAdapter() {
         "카페의 id를 가지고 그 카페의 팔로워 리뷰를 반환한다" {
             val userId = MOCK_MVC_USER_ID
             val cafe = createCafe(id = 5L)
-            val minReviewId = 7L
-            val limit = 2L
             every {
                 cafeService.getFollowerReviewByCafeIdAndUserId(cafe.id, userId)
             } returns ReviewWithoutPagination(
