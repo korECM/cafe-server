@@ -15,6 +15,7 @@ import zip.cafe.entity.review.Purpose
 import zip.cafe.entity.review.QCafeKeyword.cafeKeyword
 import zip.cafe.entity.review.QReviewCafeKeyword.reviewCafeKeyword
 import zip.cafe.entity.review.ReviewCafeKeyword
+import zip.cafe.util.Rectangle
 
 @Repository
 class SearchRepository(
@@ -34,7 +35,10 @@ class SearchRepository(
         foodThreshold: Int,
         foodList: List<Food>,
         keywordNumberThreshold: Int,
-        keywordIdList: List<Long>
+        keywordIdList: List<Long>,
+        boundary: Rectangle,
+        minCafeId: Long?,
+        limit: Long
     ): List<Cafe> = queryFactory
         .select(cafe).distinct()
         .from(cafe)
@@ -46,8 +50,14 @@ class SearchRepository(
                 .and(checkVisitPurpose(visitPurposeThreshold, visitPurposeList))
                 .and(checkFood(foodThreshold, foodList))
                 .and(checkKeyword(keywordNumberThreshold, keywordIdList))
+                .and(cafe.location.latitude.between(boundary.leftBottom.latitude, boundary.leftTop.latitude))
+                .and(cafe.location.longitude.between(boundary.leftTop.longitude, boundary.rightTop.longitude))
+                .and(checkMinCafeId(minCafeId))
         )
+        .limit(limit)
         .fetch()
+
+    private fun checkMinCafeId(minCafeId: Long?): BooleanExpression? = if (minCafeId == null) null else cafe.id.gt(minCafeId)
 
     private fun checkVisitPurpose(threshold: Int, visitPurposeList: List<Purpose>): BooleanExpression? {
         if (visitPurposeList.isEmpty()) return null

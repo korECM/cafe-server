@@ -10,6 +10,8 @@ import zip.cafe.api.dto.CafeInfo.Companion.from
 import zip.cafe.api.dto.KeywordInfo.Companion.from
 import zip.cafe.api.dto.MemberInfo.Companion.from
 import zip.cafe.service.SearchService
+import zip.cafe.util.Point
+import zip.cafe.util.Rectangle
 
 @RequestMapping("/search")
 @RestController
@@ -25,7 +27,19 @@ class SearchController(
 
     @PostMapping("/cafe")
     fun searchCafe(@RequestBody request: CafeSearchRequest): ApiResponse<List<CafeInfo>> {
-        val result = searchService.searchCafe(request.name, request.visitPurposeList, request.foodList, request.keywordIdList)
+        val boundary = Rectangle(
+            leftTop = Point(latitude = request.leftTopLatitude, longitude = request.leftTopLongitude),
+            rightBottom = Point(latitude = request.rightBottomLatitude, longitude = request.rightBottomLongitude)
+        )
+        val result = searchService.searchCafe(
+            request.name,
+            request.visitPurposeList,
+            request.foodList,
+            request.keywordIdList,
+            boundary,
+            request.minCafeId,
+            request.limit
+        )
         return success(result.map(::from))
     }
 

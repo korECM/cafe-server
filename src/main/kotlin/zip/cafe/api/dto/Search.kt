@@ -15,6 +15,12 @@ data class CafeSearchRequest(
     val visitPurposeList: List<Purpose>,
     val foodList: List<Food>,
     val keywordIdList: List<Long>,
+    val leftTopLatitude: Double,
+    val leftTopLongitude: Double,
+    val rightBottomLatitude: Double,
+    val rightBottomLongitude: Double,
+    val minCafeId: Long? = null,
+    val limit: Long = 30,
 )
 
 data class KeywordSearchRequest(
