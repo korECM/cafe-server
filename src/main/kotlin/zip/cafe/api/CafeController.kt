@@ -29,7 +29,7 @@ class CafeController(private val cafeService: CafeService) {
                 name = cafe.name,
                 address = cafe.address,
                 location = cafe.location,
-                openingHours = cafe.openingHours,
+                openingHours = cafe.openingHours.replace(",", "\n").replace("|", "\n"),
                 reviewScoreStat = reviewSummary.associate { it.score.score to it.count },
                 countOfReviewByFollowee = countOfReviewByFollowee,
                 keywords = keywordSummaryOrderByRank.map(::from),
