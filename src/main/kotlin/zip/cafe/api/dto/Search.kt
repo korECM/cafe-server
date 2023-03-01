@@ -47,7 +47,7 @@ data class CafeInfo(
                 address = cafe.address,
                 numberOfReviews = cafe.reviewCount,
                 numberOfFootPrints = cafe.footPrintCount,
-                averageScore = cafe.totalScore / cafe.reviewCount,
+                averageScore = if (cafe.reviewCount == 0L) 0.0 else cafe.totalScore / cafe.reviewCount,
                 position = Position(
                     latitude = cafe.location.latitude,
                     longitude = cafe.location.longitude,

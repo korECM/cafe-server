@@ -14,21 +14,15 @@ class CafePurposeStat(
     val cafe: Cafe,
     @Enumerated(EnumType.STRING)
     val purpose: Purpose,
-    @Column(nullable = false)
-    val count: Long,
-    @Column(nullable = false)
-    var totalScore: Long,
+    @Embedded
+    val averageScore: AverageScore,
 ) : BaseClass() {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "cafe_purpose_stat_id", nullable = false)
     val id: Long = 0
 
-    var averageScore = totalScore / count
-        protected set
-
     fun addScore(score: IntScore) {
-        totalScore += score.score
-        averageScore = totalScore / count
+        averageScore.add(score)
     }
 }

@@ -73,11 +73,11 @@ class Cafe(
     }
 
     fun addPurposeStat(purpose: Purpose, score: IntScore) {
-        purposeStat += CafePurposeStat(cafe = this, purpose = purpose, count = 1, totalScore = score.score.toLong())
+        purposeStat += CafePurposeStat(cafe = this, purpose = purpose, averageScore = AverageScore(1L, score.score.toLong()))
     }
 
     fun addFoodStat(food: Food, score: IntScore) {
-        foodStat += CafeFoodStat(cafe = this, food = food, count = 1, totalScore = score.score.toLong())
+        foodStat += CafeFoodStat(cafe = this, food = food, averageScore = AverageScore(1L, score.score.toLong()))
     }
 
     fun addKeywordStat(keyword: CafeKeyword) {
