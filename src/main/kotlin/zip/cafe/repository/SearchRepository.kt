@@ -61,12 +61,12 @@ class SearchRepository(
 
     private fun checkVisitPurpose(threshold: Int, visitPurposeList: List<Purpose>): BooleanExpression? {
         if (visitPurposeList.isEmpty()) return null
-        return cafePurposeStat.purpose.`in`(visitPurposeList).and(cafePurposeStat.averageScore.goe(threshold))
+        return cafePurposeStat.purpose.`in`(visitPurposeList).and(cafePurposeStat.averageScore.average.goe(threshold))
     }
 
     private fun checkFood(threshold: Int, foodList: List<Food>): BooleanExpression? {
         if (foodList.isEmpty()) return null
-        return cafeFoodStat.food.`in`(foodList) .and(cafeFoodStat.averageScore.goe(threshold))
+        return cafeFoodStat.food.`in`(foodList) .and(cafeFoodStat.averageScore.average.goe(threshold))
     }
 
     private fun checkKeyword(threshold: Int, keywordIdList: List<Long>): BooleanExpression? {
