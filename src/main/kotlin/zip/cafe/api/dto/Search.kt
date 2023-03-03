@@ -10,7 +10,7 @@ data class MemberSearchRequest(
     val name: String,
 )
 
-data class CafeSearchRequest(
+data class CafeSearchRequestWithBoundary(
     val name: String,
     val visitPurposeList: List<Purpose>,
     val foodList: List<Food>,
@@ -19,6 +19,15 @@ data class CafeSearchRequest(
     val leftTopLongitude: Double,
     val rightBottomLatitude: Double,
     val rightBottomLongitude: Double,
+    val minCafeId: Long? = null,
+    val limit: Long = 30,
+)
+
+data class CafeSearchRequest(
+    val name: String,
+    val visitPurposeList: List<Purpose>,
+    val foodList: List<Food>,
+    val keywordIdList: List<Long>,
     val minCafeId: Long? = null,
     val limit: Long = 30,
 )

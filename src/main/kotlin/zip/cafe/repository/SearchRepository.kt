@@ -36,7 +36,7 @@ class SearchRepository(
         foodList: List<Food>,
         keywordNumberThreshold: Int,
         keywordIdList: List<Long>,
-        boundary: Rectangle,
+        boundary: Rectangle?,
         minCafeId: Long?,
         limit: Long
     ): List<Cafe> = queryFactory
@@ -50,12 +50,14 @@ class SearchRepository(
                 .and(checkVisitPurpose(visitPurposeThreshold, visitPurposeList))
                 .and(checkFood(foodThreshold, foodList))
                 .and(checkKeyword(keywordNumberThreshold, keywordIdList))
-                .and(cafe.location.latitude.between(boundary.leftBottom.latitude, boundary.leftTop.latitude))
-                .and(cafe.location.longitude.between(boundary.leftTop.longitude, boundary.rightTop.longitude))
+                .and(checkBoundary(boundary))
                 .and(checkMinCafeId(minCafeId))
         )
         .limit(limit)
         .fetch()
+
+    private fun checkBoundary(boundary: Rectangle?): BooleanExpression? = if(boundary == null) null else cafe.location.latitude.between(boundary.leftBottom.latitude, boundary.leftTop.latitude)
+        .and(cafe.location.longitude.between(boundary.leftTop.longitude, boundary.rightTop.longitude))
 
     private fun checkMinCafeId(minCafeId: Long?): BooleanExpression? = if (minCafeId == null) null else cafe.id.gt(minCafeId)
 

@@ -25,13 +25,13 @@ class SearchController(
         return success(result.map(::from))
     }
 
-    @PostMapping("/cafe")
-    fun searchCafe(@RequestBody request: CafeSearchRequest): ApiResponse<List<CafeInfo>> {
+    @PostMapping("/cafe-boundary")
+    fun searchCafeInBoundary(@RequestBody request: CafeSearchRequestWithBoundary): ApiResponse<List<CafeInfo>> {
         val boundary = Rectangle(
             leftTop = Point(latitude = request.leftTopLatitude, longitude = request.leftTopLongitude),
             rightBottom = Point(latitude = request.rightBottomLatitude, longitude = request.rightBottomLongitude)
         )
-        val result = searchService.searchCafe(
+        val result = searchService.searchCafeInBoundary(
             request.name,
             request.visitPurposeList,
             request.foodList,
@@ -42,6 +42,20 @@ class SearchController(
         )
         return success(result.map(::from))
     }
+
+    @PostMapping("/cafe")
+    fun searchCafe(@RequestBody request: CafeSearchRequest): ApiResponse<List<CafeInfo>> {
+        val result = searchService.searchCafe(
+            request.name,
+            request.visitPurposeList,
+            request.foodList,
+            request.keywordIdList,
+            request.minCafeId,
+            request.limit
+        )
+        return success(result.map(::from))
+    }
+
 
     @PostMapping("/keyword")
     fun searchKeyword(@RequestBody request: KeywordSearchRequest): ApiResponse<List<KeywordInfo>> {

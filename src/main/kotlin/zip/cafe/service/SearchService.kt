@@ -17,8 +17,26 @@ class SearchService(
 ) {
 
     fun searchMember(name: String): List<Member> = searchRepository.searchByMemberNickname(name)
-    fun searchCafe(name: String, visitPurposeList: List<Purpose>, foodList: List<Food>, keywordIdList: List<Long>, boundary: Rectangle, minCafeId: Long? = null, limit : Long): List<Cafe> =
+    fun searchCafeInBoundary(
+        name: String,
+        visitPurposeList: List<Purpose>,
+        foodList: List<Food>,
+        keywordIdList: List<Long>,
+        boundary: Rectangle,
+        minCafeId: Long? = null,
+        limit: Long
+    ): List<Cafe> =
         searchRepository.searchCafe(name, 3, visitPurposeList, 3, foodList, 3, keywordIdList, boundary, minCafeId, limit)
+
+    fun searchCafe(
+        name: String,
+        visitPurposeList: List<Purpose>,
+        foodList: List<Food>,
+        keywordIdList: List<Long>,
+        minCafeId: Long? = null,
+        limit: Long
+    ): List<Cafe> =
+        searchRepository.searchCafe(name, 3, visitPurposeList, 3, foodList, 3, keywordIdList, boundary = null, minCafeId, limit)
 
     fun searchKeyword(keyword: String): List<ReviewCafeKeyword> = searchRepository.searchByKeyword(keyword)
 }
