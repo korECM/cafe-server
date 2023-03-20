@@ -1,5 +1,8 @@
 package zip.cafe.util.importdata.item
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 data class ImportDataItem(
     val businessHours: String,
     val category: String,
