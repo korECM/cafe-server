@@ -48,7 +48,7 @@ class ImportData(
                 createCafe(
                     name = data.name,
                     address = data.fullAddress,
-                    location = createPoint(data.latitude, data.longitude),
+                    location = createPoint(longitude = data.longitude, latitude = data.latitude),
                     openingHours = data.businessHours
                 )
             }
