@@ -20,3 +20,8 @@ operation::init-profile[snippets='http-request,request-fields,http-response,resp
 ==== 프로필 수정
 
 operation::edit-profile[snippets='http-request,request-fields,http-response,response-fields-body']
+
+[[delete-member]]
+==== 회원 탈퇴
+
+operation::delete-member[snippets='http-request,http-response,response-fields-body']

@@ -2,6 +2,7 @@ package zip.cafe.entity.member
 
 import zip.cafe.entity.common.BaseClass
 import zip.cafe.util.logger
+import java.time.LocalDateTime
 import javax.persistence.*
 import javax.persistence.CascadeType.ALL
 import javax.persistence.GenerationType.IDENTITY
@@ -56,6 +57,12 @@ class Member(
     @Column(nullable = false)
     var footprintCount: Long = _footprintCount
 
+    @Column(nullable = false)
+    var isDeleted: Boolean = false
+
+    var deletedAt: LocalDateTime? = null
+        protected set
+
     fun follow(member: Member) {
         val memberFollow = MemberFollow(from = this, to = member)
         val isNewFollowee = _followees.add(memberFollow)
@@ -76,6 +83,11 @@ class Member(
         followeeCount -= 1
         member._followers -= followMember
         member.followerCount -= 1
+    }
+
+    fun delete() {
+        isDeleted = true
+        deletedAt = LocalDateTime.now()
     }
 
     override fun toString(): String {

@@ -10,9 +10,7 @@ import zip.cafe.connector.S3Connector
 import zip.cafe.connector.dto.S3FileDto
 import zip.cafe.entity.ProfileImage
 import zip.cafe.entity.member.Member
-import zip.cafe.repository.MemberRepository
-import zip.cafe.repository.ProfileImageRepository
-import zip.cafe.repository.findOneById
+import zip.cafe.repository.*
 
 private const val DEFAULT_PROFILE_IMAGE_URL = "https://d125lzs083ehp3.cloudfront.net/default.png"
 
@@ -20,6 +18,9 @@ private const val DEFAULT_PROFILE_IMAGE_URL = "https://d125lzs083ehp3.cloudfront
 class MemberService(
     private val memberRepository: MemberRepository,
     private val profileImageRepository: ProfileImageRepository,
+    private val localAuthRepository: LocalAuthRepository,
+    private val kakaoAuthRepository: KakaoAuthRepository,
+    private val appleAuthRepository: AppleAuthRepository,
     private val s3Connector: S3Connector,
     @Value("\${cloud.aws.s3.review-image-bucket}")
     private val reviewImageBucket: String,
@@ -34,7 +35,7 @@ class MemberService(
     @Transactional
     fun initMemberProfile(memberId: Long, nickname: String, description: String, profileImageId: Long?) {
         val member = memberRepository.findByIdOrNull(memberId) ?: throw IllegalArgumentException("존재하지 않는 회원입니다")
-        require(!member.isProfileInit) { "이미 프로필을 초기 설정한 회원입니다" }
+        check(!member.isProfileInit) { "이미 프로필을 초기 설정한 회원입니다" }
         applyProfile(member, nickname, description, profileImageId)
         member.isProfileInit = true
     }
@@ -45,11 +46,21 @@ class MemberService(
         applyProfile(member, nickname, description, profileImageId)
     }
 
+    @Transactional
+    fun deleteMember(memberId: Long) {
+        val member = memberRepository.findByIdOrNull(memberId) ?: throw IllegalArgumentException("존재하지 않는 회원입니다")
+        localAuthRepository.findByMember(memberId)?.delete()
+        kakaoAuthRepository.findByMember(memberId)?.delete()
+        appleAuthRepository.findByMember(memberId)?.delete()
+        member.delete()
+    }
+
     private fun applyProfile(member: Member, nickname: String, description: String, profileImageId: Long?) {
         require(!checkNicknameDuplication(member.id, nickname)) { "중복되는 닉네임입니다" }
 
         val profileImageURL = if (profileImageId != null) {
-            val profileImage = profileImageRepository.findByIdOrNull(profileImageId) ?: throw IllegalArgumentException("존재하지 않는 프로필 이미지입니다")
+            val profileImage = profileImageRepository.findByIdOrNull(profileImageId)
+                ?: throw IllegalArgumentException("존재하지 않는 프로필 이미지입니다")
             require(profileImage.uploadedBy.id == member.id) { "본인의 프로필 이미지만 사용할 수 있습니다" }
             profileImage.member = member
             profileImage.cloudFrontURL

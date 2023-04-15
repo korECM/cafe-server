@@ -144,5 +144,26 @@ class MemberControllerTest : WebMvcTestAdapter() {
                 )
             }
         }
+
+        "회원 탈퇴" {
+            val userId = MOCK_MVC_USER_ID
+
+            every { memberService.deleteMember(userId) } just Runs
+
+            val response = mockMvc.post("/members/delete") {
+                contentType = MediaType.APPLICATION_JSON
+            }
+
+            response.andExpect {
+                status { isAccepted() }
+            }.andDo {
+                documentWithHandle(
+                    "delete-member",
+                    responseBody(
+                        "body" beneathPathWithSubsectionId "body"
+                    )
+                )
+            }
+        }
     }
 }

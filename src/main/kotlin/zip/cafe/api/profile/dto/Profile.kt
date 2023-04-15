@@ -144,3 +144,5 @@ data class EditProfileRequest(
 )
 
 class EditProfileResponse
+
+class DeleteMemberResponse

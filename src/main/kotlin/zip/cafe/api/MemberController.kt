@@ -58,4 +58,13 @@ class MemberController(
         memberService.editMemberProfile(userId, request.nickname, request.description, request.imageId)
         return success(EditProfileResponse())
     }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("/delete")
+    fun deleteMember(
+        @LoginUserId userId: Long,
+    ): ApiResponse<DeleteMemberResponse> {
+        memberService.deleteMember(userId)
+        return success(DeleteMemberResponse())
+    }
 }
