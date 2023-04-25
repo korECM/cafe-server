@@ -5,6 +5,9 @@ import org.springframework.transaction.annotation.Transactional
 import zip.cafe.api.dto.*
 import zip.cafe.repository.MemberFollowRepository
 import zip.cafe.repository.ReviewRepository
+import kotlin.math.max
+
+private const val MIN_FOLLOWEE_SIZE = 3
 
 @Transactional(readOnly = true)
 @Service
@@ -14,7 +17,15 @@ class FeedService(
 ) {
 
     fun getReviewFeeds(loginMemberId: Long, minReviewIdInFeed: Long?, limit: Long): FeedWithPagination {
-        val followeeIds = memberFollowRepository.getFolloweeIds(loginMemberId)
+        val followeeIds :MutableList<Long> = memberFollowRepository.getFolloweeIds(loginMemberId).toMutableList()
+        if (followeeIds.size < MIN_FOLLOWEE_SIZE) {
+            val popularMemberIds = memberFollowRepository.getPopularMemberIds(max(MIN_FOLLOWEE_SIZE, followeeIds.size))
+            for (popularMemberId in popularMemberIds) {
+                if (popularMemberId !in followeeIds) {
+                    followeeIds += popularMemberId
+                }
+            }
+        }
         val footprints = reviewRepository.findByAuthorIdIn(followeeIds + loginMemberId, minReviewIdInFeed, limit)
         val isLastPage = minReviewIdInFeed?.let { reviewRepository.isLastPageByAuthorIds(followeeIds, minReviewIdInFeed, limit) } ?: false
         val reviewAndLikes = reviewRepository.findReviewsAndLikesOnThoseReviews(loginMemberId, footprints.mapNotNull { it.review?.id })
