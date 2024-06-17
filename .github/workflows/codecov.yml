@@ -30,7 +30,7 @@ jobs:
           java-version: 17
           cache: 'gradle'
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v3
       - name: Test with Gradle
         run: ./gradlew test --no-daemon
       - uses: codecov/codecov-action@v3
