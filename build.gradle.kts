@@ -93,7 +93,7 @@ dependencies {
     testImplementation("io.kotest:kotest-property:$kotestVersion")
     testImplementation("io.kotest:kotest-framework-datatest:$kotestVersion")
     testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
-    testImplementation("io.mockk:mockk:1.13.2")
+    testImplementation("io.mockk:mockk:1.13.13")
     testImplementation("com.ninja-squad:springmockk:3.1.1")
     testImplementation("nl.jqno.equalsverifier:equalsverifier:3.10.1")
 
